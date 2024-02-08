@@ -338,7 +338,7 @@ fun TodoFormScreen(navController: NavController, cpvm: ClassPlayViewModel, ma: M
     /** Griglia scelta icona **/
     if (showIconGrid) {
         Column (Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally){
-            cg.TodoIconGrid(iconList = tutorialIcons, cpvm = cpvm, i = currentStep-3)
+            cg.TodoIconGrid(cpvm = cpvm, i = currentStep-3)
         }
     }
     else if(searchCosplayTutorial){

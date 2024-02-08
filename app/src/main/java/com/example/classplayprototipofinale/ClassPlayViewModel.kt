@@ -12,7 +12,9 @@ import com.example.classplayprototipofinale.models.ToDo
 import com.example.classplayprototipofinale.models.ToDoStep
 import com.example.classplayprototipofinale.models.TutorialStep
 import com.example.classplayprototipofinale.models.Users
+import com.example.classplayprototipofinale.screens.AppIcons
 import com.example.classplayprototipofinale.screens.LinkType
+import com.example.classplayprototipofinale.screens.PlusIcon
 import com.example.classplayprototipofinale.ui.theme.form.CheckForm
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.storage.StorageReference
@@ -231,7 +233,7 @@ class ClassPlayViewModel: ViewModel() {
     fun newTutorialStep() {
         val step = TutorialStep(_cosplayFormTutorial.value!!.size + 1)
 
-        step.icon = R.drawable.plus_image
+        step.icon = PlusIcon.PLUS.url
         step.description = ""
         step.componentName = ""
         step.link = ""
@@ -294,7 +296,7 @@ class ClassPlayViewModel: ViewModel() {
     fun newTodoStep() {
         val step = ToDoStep(_todoFormTutorial.value!!.size + 1)
 
-        step.icon = R.drawable.plus_image
+        step.icon = PlusIcon.PLUS.url
         step.description = ""
         step.title = ""
         step.link = ""
@@ -724,6 +726,32 @@ class ClassPlayViewModel: ViewModel() {
         setZoomCard(null)
         setFavoriteOpen(false)
     }
+
+    fun checkProfile() {
+        val cf = CheckForm()
+
+        val isError = cf.saveProfile(this)
+
+
+        if (isError == null)
+            setCardPopup(PopupType.WARNING, "Sei sicuro di voler modificare le informazioni?", WarningType.MODIFICAPROFILO)
+    }
+
+    fun saveProfile(uDB: DatabaseReference, profileIconSR: StorageReference) {
+        uDB.child(_username.value!!).child("emailAddress").setValue(_cosplayFormMaterialDescription.value)
+        uDB.child(_username.value!!).child("bio").setValue(_formDescription.value)
+        uDB.child(_username.value!!).child("username").setValue(_formTitle.value)
+        uDB.child(_username.value!!).child("phoneNumber").setValue(_currentTag.value)
+
+        if (_currentUser.value?.profileImgUrl != _profileEdit.value!!.profileImgUrl) {
+            profileIconSR.child(_username.value!!).putFile(_profileEditImg.value!!)
+            profileIconSR.child(_username.value!!).downloadUrl.addOnSuccessListener { uri ->
+                val downloadUrl = uri.toString()
+                uDB.child(_username.value!!).child("profileImgUrl").setValue(downloadUrl)
+            }
+            profileIconSR.child(_username.value!!+"Edit").delete()
+        }
+    }
 }
 
 enum class PopupType() {
@@ -743,5 +771,6 @@ enum class WarningType() {
     ANNULLA,
     COSPLAYSTEPMANCANTI,
     TODOSTEPMANCANTI,
+    MODIFICAPROFILO,
     NONE
 }

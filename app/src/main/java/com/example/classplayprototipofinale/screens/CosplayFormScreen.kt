@@ -90,8 +90,6 @@ fun CosplayFormScreen(navController: NavController, cpvm: ClassPlayViewModel, ma
     cpvm.showIconGrid.observe(ma) { showIconGrid = it }
     cpvm.showCosplayTutorialSearch.observe(ma) { searchCosplayTutorial = it }
 
-    val tutorialIcons = listOf(R.drawable.none, R.drawable.hat, R.drawable.wig, R.drawable.tshirt, R.drawable.gloves, R.drawable.shoes, R.drawable.trousers,  R.drawable.sword)
-
     val animatedScrollValue = remember { Animatable((currentStep - 1) * stepDistance) }
     var isAnimating by remember { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()
@@ -352,7 +350,7 @@ fun CosplayFormScreen(navController: NavController, cpvm: ClassPlayViewModel, ma
     /** Griglia scelta icona **/
     if (showIconGrid) {
         Column (Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally){
-            cg.IconGrid(iconList = tutorialIcons, cpvm = cpvm, i = currentStep-8)
+            cg.IconGrid( cpvm = cpvm, i = currentStep-8)
         }
     }
     else if(searchCosplayTutorial){
@@ -365,4 +363,19 @@ enum class LinkType(var txt: String) {
     PHONE("Carica dal telefono"),
     LINK("Link"),
     NONE("Seleziona tipo di link")
+}
+
+enum class AppIcons(var url: String) {
+    NONE("https://firebasestorage.googleapis.com/v0/b/classplaydb-f47f8.appspot.com/o/AppIcons%2Fnone.png?alt=media&token=a5b37f74-f10b-49ca-a597-5da53845f950"),
+    HAT("https://firebasestorage.googleapis.com/v0/b/classplaydb-f47f8.appspot.com/o/AppIcons%2Fhat.png?alt=media&token=044d737a-0e79-4d63-aa72-a58857129230"),
+    WIG("https://firebasestorage.googleapis.com/v0/b/classplaydb-f47f8.appspot.com/o/AppIcons%2Fwig.png?alt=media&token=ab97ae07-3838-4ed1-88d9-65d1743fc60b"),
+    TSHIRT("https://firebasestorage.googleapis.com/v0/b/classplaydb-f47f8.appspot.com/o/AppIcons%2Ftshirt.png?alt=media&token=34b76b58-9c01-4aee-8275-803a79f7bd63"),
+    GLOVES("https://firebasestorage.googleapis.com/v0/b/classplaydb-f47f8.appspot.com/o/AppIcons%2Fgloves.png?alt=media&token=90d47a99-2ac8-4d32-9ff3-cfd0e79d206a"),
+    SHOES("https://firebasestorage.googleapis.com/v0/b/classplaydb-f47f8.appspot.com/o/AppIcons%2Fshoes.png?alt=media&token=bebd3636-abca-461d-a35a-cf1c0d2926e6"),
+    TROUSERS("https://firebasestorage.googleapis.com/v0/b/classplaydb-f47f8.appspot.com/o/AppIcons%2Ftrousers.png?alt=media&token=4c85f821-d541-4e7c-81e2-63e39356aabc"),
+    SWORD("https://firebasestorage.googleapis.com/v0/b/classplaydb-f47f8.appspot.com/o/AppIcons%2Fsword.png?alt=media&token=471778a4-e9ee-41d4-8e10-09d6054fb797")
+}
+
+enum class PlusIcon(var url: String) {
+    PLUS("https://firebasestorage.googleapis.com/v0/b/classplaydb-f47f8.appspot.com/o/AppIcons%2Fplus_image.png?alt=media&token=98ac2b45-a337-4dd0-bb8c-2343de3cf6bc")
 }

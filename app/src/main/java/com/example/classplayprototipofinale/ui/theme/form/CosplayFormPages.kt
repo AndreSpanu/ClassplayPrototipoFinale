@@ -47,7 +47,9 @@ import coil.compose.rememberImagePainter
 import com.example.classplayprototipofinale.ClassPlayViewModel
 import com.example.classplayprototipofinale.MainActivity
 import com.example.classplayprototipofinale.R
+import com.example.classplayprototipofinale.screens.AppIcons
 import com.example.classplayprototipofinale.screens.LinkType
+import com.example.classplayprototipofinale.screens.PlusIcon
 import com.example.classplayprototipofinale.ui.theme.RedCol
 import com.example.classplayprototipofinale.ui.theme.TagCol
 import com.example.classplayprototipofinale.ui.theme.home.TagsList
@@ -118,7 +120,9 @@ class CosplayFormPages {
                             .clickable {
                                 if (cpvm.cosplayEdit.value != null) {
                                     if (cpvm.cosplayEdit.value!!.imgUrls?.values?.contains(img.value) != true) {
-                                        cosplaysImgsSRef.child(img.key).delete()
+                                        cosplaysImgsSRef
+                                            .child(img.key)
+                                            .delete()
                                     }
                                 }
                                 cpvm.removeImgForm(img.key)
@@ -349,7 +353,7 @@ class CosplayFormPages {
 
         var description by remember { mutableStateOf("") }
         var componentName by remember { mutableStateOf("") }
-        var icon by remember { mutableIntStateOf(R.drawable.plus_image) }
+        var icon by remember { mutableStateOf(PlusIcon.PLUS.url) }
         var link by remember { mutableStateOf("") }
         var linkType by remember { mutableStateOf<String>(LinkType.NONE.txt) }
 
@@ -362,6 +366,8 @@ class CosplayFormPages {
                 linkType = it["s"+(i-8).toString()]?.linkType!!
             }
         }
+
+        val painter = rememberImagePainter(data = icon)
 
         Box(modifier = Modifier.size(320.dp, 210.dp)) {
             Image(painter = painterResource(id = R.drawable.form_image_other), contentDescription = "Inserisci il tutorial che hai seguito o che proponi per realizzare il cosplay", modifier = Modifier
@@ -395,7 +401,7 @@ class CosplayFormPages {
                 Column(modifier = Modifier
                     .size(45.dp)
                     .background(Color.LightGray, RoundedCornerShape(50)), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center){
-                    Icon(painter = painterResource(id = icon), contentDescription = "Aggiungi icona", tint = TagCol, modifier = Modifier.clickable {
+                    Icon(painter = painter, contentDescription = "Aggiungi icona", tint = TagCol, modifier = Modifier.clickable {
                         cpvm.setShowIconGrid(true)
                     })
                 }

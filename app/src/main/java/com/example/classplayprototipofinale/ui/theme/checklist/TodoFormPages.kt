@@ -43,7 +43,9 @@ import coil.compose.rememberImagePainter
 import com.example.classplayprototipofinale.ClassPlayViewModel
 import com.example.classplayprototipofinale.MainActivity
 import com.example.classplayprototipofinale.R
+import com.example.classplayprototipofinale.screens.AppIcons
 import com.example.classplayprototipofinale.screens.LinkType
+import com.example.classplayprototipofinale.screens.PlusIcon
 import com.example.classplayprototipofinale.ui.theme.RedCol
 import com.example.classplayprototipofinale.ui.theme.TagCol
 import com.google.firebase.storage.StorageReference
@@ -96,12 +98,16 @@ class TodoFormPages {
                         .size(40.dp)
                         .background(RedCol, RoundedCornerShape(50))
                         .clickable {
-                            if ((cpvm.todoEdit.value?.img?.keys?.first() ?: "") == todoImgMap.keys.first()) {
+                            if ((cpvm.todoEdit.value?.img?.keys?.first()
+                                    ?: "") == todoImgMap.keys.first()
+                            ) {
                                 cpvm.removeImgForm(todoImgMap.keys.first())
                                 return@clickable
                             }
 
-                            cosplaysImgsSRef.child(todoImgMap.keys.first()).delete()
+                            cosplaysImgsSRef
+                                .child(todoImgMap.keys.first())
+                                .delete()
                             cpvm.removeImgForm(todoImgMap.keys.first())
                         }, horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center){
                         Icon(painter = painterResource(id = R.drawable.bin), contentDescription = "Rimuovi immagine", tint = Color.White, modifier = Modifier.size(30.dp))
@@ -191,7 +197,7 @@ class TodoFormPages {
 
         var description by remember { mutableStateOf("") }
         var componentName by remember { mutableStateOf("") }
-        var icon by remember { mutableIntStateOf(R.drawable.plus_image) }
+        var icon by remember { mutableStateOf(PlusIcon.PLUS.url) }
         var link by remember { mutableStateOf("") }
         var linkType by remember { mutableStateOf<String>(LinkType.NONE.txt) }
 
@@ -204,6 +210,8 @@ class TodoFormPages {
                 linkType = it["s"+(i-3).toString()]?.linkType!!
             }
         }
+
+        val painter = rememberImagePainter(data = icon)
 
         Box(modifier = Modifier.size(320.dp, 210.dp)) {
             Image(painter = painterResource(id = R.drawable.form_image_other), contentDescription = "Inserisci il tutorial che hai seguito o che proponi per realizzare il cosplay", modifier = Modifier
@@ -237,7 +245,7 @@ class TodoFormPages {
                 Column(modifier = Modifier
                     .size(45.dp)
                     .background(Color.LightGray, RoundedCornerShape(50)), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center){
-                    Icon(painter = painterResource(id = icon), contentDescription = "Aggiungi icona", tint = TagCol, modifier = Modifier.clickable {
+                    Icon(painter = painter, contentDescription = "Aggiungi icona", tint = TagCol, modifier = Modifier.clickable {
                         cpvm.setShowIconGrid(true)
                     })
                 }

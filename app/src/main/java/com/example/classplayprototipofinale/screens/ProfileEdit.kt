@@ -160,16 +160,8 @@ fun ProfileEdit(cpvm: ClassPlayViewModel, uDB: DatabaseReference, ma: MainActivi
             }
 
             Button(onClick = {
-                cf.saveProfile(cpvm, uDB, profileIconsSRef)
-                navController.navigate(Screen.Profile.route) {
-                    navController.graph.startDestinationRoute?.let { route ->
-                        popUpTo(route) {
-                            saveState = true
-                        }
-                    }
-                    launchSingleTop = true
-                    restoreState = true
-                }
+                cpvm.setDestination(Screen.Profile.route)
+                val isWarning = cf.saveProfile(cpvm)
 
             }, modifier = Modifier.size(120.dp, 40.dp), shape = RoundedCornerShape(50), colors = ButtonDefaults.buttonColors(
                 backgroundColor = BlueGradientCol,

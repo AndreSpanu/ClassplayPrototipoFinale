@@ -83,7 +83,7 @@ class MainActivity : ComponentActivity() {
                     val navBackStackEntry by navController.currentBackStackEntryAsState()
                     val currentRoute = navBackStackEntry?.destination?.route
 
-                    cpDB = FirebaseDatabase.getInstance().getReference("Cosplays")
+                    cpDB = FirebaseDatabase.getInstance().getReference("CosplaysFinal")
                     uDB = FirebaseDatabase.getInstance().getReference("Users")
                     profileIconsSRef = FirebaseStorage.getInstance().getReference("PIcons")
                     cosplaysImgsSRef = FirebaseStorage.getInstance().getReference("CosplaysImgs")

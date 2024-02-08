@@ -37,7 +37,7 @@ import com.google.firebase.storage.StorageReference
 
 class WarningUp {
     @Composable
-    fun Warning(cpvm: ClassPlayViewModel, navController: NavController, cpDB: DatabaseReference, uDB: DatabaseReference, cosplaysImgsSRef: StorageReference) {
+    fun Warning(cpvm: ClassPlayViewModel, navController: NavController, cpDB: DatabaseReference, uDB: DatabaseReference, cosplaysImgsSRef: StorageReference, profileIconsSRef: StorageReference) {
 
         val message by remember { mutableStateOf(cpvm.cardPopup.value!!.second) }
         val warningType by remember { mutableStateOf(cpvm.cardPopup.value!!.third) }
@@ -108,6 +108,10 @@ class WarningUp {
 
                                 WarningType.ANNULLA -> {
                                     cpvm.annulla(cosplaysImgsSRef = cosplaysImgsSRef)
+                                }
+
+                                WarningType.MODIFICAPROFILO -> {
+                                    cpvm.saveProfile(uDB, profileIconsSRef)
                                 }
 
                                 else -> {}

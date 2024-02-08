@@ -3,7 +3,7 @@ package com.example.classplayprototipofinale.models
 
 
 data class TutorialStep(var step: Int? = null) {
-    var icon: Int? = null
+    var icon: String? = null
     var componentName: String? = null
     var link: String? = null
     var description: String? = null
