@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "386276801019",
+    "firebase_url": "https://classplaydb-f47f8-default-rtdb.firebaseio.com",
+    "project_id": "classplaydb-f47f8",
+    "storage_bucket": "classplaydb-f47f8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:386276801019:android:6656f77cfac1a2d23c335e",
+        "android_client_info": {
+          "package_name": "com.example.classplayprototipofinale"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRMFFSIPg2GKX9KMry6rmwzIFAbAt4XD8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:386276801019:android:892bd42650b2f4f23c335e",
+        "android_client_info": {
+          "package_name": "it.polito.laboratorio3"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRMFFSIPg2GKX9KMry6rmwzIFAbAt4XD8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
