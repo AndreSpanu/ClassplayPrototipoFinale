@@ -8,6 +8,8 @@ import com.example.classplayprototipofinale.models.ToDo
 import com.example.classplayprototipofinale.models.ToDoStep
 import com.example.classplayprototipofinale.models.TutorialStep
 import com.example.classplayprototipofinale.navigation.Screen
+import com.example.classplayprototipofinale.screens.AppIcons
+import com.example.classplayprototipofinale.screens.PlusIcon
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.storage.StorageReference
 import java.time.LocalDateTime
@@ -51,7 +53,7 @@ class CheckForm {
         if (tutorial != null) {
             for (step in tutorial) {
 
-                if (step.value.icon == R.drawable.plus_image || step.value.componentName == "" || (step.value.link == "" && step.value.description == "")) {
+                if (step.value.icon == PlusIcon.PLUS.url || step.value.componentName == "" || (step.value.link == "" && step.value.description == "")) {
                     return Pair("A uno o più step del tutorial mancano alcune informazioni, se continui questi step verrano eliminati!\nSei sicuro di vole continuare?", step.key.split("s")[1].toInt() + 8)
                 }
             }
@@ -98,7 +100,7 @@ class CheckForm {
             var eliminated = 1
             val newOrder = tutorial.values.sortedBy { it.step }
             for (step in newOrder) {
-                if (!(step.icon == R.drawable.plus_image || step.componentName == "" || (step.link == "" && step.description == ""))) {
+                if (!(step.icon == PlusIcon.PLUS.url || step.componentName == "" || (step.link == "" && step.description == ""))) {
                     newTutorial["s" + (step.step?.minus(eliminated)).toString()] = step
                     newTutorial["s" + (step.step?.minus(eliminated)).toString()]?.step = newTutorial.size
                 }
@@ -139,7 +141,7 @@ class CheckForm {
             var counter = 0
             var key = -1
             for (step in tutorial) {
-                if (!(step.value.icon == R.drawable.plus_image || step.value.title == "" || (step.value.link == "" && step.value.description == ""))) {
+                if (!(step.value.icon == PlusIcon.PLUS.url || step.value.title == "" || (step.value.link == "" && step.value.description == ""))) {
                     counter++
                 }
                 else {
@@ -183,7 +185,7 @@ class CheckForm {
             var eliminated = 1
             val newOrder = tutorial.values.sortedBy { it.step }
             for (step in newOrder) {
-                if (!(step.icon == R.drawable.plus_image || step.title == "" || (step.link == "" && step.description == ""))) {
+                if (!(step.icon == PlusIcon.PLUS.url || step.title == "" || (step.link == "" && step.description == ""))) {
                     newTutorial["s" + (step.step?.minus(eliminated)).toString()] = step
                     newTutorial["s" + (step.step?.minus(eliminated)).toString()]?.step = newTutorial.size
                 }
@@ -200,20 +202,13 @@ class CheckForm {
         return newTodo
     }
 
-    fun saveProfile(cpvm: ClassPlayViewModel, uDB: DatabaseReference, profileIconSR: StorageReference) {
-        uDB.child(cpvm.username.value!!).child("emailAddress").setValue(cpvm.cosplayFormMaterialDescription.value)
-        uDB.child(cpvm.username.value!!).child("phoneNumber").setValue(cpvm.currentTag.value)
-        uDB.child(cpvm.username.value!!).child("bio").setValue(cpvm.formDescription.value)
-        uDB.child(cpvm.username.value!!).child("username").setValue(cpvm.formTitle.value)
+    fun saveProfile(cpvm: ClassPlayViewModel): Pair<String, Int>? {
+        if (cpvm.formImages.value?.isEmpty() == true)
+            return Pair("Inserire un'immagine del profilo", 0)
 
-        if (cpvm.currentUser.value?.profileImgUrl != cpvm.profileEdit.value!!.profileImgUrl) {
-            profileIconSR.child(cpvm.username.value!!).putFile(cpvm.profileEditImg.value!!)
-            profileIconSR.child(cpvm.username.value!!).downloadUrl.addOnSuccessListener { uri ->
-                val downloadUrl = uri.toString()
-                uDB.child(cpvm.username.value!!).child("profileImgUrl").setValue(downloadUrl)
-            }
-            profileIconSR.child(cpvm.username.value!!+"Edit").delete()
-        }
+        else if ((cpvm.formTitle.value?.length ?: 0) > 0)
+            return Pair("Inserire uno username", 1)
 
+        return null
     }
 }

@@ -7,7 +7,7 @@ data class ToDo(val todoTitle: String? = null) {
 }
 
 data class ToDoStep(var step: Int? = null) {
-    var icon: Int? = null
+    var icon: String? = null
     var title: String? = null
     var link: String? = null
     var linkType: String? = null

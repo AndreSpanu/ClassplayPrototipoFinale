@@ -203,20 +203,23 @@ class CosplayCard {
                     .fillMaxWidth()
                     .height(600.dp)
                     .padding(top = (220).dp, bottom = 20.dp)
-                    .verticalScroll(ScrollState(
-                        if (columnScroll < maxScroll / 5)
-                            0
-                        else
-                            columnScroll - maxScroll / 5
-                    ))
+                    .verticalScroll(
+                        ScrollState(
+                            if (columnScroll < maxScroll / 5)
+                                0
+                            else
+                                columnScroll - maxScroll / 5
+                        )
+                    )
                     .pointerInput(Unit) {
                         detectDragGestures(
-                            onDrag = {change, dragAmount ->
+                            onDrag = { change, dragAmount ->
                                 change.consume()
                                 if ((columnScroll - dragAmount.y).roundToInt() >= 0 && (columnScroll - dragAmount.y).roundToInt() <= maxScroll - ((320 + 260 * imageReduce).dp * density).value * 2)
                                     columnScroll -= dragAmount.y.roundToInt()
 
-                                b = columnScroll / (maxScroll - ((320 + 260 * imageReduce).dp * density).value * 2)
+                                b =
+                                    columnScroll / (maxScroll - ((320 + 260 * imageReduce).dp * density).value * 2)
                             }
                         )
                     }
@@ -410,6 +413,9 @@ class CosplayCard {
                 Spacer(modifier = Modifier.height(8.dp))
 
                 for (step in cosplay.tutorial!!) {
+
+                    val painter = rememberImagePainter(data = step.value.icon)
+
                     Row (modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 15.dp)
@@ -429,7 +435,7 @@ class CosplayCard {
                             Column (modifier = Modifier
                                 .size(30.dp)
                                 .background(DetailsCol, CircleShape), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center){
-                                Icon(painter = painterResource(id = step.value.icon!!), contentDescription = null, modifier = Modifier.size(25.dp), tint = Color.White)
+                                Icon(painter = painter, contentDescription = null, modifier = Modifier.size(25.dp), tint = Color.White)
                             }
                             Text(text = step.value.componentName!!, fontSize = 15.sp)
                         }

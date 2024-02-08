@@ -6,6 +6,7 @@ import com.example.classplayprototipofinale.models.Review
 import com.example.classplayprototipofinale.models.ToDo
 import com.example.classplayprototipofinale.models.TutorialStep
 import com.example.classplayprototipofinale.models.Users
+import com.example.classplayprototipofinale.screens.AppIcons
 import com.example.classplayprototipofinale.screens.LinkType
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.storage.StorageReference
@@ -45,7 +46,7 @@ class CreateDatabase (){
         val newTutorial = mutableMapOf<String, TutorialStep>()
 
         val tutorialStep1 = TutorialStep(0)
-        tutorialStep1.icon = R.drawable.wig
+        tutorialStep1.icon = AppIcons.WIG.url
         tutorialStep1.componentName = "Parrucca"
         tutorialStep1.link = "https://www.youtube.com/watch?v=G0D2rW0FLZg"
         tutorialStep1.description = "Da una semplice parrucca bionda si può ottenere una ottima capigliatura alla goku super sayan"
@@ -53,7 +54,7 @@ class CreateDatabase (){
         tutorialStep1.realAppLink = "https://www.youtube.com/watch?v=G0D2rW0FLZg"
 
         val tutorialStep2 = TutorialStep(1)
-        tutorialStep2.icon = R.drawable.tshirt
+        tutorialStep2.icon = AppIcons.TSHIRT.url
         tutorialStep2.componentName = "Casacca"
         tutorialStep2.link = "Goku::Casacca"
         tutorialStep2.description = "Ho creato la casacca di goku guardando questo tutorial, totalmente fatta a mano!"
@@ -61,7 +62,7 @@ class CreateDatabase (){
         tutorialStep2.realAppLink = "https://www.youtube.com/watch?v=50h1yB6WFqo"
 
         val tutorialStep3 = TutorialStep(2)
-        tutorialStep3.icon = R.drawable.trousers
+        tutorialStep3.icon = AppIcons.TROUSERS.url
         tutorialStep3.componentName = "Pantaloni"
         tutorialStep3.link = ""
         tutorialStep3.description = "Ho acquistato i pantaloni già fatti da internet"

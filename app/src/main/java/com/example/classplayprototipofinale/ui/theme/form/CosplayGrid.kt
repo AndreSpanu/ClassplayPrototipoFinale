@@ -49,6 +49,8 @@ import com.example.classplayprototipofinale.ClassPlayViewModel
 import com.example.classplayprototipofinale.MainActivity
 import com.example.classplayprototipofinale.R
 import com.example.classplayprototipofinale.models.Cosplay
+import com.example.classplayprototipofinale.screens.AppIcons
+import com.example.classplayprototipofinale.screens.PlusIcon
 import com.example.classplayprototipofinale.ui.theme.BackgroundColBlur
 import com.example.classplayprototipofinale.ui.theme.BlueGradientCol
 import com.example.classplayprototipofinale.ui.theme.BottomBarCol
@@ -60,7 +62,7 @@ import com.example.classplayprototipofinale.ui.theme.StarCol
 class CosplayGrid {
     @OptIn(ExperimentalLayoutApi::class)
     @Composable
-    fun IconGrid(iconList: List<Int>, cpvm: ClassPlayViewModel, i: Int) {
+    fun IconGrid(cpvm: ClassPlayViewModel, i: Int) {
 
         val tutorial = cpvm.cosplayFormTutorial.value!!
 
@@ -80,20 +82,21 @@ class CosplayGrid {
                         .padding(horizontal = 30.dp)
                         .background(GridCol, RoundedCornerShape(16))
                         .padding(15.dp), horizontalArrangement = Arrangement.SpaceBetween) {
-                    for (icon in iconList) {
+                    for (icon in AppIcons.values()) {
+                        val painter = rememberImagePainter(data = icon.url)
                         Column (
                             Modifier
                                 .padding(5.dp)
                                 .size(65.dp)
                                 .background(BottomBarCol, RoundedCornerShape(50)), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center){
-                            Image(painter = painterResource(id = icon), contentDescription = "Tutorial step icon", modifier = Modifier
+                            Image(painter = painter, contentDescription = "Tutorial step icon", modifier = Modifier
                                 .size(55.dp)
                                 .clickable {
                                     cpvm.setShowIconGrid(false)
-                                    if (icon == R.drawable.none) {
-                                        tutorial["s$i"]?.icon = R.drawable.plus_image
+                                    if (icon.url == AppIcons.NONE.url) {
+                                        tutorial["s$i"]?.icon = PlusIcon.PLUS.url
                                     } else {
-                                        tutorial["s$i"]?.icon = icon
+                                        tutorial["s$i"]?.icon = icon.url
                                     }
                                     cpvm.updateTutorial(tutorial)
                                 })
@@ -185,13 +188,15 @@ class CosplayGrid {
                             if (cosplay.tutorial != null) {
                                 for (step in cosplay.tutorial!!) {
                                     val painter = rememberImagePainter(data = cosplay.imgUrls?.values?.first())
+                                    val iconPainter = rememberImagePainter(data = step.value.icon)
                                     Row (modifier = Modifier
                                         .fillMaxWidth()
                                         .clickable {
                                             tutorial["s$i"]!!.link =
                                                 cosplay.cosplayName + "::" + step.value.componentName
 
-                                            tutorial["s$i"]!!.realAppLink = cosplay.tutorial!![step.key]?.realAppLink
+                                            tutorial["s$i"]!!.realAppLink =
+                                                cosplay.tutorial!![step.key]?.realAppLink
 
                                             cpvm.updateTutorial(tutorial)
 
@@ -205,7 +210,10 @@ class CosplayGrid {
                                                     RoundedCornerShape(4)
                                                 ), contentScale = ContentScale.Crop, colorFilter = ColorFilter.tint(Color.Black.copy(alpha = 0.6f), blendMode = BlendMode.Darken))
                                             Column (modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center){
-                                                Icon(painter = painterResource(id = step.value.icon!!), contentDescription = step.value.componentName, tint = StarCol)
+                                                println(cosplay.cosplayName.toString())
+                                                step.value.icon
+                                                    ?.let { iconPainter }
+                                                    ?.let { Icon(painter = it, contentDescription = step.value.componentName, tint = StarCol) }
                                             }
 
                                         }
@@ -230,7 +238,7 @@ class CosplayGrid {
 
     @OptIn(ExperimentalLayoutApi::class)
     @Composable
-    fun TodoIconGrid(iconList: List<Int>, cpvm: ClassPlayViewModel, i: Int) {
+    fun TodoIconGrid(cpvm: ClassPlayViewModel, i: Int) {
 
         val tutorial = cpvm.todoFormTutorial.value!!
 
@@ -250,20 +258,23 @@ class CosplayGrid {
                         .padding(horizontal = 30.dp)
                         .background(GridCol, RoundedCornerShape(16))
                         .padding(15.dp), horizontalArrangement = Arrangement.SpaceBetween) {
-                    for (icon in iconList) {
+                    for (icon in AppIcons.values()) {
+
+                        val painter = rememberImagePainter(data = icon.url)
+
                         Column (
                             Modifier
                                 .padding(5.dp)
                                 .size(65.dp)
                                 .background(BottomBarCol, RoundedCornerShape(50)), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center){
-                            Image(painter = painterResource(id = icon), contentDescription = "Tutorial step icon", modifier = Modifier
+                            Image(painter = painter, contentDescription = "Tutorial step icon", modifier = Modifier
                                 .size(55.dp)
                                 .clickable {
                                     cpvm.setShowIconGrid(false)
-                                    if (icon == R.drawable.none) {
-                                        tutorial["s$i"]?.icon = R.drawable.plus_image
+                                    if (icon.url == AppIcons.NONE.url) {
+                                        tutorial["s$i"]?.icon = PlusIcon.PLUS.url
                                     } else {
-                                        tutorial["s$i"]?.icon = icon
+                                        tutorial["s$i"]?.icon = icon.url
                                     }
                                     cpvm.updateTodoTutorial(tutorial)
                                 })
@@ -355,13 +366,16 @@ class CosplayGrid {
                             if (cosplay.tutorial != null) {
                                 for (step in cosplay.tutorial!!) {
                                     val painter = rememberImagePainter(data = cosplay.imgUrls?.values?.first())
+
+                                    val iconPainter = rememberImagePainter(data = step.value.icon)
                                     Row (modifier = Modifier
                                         .fillMaxWidth()
                                         .clickable {
                                             tutorial["s$i"]!!.link =
                                                 cosplay.cosplayName + "::" + step.value.componentName
 
-                                            tutorial["s$i"]!!.realAppLink = cosplay.tutorial!![step.key]?.realAppLink
+                                            tutorial["s$i"]!!.realAppLink =
+                                                cosplay.tutorial!![step.key]?.realAppLink
 
                                             cpvm.updateTodoTutorial(tutorial)
 
@@ -375,7 +389,7 @@ class CosplayGrid {
                                                     RoundedCornerShape(4)
                                                 ), contentScale = ContentScale.Crop, colorFilter = ColorFilter.tint(Color.Black.copy(alpha = 0.6f), blendMode = BlendMode.Darken))
                                             Column (modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center){
-                                                Icon(painter = painterResource(id = step.value.icon!!), contentDescription = step.value.componentName, tint = StarCol)
+                                                Icon(painter = iconPainter, contentDescription = step.value.componentName, tint = StarCol)
                                             }
 
                                         }

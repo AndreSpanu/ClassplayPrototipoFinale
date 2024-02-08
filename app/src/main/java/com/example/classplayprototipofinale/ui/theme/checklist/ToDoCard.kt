@@ -130,9 +130,14 @@ class ToDoCard {
                         Column(modifier = Modifier
                             .size(30.dp)
                             .shadow(5.dp, CircleShape)
-                            .background(RedCol, CircleShape).clickable {
+                            .background(RedCol, CircleShape)
+                            .clickable {
                                 cpvm.setDestination(null)
-                                cpvm.setCardPopup(PopupType.WARNING, "Vuoi eliminare questa ToDo list?\n\nUna volta eliminata non sarà pù recuperabile!", WarningType.ELIMINATODO)
+                                cpvm.setCardPopup(
+                                    PopupType.WARNING,
+                                    "Vuoi eliminare questa ToDo list?\n\nUna volta eliminata non sarà pù recuperabile!",
+                                    WarningType.ELIMINATODO
+                                )
                                 cpvm.setTodoEdit(todo)
                             }, horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
                             Icon(painter = painterResource(id = R.drawable.bin), contentDescription = "Icona dello step", tint = Color.White, modifier = Modifier.size(30.dp))
@@ -154,6 +159,8 @@ class ToDoCard {
 
                     for (step in todoOrdered.take(3 + (size) * boolToInt(openAll))) {
 
+                        val painter = rememberImagePainter(data = step.icon)
+
                         Row (modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween){
                             Column {
                                 Row (modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween){
@@ -161,7 +168,7 @@ class ToDoCard {
                                         .size(25.dp)
                                         .shadow(5.dp, CircleShape)
                                         .background(ToDoCol, CircleShape), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-                                        Icon(painter = painterResource(id = step.icon!!), contentDescription = "Icona dello step", tint = Color.White, modifier = Modifier.size(20.dp))
+                                        Icon(painter = painter, contentDescription = "Icona dello step", tint = Color.White, modifier = Modifier.size(20.dp))
                                     }
 
                                     Text(text = step.title!!, fontSize = 18.sp, color = Color.White, modifier = Modifier.width(120.dp))
