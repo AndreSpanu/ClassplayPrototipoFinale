@@ -39,6 +39,7 @@ fun HomeScreen(cpvm: ClassPlayViewModel, ma: MainActivity, cpDB: DatabaseReferen
 
     var tags by remember { mutableStateOf(setOf<String>()) }
     var zoomCard by remember { mutableStateOf<Cosplay?>(null) }
+    var profileCard by remember { mutableStateOf<Users?>(null) }
     var searchScreen by remember { mutableStateOf(false) }
 
     var cosplaysList by remember { mutableStateOf(listOf<Cosplay>()) }
@@ -46,6 +47,7 @@ fun HomeScreen(cpvm: ClassPlayViewModel, ma: MainActivity, cpDB: DatabaseReferen
 
     cpvm.tagList.observe(ma) { tags = it }
     cpvm.zoomCard.observe(ma) { zoomCard = it }
+    cpvm.otherProfile.observe(ma) { profileCard = it }
     cpvm.searchScreen.observe(ma) { searchScreen = it }
     cpvm.cosplayListFiltered.observe(ma) { it ->
         cosplaysList = it
@@ -74,8 +76,7 @@ fun HomeScreen(cpvm: ClassPlayViewModel, ma: MainActivity, cpDB: DatabaseReferen
                 }
                 cosplaysList = newList
                 cpvm.setCosplayList(newList)
-                //if (cpvm.cosplayListFiltered.value!!.isEmpty())
-                    cpvm.setCosplayListFiltered()
+                cpvm.setCosplayListFiltered()
             }
         }
         override fun onCancelled(error: DatabaseError) {}
@@ -86,7 +87,7 @@ fun HomeScreen(cpvm: ClassPlayViewModel, ma: MainActivity, cpDB: DatabaseReferen
 
         /** Il contenuto della HomePage **/
 
-        if (zoomCard == null) {
+        if (zoomCard == null && profileCard == null) {
             Column (modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())){

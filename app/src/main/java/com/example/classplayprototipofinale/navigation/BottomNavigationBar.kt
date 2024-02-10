@@ -22,6 +22,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import coil.compose.AsyncImage
 import com.example.classplayprototipofinale.ClassPlayViewModel
 import com.example.classplayprototipofinale.PopupType
 import com.example.classplayprototipofinale.R
@@ -92,6 +93,8 @@ fun BottomNavigationBar(
                 selected = currentRoute == item.route,
                 onClick = {
                     cpvm.setZoomCard(null)
+                    cpvm.setOtherProfile(null)
+                    cpvm.setStepVideo(null)
 
                     if (currentRoute == BottomNavItem.CosplayForm.route || currentRoute == Screen.NewTodo.route || currentRoute == Screen.ProfileEdit.route) {
                         cpvm.setCardPopup(PopupType.WARNING, "Vuoi abbandonare la pagina?\n\nLe modifiche andranno perse!", WarningType.ANNULLA)
@@ -118,6 +121,8 @@ fun BottomNavigationBar(
         BottomNavigationItem(selected = currentRoute == Screen.Profile.route, onClick = {
             navController.navigate(Screen.Profile.route) {
                 cpvm.setZoomCard(null)
+                cpvm.setOtherProfile(null)
+                cpvm.setStepVideo(null)
 
                 if (currentRoute == BottomNavItem.CosplayForm.route || currentRoute == Screen.NewTodo.route || currentRoute == Screen.ProfileEdit.route) {
                     cpvm.setCardPopup(PopupType.WARNING, "Vuoi abbandonare la pagina?\n\nLe modifiche andranno perse!", WarningType.ANNULLA)

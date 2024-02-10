@@ -33,6 +33,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Circle
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.MoreHoriz
 import androidx.compose.runtime.Composable
@@ -149,7 +150,7 @@ class CosplayCard {
     @SuppressLint("MutableCollectionMutableState")
     @OptIn(ExperimentalLayoutApi::class)
     @Composable
-    fun ZoomCard(cosplay: Cosplay, cpvm: ClassPlayViewModel, cpDB: DatabaseReference) {
+    fun ZoomCard(cosplay: Cosplay, cpvm: ClassPlayViewModel, cpDB: DatabaseReference, uDB: DatabaseReference) {
 
         var columnScroll by remember { mutableIntStateOf(0) }
         var maxScroll by remember { mutableIntStateOf(0) }
@@ -242,7 +243,7 @@ class CosplayCard {
                 if (cosplay.imgUrls?.isNotEmpty() == true)
                     CosplayImages(cosplay = cosplay, imageReduce = imageReduce)
 
-                CosplayDetails(imageReduce = imageReduce, cosplay = cosplay, avgReview = avgReview, cosReview = cosReview, cpDB = cpDB, cpvm = cpvm, favorites = favorites)
+                CosplayDetails(imageReduce = imageReduce, cosplay = cosplay, avgReview = avgReview, cosReview = cosReview, cpDB = cpDB, cpvm = cpvm, favorites = favorites, uDB)
             }
 
             /********************************************************************* Scrollbar ***************************************************************************/
@@ -461,7 +462,7 @@ class CosplayCard {
     }
 
     @Composable
-    fun CosplayDetails(imageReduce: Float, cosplay: Cosplay, avgReview: String?, cosReview: Long?, cpDB: DatabaseReference, cpvm: ClassPlayViewModel, favorites: MutableList<String>?) {
+    fun CosplayDetails(imageReduce: Float, cosplay: Cosplay, avgReview: String?, cosReview: Long?, cpDB: DatabaseReference, cpvm: ClassPlayViewModel, favorites: MutableList<String>?, uDB: DatabaseReference) {
 
         val sr = StarReview()
 
@@ -481,26 +482,40 @@ class CosplayCard {
 
             Row (Modifier
                 .padding(start = 15.dp), verticalAlignment = Alignment.CenterVertically){
-                Text(text = avgReview.toString(), fontSize = (20 - imageReduce * 5).sp, modifier = Modifier.padding(end = 3.dp), color = Color.White)
 
                 if (cosplay.username == cpvm.username.value) {
                     for (i in (1..5)) {
                         sr.AvgReviews(avgReview = avgReview!!.toDouble(), i = i, size = 30 - imageReduce * 10)
                         Spacer(modifier = Modifier.width(2.dp))
                     }
+                    Text(text = avgReview.toString(), fontSize = (25 - imageReduce * 10).sp, modifier = Modifier.padding(start = 5.dp), color = Color.White)
                 }
                 else {
-                    if (cosReview != null) {
-                        for (i in (1..5)) {
-                            sr.UpdateReview(cpvm = cpvm, i = i, cosplay = cosplay, cpDB = cpDB, size = 30 - imageReduce * 10, cosReview = cosReview)
-                            Spacer(modifier = Modifier.width(2.dp))
+                    if (imageReduce < 0.5f) {
+                        if (cosReview != null) {
+                            for (i in (1..5)) {
+                                sr.UpdateReview(i = i, size = 30 - imageReduce * 10, cosReview = cosReview)
+                                Spacer(modifier = Modifier.width(2.dp))
+                            }
+                            Text(text = cosReview.toString(), fontSize = (25 - imageReduce * 10).sp, modifier = Modifier.padding(horizontal = 5.dp), color = Color.White)
+                            Icon(imageVector = Icons.Default.Clear, contentDescription = "Elimina recensione", tint = Color.White, modifier = Modifier.size(38.dp).clickable {
+                                sr.saveAvarageDelete(cpDB, cpvm, cosplay)
+                            })
+                        }
+                        else {
+                            for (i in (1..5)) {
+                                sr.NewReview(cpvm = cpvm, i = i, cpDB = cpDB, cosplay = cosplay, avgReview = avgReview, size = 30 - imageReduce * 10)
+                                Spacer(modifier = Modifier.width(2.dp))
+                            }
                         }
                     }
+
                     else {
                         for (i in (1..5)) {
-                            sr.NewReview(cpvm = cpvm, i = i, cpDB = cpDB, cosplay = cosplay, avgReview = avgReview, size = 30 - imageReduce * 10)
+                            sr.AvgReviews(avgReview = avgReview!!.toDouble(), i = i, size = 30 - imageReduce * 10)
                             Spacer(modifier = Modifier.width(2.dp))
                         }
+                        Text(text = avgReview.toString(), fontSize = (20 - imageReduce * 5).sp, modifier = Modifier.padding(start = 5.dp), color = Color.White)
                     }
                 }
             }
@@ -509,7 +524,10 @@ class CosplayCard {
 
             Row (
                 Modifier
-                    .padding(start = 15.dp)){
+                    .padding(start = 15.dp)
+                    .clickable {
+                        cpvm.setOtherProfile(cosplay.username, uDB)
+                    }){
                 Text(text = "@", fontSize = 20.sp, color = Color.White)
                 Text(text = cosplay.username!!, fontSize = 20.sp, color = Color.White, textDecoration = TextDecoration.Underline)
             }

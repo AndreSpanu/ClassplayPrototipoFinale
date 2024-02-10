@@ -30,6 +30,7 @@ import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Mail
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -61,9 +62,13 @@ import com.example.classplayprototipofinale.ui.theme.BottomBarCol
 import com.example.classplayprototipofinale.ui.theme.DetailsCol
 import com.example.classplayprototipofinale.ui.theme.RedCol
 import com.example.classplayprototipofinale.ui.theme.profile.ProfileCard
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.getValue
 
 
-@OptIn(ExperimentalCoilApi::class, ExperimentalLayoutApi::class)
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun ProfileScreen(cpvm: ClassPlayViewModel, ma: MainActivity, cpDB: DatabaseReference, navController: NavController) {
 
@@ -73,6 +78,7 @@ fun ProfileScreen(cpvm: ClassPlayViewModel, ma: MainActivity, cpDB: DatabaseRefe
     var profileZoom by remember { mutableStateOf(false) }
     var favoriteOpen by remember { mutableStateOf(false) }
     var zoomCard by remember { mutableStateOf<Cosplay?>(null) }
+    var imgUrl by remember { mutableStateOf("") }
 
     cpvm.favoriteOpen.observe(ma) { favoriteOpen = it }
 
@@ -83,6 +89,8 @@ fun ProfileScreen(cpvm: ClassPlayViewModel, ma: MainActivity, cpDB: DatabaseRefe
     val painter = rememberImagePainter(data = user.profileImgUrl)
 
     val cosplayList by remember { mutableStateOf(cpvm.cosplayList.value!!) }
+
+
 
     Box(Modifier.fillMaxSize()) {
         Column (
@@ -213,30 +221,37 @@ fun ProfileScreen(cpvm: ClassPlayViewModel, ma: MainActivity, cpDB: DatabaseRefe
                 Column(modifier = Modifier
                     .size(40.dp)
                     .background(DetailsCol, CircleShape), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-                    Icon(painter = painterResource(id = R.drawable.pencil), contentDescription = "Modifica profilo", modifier = Modifier.size(23.dp).clickable {
-                        navController.navigate(Screen.ProfileEdit.route) {
-                            navController.graph.startDestinationRoute?.let { route ->
-                                popUpTo(route) {
-                                    saveState = true
+                    Icon(painter = painterResource(id = R.drawable.pencil), contentDescription = "Modifica profilo", modifier = Modifier
+                        .size(23.dp)
+                        .clickable {
+                            navController.navigate(Screen.ProfileEdit.route) {
+                                navController.graph.startDestinationRoute?.let { route ->
+                                    popUpTo(route) {
+                                        saveState = true
+                                    }
                                 }
+                                launchSingleTop = true
+                                restoreState = true
+
+
+                                cpvm.setNewProfileEdit(user)
+                                cpvm.cFormTitle(user.username!!)
+                                cpvm.addImgForm(
+                                    user.profileImgUrl!!,
+                                    cpvm.username.value!! + "Edit"
+                                )
+                                user.bio?.let { cpvm.newDescriptionForm(it) }
+                                user.phoneNumber?.let { cpvm.compileTag(it) }
+                                user.emailAddress?.let { cpvm.newMaterialDescriptionCosplayForm(it) }
                             }
-                            launchSingleTop = true
-                            restoreState = true
-
-
-                            cpvm.setNewProfileEdit(user)
-                            cpvm.cFormTitle(user.username!!)
-                            cpvm.addImgForm(user.profileImgUrl!!, cpvm.username.value!!+"Edit")
-                            user.bio?.let { cpvm.newDescriptionForm(it) }
-                            user.phoneNumber?.let { cpvm.compileTag(it) }
-                            user.emailAddress?.let { cpvm.newMaterialDescriptionCosplayForm(it) }
-                        }
-                    }, tint = Color.White)
+                        }, tint = Color.White)
                 }
 
-                Icon(painter = painterResource(id = R.drawable.settings), contentDescription = "Impostazioni", modifier = Modifier.size(40.dp).clickable {
-                    cpvm.setCardPopup(PopupType.IMPOSTAZIONI, "")
-                }, tint = DetailsCol)
+                Icon(painter = painterResource(id = R.drawable.settings), contentDescription = "Impostazioni", modifier = Modifier
+                    .size(40.dp)
+                    .clickable {
+                        cpvm.setCardPopup(PopupType.IMPOSTAZIONI, "")
+                    }, tint = DetailsCol)
             }
 
             /** Lo zoom dell'immagine profilo **/

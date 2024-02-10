@@ -12,7 +12,8 @@ val Pink40 = Color(0xFF7D5260)
 
 
 
-val BackgroundCol = Color(0xFF282828)
+val BackgroundCol = Color(0xFF2A1E2B)
+val TodoBackgroundCol = Color(0xFFA9A9A9)
 val BackgroundColBlur = Color(0xAE282828)
 val StarCol = Color(0xFFAA6CCC)
 val BottomBarCol = Color(0xFF633F76)

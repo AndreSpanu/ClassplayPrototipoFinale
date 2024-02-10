@@ -2,6 +2,7 @@ package com.example.classplayprototipofinale.ui.theme.main
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -40,7 +41,10 @@ import com.example.classplayprototipofinale.models.Cosplay
 import com.example.classplayprototipofinale.navigation.Screen
 import com.example.classplayprototipofinale.ui.theme.home.SearchBar
 import com.example.classplayprototipofinale.R
+import com.example.classplayprototipofinale.models.Users
+import com.example.classplayprototipofinale.ui.theme.BottomBarCol
 import com.example.classplayprototipofinale.ui.theme.GridCol
+import com.example.classplayprototipofinale.ui.theme.TodoBackgroundCol
 
 enum class switcher(val bg: List<Color>, var tc: List<Color>, var w: List<Float>) {
     TODO(listOf(Color.Transparent, GridCol), listOf(GridCol, Color.White), listOf(0.9f, 1.1f)),
@@ -53,13 +57,15 @@ class TopBar {
     fun SetTopBar(currentRoute: String, sb: SearchBar, cpvm: ClassPlayViewModel, ma: MainActivity) {
         var searchScreen by remember { mutableStateOf(cpvm.searchScreen.value) }
         var zoomCard by remember { mutableStateOf<Cosplay?>(null) }
+        var profileCard by remember { mutableStateOf<Users?>(null) }
         var done by remember { mutableStateOf(false) }
 
         cpvm.searchScreen.observe(ma) { searchScreen = it }
         cpvm.zoomCard.observe(ma) { zoomCard = it }
+        cpvm.otherProfile.observe(ma) { profileCard = it }
         cpvm.done.observe(ma) { done = it }
 
-        var col: switcher
+        val col: switcher
         if (done) {
             col = switcher.DONE
         }
@@ -70,7 +76,7 @@ class TopBar {
         /** Se faccio lo zoom di una card non mostro la TopBar
          *  Al contrario, se apro la searchBar, mostro la back arrow**/
 
-        if (zoomCard == null && currentRoute == Screen.Home.route) {
+        if (zoomCard == null && profileCard == null && currentRoute == Screen.Home.route) {
             Box(modifier = Modifier.height(80.dp)) {
                 Column (
                     Modifier
@@ -100,7 +106,6 @@ class TopBar {
                                 .size(32.dp)
                                 .offset(y = 4.dp)
                                 .clickable {
-                                    //cpvm.setFilterPopup(true)
                                     cpvm.setCardPopup(PopupType.FILTER, "")
                                 })
                         }
@@ -116,7 +121,8 @@ class TopBar {
                 Row (modifier = Modifier
                     .width(160.dp)
                     .height(30.dp)
-                    .background(Color.White, CircleShape)){
+                    .background(TodoBackgroundCol, CircleShape)
+                    .border(3.dp, BottomBarCol, CircleShape)){
                     Column(modifier = Modifier
                         .fillMaxHeight()
                         .weight(col.w[0])

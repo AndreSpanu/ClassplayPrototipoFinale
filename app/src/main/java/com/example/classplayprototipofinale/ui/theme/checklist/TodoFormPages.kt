@@ -47,6 +47,7 @@ import com.example.classplayprototipofinale.screens.AppIcons
 import com.example.classplayprototipofinale.screens.LinkType
 import com.example.classplayprototipofinale.screens.PlusIcon
 import com.example.classplayprototipofinale.ui.theme.RedCol
+import com.example.classplayprototipofinale.ui.theme.StarCol
 import com.example.classplayprototipofinale.ui.theme.TagCol
 import com.google.firebase.storage.StorageReference
 
@@ -166,7 +167,8 @@ class TodoFormPages {
         Row (modifier = Modifier
             .fillMaxWidth()
             .padding(start = 20.dp)){
-            Text(text = "Titolo", fontSize = 22.sp, color = Color.White)
+            Text(text = "Titolo ", fontSize = 22.sp, color = Color.White)
+            Text(text = "*", fontSize = 22.sp, color = StarCol)
         }
 
         Row (modifier = Modifier
@@ -180,7 +182,8 @@ class TodoFormPages {
         Row (modifier = Modifier
             .fillMaxWidth()
             .padding(start = 20.dp)){
-            Text(text = "Descrizione", fontSize = 22.sp, color = Color.White)
+            Text(text = "Descrizione ", fontSize = 22.sp, color = Color.White)
+            Text(text = "*", fontSize = 22.sp, color = StarCol)
         }
 
         Row (modifier = Modifier

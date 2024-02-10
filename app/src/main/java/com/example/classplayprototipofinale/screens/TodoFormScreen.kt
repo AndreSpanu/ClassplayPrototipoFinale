@@ -59,8 +59,11 @@ import com.example.classplayprototipofinale.ui.theme.TagCol
 import com.example.classplayprototipofinale.ui.theme.form.CheckForm
 import com.example.classplayprototipofinale.ui.theme.form.CosplayGrid
 import com.example.classplayprototipofinale.ui.theme.checklist.TodoFormPages
+import com.example.classplayprototipofinale.ui.theme.form.TodoAlertType
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.storage.StorageReference
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @Composable
@@ -190,20 +193,22 @@ fun TodoFormScreen(navController: NavController, cpvm: ClassPlayViewModel, ma: M
             }
 
             Button(onClick = {
-                val risultato = cf.todoForm(cpvm = cpvm, uDB, navController, cosplaysImgsSRef)
-                message = risultato?.first
-                if ( message!= null) {
-                    newStep = risultato!!.second
-                    if (!isAnimating) {
-                        animateScroll()
-                        cpvm.setCurrentStep(newStep)
-                    }
-                    if (newStep < 3) {
-                        cpvm.setCardPopup(PopupType.ERROR, message!!)
-                    }
-                    else {
-                        cpvm.setDestination(Screen.Checklist.route)
-                        cpvm.setCardPopup(PopupType.WARNING, message!!, WarningType.TODOSTEPMANCANTI)
+                CoroutineScope(Dispatchers.Main).launch {
+                    val risultato = cf.todoForm(cpvm = cpvm, uDB, navController, cosplaysImgsSRef)
+                    message = risultato?.first
+                    if ( message!= null) {
+                        newStep = risultato!!.second
+                        if (!isAnimating) {
+                            animateScroll()
+                            cpvm.setCurrentStep(newStep)
+                        }
+                        if (risultato.third == TodoAlertType.ERROR) {
+                            cpvm.setCardPopup(PopupType.ERROR, message!!)
+                        }
+                        else {
+                            cpvm.setDestination(Screen.Checklist.route)
+                            cpvm.setCardPopup(PopupType.WARNING, message!!, WarningType.TODOSTEPMANCANTI)
+                        }
                     }
                 }
             }, modifier = Modifier.size(120.dp, 40.dp), shape = RoundedCornerShape(50), colors = ButtonDefaults.buttonColors(
@@ -258,6 +263,20 @@ fun TodoFormScreen(navController: NavController, cpvm: ClassPlayViewModel, ma: M
                 Row (modifier = Modifier
                     .fillMaxWidth()
                     .height(70.dp), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically){
+
+                    Icon(painter = painterResource(id = R.drawable.minus), contentDescription = "Aggiungi tutorial", tint = RedCol, modifier = Modifier
+                        .size(40.dp)
+                        .clickable {
+                            cpvm.removeTodoStep(currentStep - 3)
+                            if (!isAnimating) {
+                                newStep = currentStep - 1
+                                cpvm.setCurrentStep(newStep)
+                                animateScroll()
+                            }
+                        })
+
+                    Spacer(modifier = Modifier.width(10.dp))
+
                     Column (modifier = Modifier
                         .size(45.dp)
                         .clickable {

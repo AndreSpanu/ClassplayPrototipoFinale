@@ -10,7 +10,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Button
 import androidx.compose.material.Scaffold
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -18,10 +20,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
+import coil.compose.ImagePainter
+import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
 import com.example.classplayprototipofinale.models.Cosplay
 import com.example.classplayprototipofinale.models.Users
@@ -36,6 +42,7 @@ import com.example.classplayprototipofinale.ui.theme.home.SearchBar
 import com.example.classplayprototipofinale.ui.theme.home.Video
 import com.example.classplayprototipofinale.ui.theme.main.TopBar
 import com.example.classplayprototipofinale.ui.theme.main.WarningUp
+import com.example.classplayprototipofinale.ui.theme.profile.OthersProfile
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -54,7 +61,6 @@ class MainActivity : ComponentActivity() {
     private lateinit var profileIconsSRef: StorageReference
     private lateinit var cosplaysImgsSRef: StorageReference
 
-    @OptIn(ExperimentalCoilApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -75,9 +81,11 @@ class MainActivity : ComponentActivity() {
 
                     var cardPopup by remember { mutableStateOf(Triple(PopupType.NONE, "", WarningType.NONE)) }
                     var zoomCard by remember { mutableStateOf<Cosplay?>(null) }
+                    var profileCard by remember { mutableStateOf<Users?>(null) }
 
                     cpvm.cardPopup.observe(this) { cardPopup = it }
                     cpvm.zoomCard.observe(this) { zoomCard = it }
+                    cpvm.otherProfile.observe(this) { profileCard = it }
 
                     val navController = rememberNavController()
                     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -90,7 +98,8 @@ class MainActivity : ComponentActivity() {
 
                     var user by remember {  mutableStateOf(Users()) }
 
-                    val painter = rememberImagePainter(data = user.profileImgUrl)
+                    var data by remember { mutableStateOf("") }
+                    val painter = rememberAsyncImagePainter(model = user.profileImgUrl)
 
                     var showVideo by remember { mutableStateOf(cpvm.stepVideo.value) }
                     cpvm.stepVideo.observe(this) { showVideo = it }
@@ -100,6 +109,9 @@ class MainActivity : ComponentActivity() {
                             if (snapshot.exists()){
                                 user = Users()
                                 user = snapshot.getValue(Users::class.java)!!
+                                if (cpvm.currentUser.value?.profileImgUrl != user.profileImgUrl) {
+                                    data = user.profileImgUrl.toString()
+                                }
                                 cpvm.setCurrentUser(user)
                                 cpvm.setYourTodo(user.yourToDo)
                             }
@@ -107,8 +119,13 @@ class MainActivity : ComponentActivity() {
                         override fun onCancelled(error: DatabaseError) {}
                     })
 
+                    cpvm.currentUser.observe(this) {
+                        if (it.profileImgUrl != null)
+                            data = it.profileImgUrl!! }
+
                     /** Creazione Database **/
                     //cd.cosplay(cpDB, cosplaysImgsSRef)
+                    //cd.user(uDB)
 
                     bg.SetBackground()
 
@@ -125,10 +142,9 @@ class MainActivity : ComponentActivity() {
 
                             /** Creazione Database **/
 
-                            /*Button(onClick = { cd.todo(uDB, cosplaysImgsSRef, user) }) {
+                            /*Button(onClick = { /*cd.todo(uDB, cosplaysImgsSRef, user)*/ }) {
 
                             }*/
-
 
                             if (zoomCard != null) {
                                 Box(modifier = Modifier.fillMaxSize()) {
@@ -139,9 +155,14 @@ class MainActivity : ComponentActivity() {
                                         horizontalArrangement = Arrangement.Center,
                                         verticalAlignment = Alignment.CenterVertically
                                     ) {
-                                        cc.ZoomCard(cosplay = zoomCard!!, cpvm = cpvm, cpDB = cpDB)
+                                        cc.ZoomCard(cosplay = zoomCard!!, cpvm = cpvm, cpDB = cpDB, uDB)
                                     }
                                 }
+                            }
+
+                            if (profileCard != null) {
+                                val op = OthersProfile()
+                                op.Profile(cpvm = cpvm, cpDB = cpDB, th)
                             }
 
                             if (showVideo != null) {
@@ -150,7 +171,7 @@ class MainActivity : ComponentActivity() {
                             }
 
                             if (cardPopup.first == PopupType.WARNING)
-                                wu.Warning(cpvm = cpvm, navController = navController, cpDB = cpDB, uDB, cosplaysImgsSRef)
+                                wu.Warning(cpvm = cpvm, navController = navController, cpDB = cpDB, uDB, cosplaysImgsSRef, profileIconsSRef)
 
                         }
                     }

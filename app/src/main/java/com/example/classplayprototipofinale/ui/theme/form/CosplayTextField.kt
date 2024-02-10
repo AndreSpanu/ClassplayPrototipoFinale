@@ -42,6 +42,7 @@ import com.example.classplayprototipofinale.MainActivity
 import com.example.classplayprototipofinale.R
 import com.example.classplayprototipofinale.models.TutorialStep
 import com.example.classplayprototipofinale.screens.LinkType
+import com.example.classplayprototipofinale.ui.theme.StarCol
 import com.example.classplayprototipofinale.ui.theme.UploadCol
 
 class CosplayTextField {
@@ -101,7 +102,11 @@ class CosplayTextField {
                         strokeWidth = 2.dp.toPx()
                     )
                 },
-                value = tag ?: "", placeholder = ({ Text(text = "Inserisci Tag", fontSize = 20.sp)}), singleLine = true, textStyle = TextStyle(fontSize = 20.sp), onValueChange = { newText ->
+                value = tag ?: "", placeholder = ({
+                    Row {
+                        Text(text = "Inserisci Tag", fontSize = 20.sp)
+                        Text(text = " *", fontSize = 20.sp, color = StarCol)
+                    } }), singleLine = true, textStyle = TextStyle(fontSize = 20.sp), onValueChange = { newText ->
                     if (newText.length < 20){
                         tag = newText.filter { it.isLetterOrDigit() || it == ' ' || it == '_' }
                         cpvm.compileTag(tag ?: "")

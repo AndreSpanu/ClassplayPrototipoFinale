@@ -12,7 +12,6 @@ import com.example.classplayprototipofinale.models.ToDo
 import com.example.classplayprototipofinale.models.ToDoStep
 import com.example.classplayprototipofinale.models.TutorialStep
 import com.example.classplayprototipofinale.models.Users
-import com.example.classplayprototipofinale.screens.AppIcons
 import com.example.classplayprototipofinale.screens.LinkType
 import com.example.classplayprototipofinale.screens.PlusIcon
 import com.example.classplayprototipofinale.ui.theme.form.CheckForm
@@ -38,14 +37,16 @@ class ClassPlayViewModel: ViewModel() {
 
     //Home Screen
     private val _searchingText = MutableLiveData<String>().also { it.value = "" }                               /** Il testo inserito nella barra di ricerca **/
-    private val _zoomCard = MutableLiveData<Cosplay>().also { it.value = null }                                 /** La card selezionata che viene aperta **/
+    private val _zoomCard = MutableLiveData<Cosplay?>().also { it.value = null }                                 /** La card selezionata che viene aperta **/
+    private val _otherProfile = MutableLiveData<Users?>().also { it.value = null }
     private val _tagList = MutableLiveData<MutableSet<String>>().also { it.value = mutableSetOf() }             /** La lista dei tag di filtraggio ricerca **/
     private val _searchScreen = MutableLiveData<Boolean>().also { it.value = false }                            /** La schermata di ricerca per tag **/
     private val _searchFocus = MutableLiveData<FocusManager>()                                                  /** Il focus sul textField della barra di ricerca **/
     private val _stepVideo = MutableLiveData<TutorialStep?>().also { it.value = null }                          /** Il video da visualizzare **/
 
     val searchingText: LiveData<String> = _searchingText;
-    val zoomCard: LiveData<Cosplay> = _zoomCard;
+    val zoomCard: LiveData<Cosplay?> = _zoomCard;
+    val otherProfile: LiveData<Users?> = _otherProfile;
     val tagList: LiveData<MutableSet<String>> = _tagList;
     val searchScreen: LiveData<Boolean> = _searchScreen
     val searchFocus: LiveData<FocusManager> = _searchFocus
@@ -55,14 +56,13 @@ class ClassPlayViewModel: ViewModel() {
     private val _username = MutableLiveData<String>().also { it.value = "tester" }                              /** Lo username del currentUser **/
     private val _favoriteOpen = MutableLiveData<Boolean>().also { it.value = false }                            /** La schermata dei preferiti dall'utente **/
     private val _currentUser = MutableLiveData<Users>()                                                         /** Il currentUser **/
-    private val _profileEdit = MutableLiveData<Users>()                                                         /** Il profilo in modifica **/
+    private val _profileEdit = MutableLiveData<Users?>()                                                         /** Il profilo in modifica **/
     private val _profileEditImg = MutableLiveData<Uri?>()                                                       /** La nuova immagine del profilo **/
 
     val username: LiveData<String> = _username;
     val favoriteOpen: LiveData<Boolean> = _favoriteOpen;
     val currentUser: LiveData<Users> = _currentUser
-    val profileEdit: LiveData<Users> = _profileEdit
-    val profileEditImg: LiveData<Uri?> = _profileEditImg
+    val profileEdit: LiveData<Users?> = _profileEdit
 
     //Cosplay Form
     private val _formTitle = MutableLiveData<String>().also { it.value = "" }                                   /** Il title comune ai form di todo e cosplay **/
@@ -78,7 +78,6 @@ class ClassPlayViewModel: ViewModel() {
     val formTitle: LiveData<String> = _formTitle;
     val currentTag: LiveData<String> = _currentTag;
     val formDescription: LiveData<String> = _formDescription;
-    val cosplayFormAvgReviews: LiveData<String> = _cosplayFormAvgReviews;
     val cosplayFormMaterialDescription: LiveData<String> = _cosplayFormMaterialDescription;
     val cosplayFormTags: LiveData<MutableList<String>> = _cosplayFormTags;
     val cosplayFormTutorial: LiveData<MutableMap<String, TutorialStep>> = _cosplayFormTutorial;
@@ -181,11 +180,20 @@ class ClassPlayViewModel: ViewModel() {
 
     /** Reset del form **/
     fun clearForm () {
-        _formImages.value?.clear()
+        _currentStep.value = 1
+        _totalSteps.value = 2
         _todoFormTutorial.value?.clear()
         _formTitle.value = ""
-        _formDescription.value = ""
+        _currentTag.value = ""
         _cosplayFormTags.value?.clear()
+        _formDescription.value = ""
+        _cosplayFormTime.value = mutableMapOf<String, Int>("anni" to 0, "mesi" to 0, "settimane" to 0, "giorni" to 0, "ore" to 0)
+        _formImages.value = mutableMapOf<String, String>()
+        _cosplayFormMaterialDescription.value = ""
+        _cosplayFormTutorial.value = mutableMapOf<String, TutorialStep>()
+        setZoomCard(null)
+        setOtherProfile(null)
+        setFavoriteOpen(false)
     }
 
     /*********************************************************** COSPLAY FORM **********************************************************************/
@@ -311,6 +319,46 @@ class ClassPlayViewModel: ViewModel() {
         _todoFormTutorial.value = tutorial
     }
 
+    fun removeCosplayStep(step: Int) {
+        val newMap = mutableMapOf<String, TutorialStep>()
+
+        for( element in _cosplayFormTutorial.value!!) {
+            newMap[element.key] = element.value
+        }
+
+        if ((_cosplayFormTutorial.value?.size ?: 0) > 1) {
+            for (i in step until _cosplayFormTutorial.value!!.size - 1) {
+                newMap["s$i"] = _cosplayFormTutorial.value!!["s${i+1}"]!!
+            }
+            _cosplayFormTutorial.value = newMap
+            _totalSteps.value = _totalSteps.value!! - 1
+        }
+        else {
+            _cosplayFormTutorial.value?.clear()
+            newTutorialStep()
+        }
+    }
+
+    fun removeTodoStep(step: Int) {
+        val newMap = mutableMapOf<String, ToDoStep>()
+
+        for( element in _todoFormTutorial.value!!) {
+            newMap[element.key] = element.value
+        }
+
+        if ((_todoFormTutorial.value?.size ?: 0) > 1) {
+            for (i in step until _todoFormTutorial.value!!.size - 1) {
+                newMap["s$i"] = _todoFormTutorial.value!!["s${i+1}"]!!
+            }
+            _todoFormTutorial.value = newMap
+            _totalSteps.value = _totalSteps.value!! - 1
+        }
+        else {
+            _todoFormTutorial.value?.clear()
+            newTutorialStep()
+        }
+    }
+
     /** Aggiornamento dell'ordine degli step della todo **/
     fun changeTodoStepPosition(previousPosition: Int, newPosition: Int) {
         val newMap = mutableMapOf<String, ToDoStep>()
@@ -368,6 +416,8 @@ class ClassPlayViewModel: ViewModel() {
         else
             userUpdate.yourToDo?.set(todo.todoTitle!!, todo)
 
+        uDB.child(_username.value!!).setValue(userUpdate)
+
         if (_todoEdit.value != null) {
             uDB.child(_username.value!!).child("yourToDo").child(_todoEdit.value!!.todoTitle!!).removeValue()
 
@@ -377,9 +427,7 @@ class ClassPlayViewModel: ViewModel() {
             _todoEdit.value = null
         }
 
-        uDB.child(_username.value!!).setValue(userUpdate)
         _formImages.value = mutableMapOf<String, String>()
-        _todoEdit.value = null
 
         clearForm()
     }
@@ -387,7 +435,10 @@ class ClassPlayViewModel: ViewModel() {
     /** Imposta la todo da modifiicare **/
     fun setTodoEdit (todo: ToDo?) {
         if (todo != null) {
-            _todoEdit.value = todo
+            _todoEdit.value = ToDo(todo.todoTitle)
+            _todoEdit.value?.img = todo.img
+            _todoEdit.value?.description = todo.description
+            _todoEdit.value?.steps = todo.steps
             _formTitle.value = todo.todoTitle
             _formDescription.value = todo.description
             _formImages.value = todo.img!!.toMutableMap()
@@ -408,8 +459,11 @@ class ClassPlayViewModel: ViewModel() {
         else
             userUpdate.yourToDo?.set(todo.todoTitle!!, todo)
 
+        uDB.child(_username.value!!).setValue(userUpdate)
+
         if (_todoEdit.value != null) {
             uDB.child(_username.value!!).child("yourToDo").child(_todoEdit.value!!.todoTitle!!).removeValue()
+
 
             if ((_formImages.value?.keys?.first() ?: "a") != (_todoEdit.value!!.img?.keys?.first() ?: "a"))
                 cosplaysImgsSRef.child(_todoEdit.value!!.img!!.keys.first()).delete()
@@ -417,10 +471,7 @@ class ClassPlayViewModel: ViewModel() {
             _todoEdit.value = null
         }
 
-        uDB.child(_username.value!!).setValue(userUpdate)
         _formImages.value = mutableMapOf<String, String>()
-
-        _todoEdit.value = null
 
         clearForm()
     }
@@ -444,6 +495,8 @@ class ClassPlayViewModel: ViewModel() {
 
         CPdb.child(cosplay.cosplayName!!).setValue(cosplay)
         _formImages.value = mutableMapOf<String, String>()
+
+        clearForm()
     }
 
     /** Salvataggio di un cosplay eliminando gli step non correttamente compilati **/
@@ -467,6 +520,8 @@ class ClassPlayViewModel: ViewModel() {
 
         CPdb.child(cosplay.cosplayName!!).setValue(cosplay)
         _formImages.value = mutableMapOf<String, String>()
+
+        clearForm()
     }
 
     fun newTodoFromStep() {
@@ -538,6 +593,18 @@ class ClassPlayViewModel: ViewModel() {
     /** Imposta la card di cui vedere le informazioni **/
     fun setZoomCard(card: Cosplay?) {
         _zoomCard.value = card
+        setOtherProfile(null)
+    }
+
+    fun setOtherProfile(username: String?, uDB: DatabaseReference? = null) {
+        if (username == null)
+            _otherProfile.value = null
+        else {
+            _zoomCard.value = null
+            uDB?.child(username)?.get()?.addOnCompleteListener { task ->
+                _otherProfile.value = task.result.getValue(Users::class.java)
+            }
+        }
     }
 
     /** Aggiorna il tag in scrittura nel TextField **/
@@ -555,7 +622,13 @@ class ClassPlayViewModel: ViewModel() {
     /** Imposta lo user corrente **/
     fun setCurrentUser(user: Users?) {
         if (user != null) {
-            _currentUser.value = user!!
+            _currentUser.value = Users(user.username)
+            _currentUser.value!!.emailAddress = user.emailAddress
+            _currentUser.value!!.phoneNumber = user.phoneNumber
+            _currentUser.value!!.profileImgUrl = user.profileImgUrl
+            _currentUser.value!!.lastResearch = user.lastResearch
+            _currentUser.value!!.yourToDo = user.yourToDo
+            _currentUser.value!!.bio = user.bio
         }
 
     }
@@ -572,7 +645,14 @@ class ClassPlayViewModel: ViewModel() {
 
     /** Crea una copia del profilo corrente per le modifiche **/
     fun setNewProfileEdit(user: Users) {
-        _profileEdit.value = user
+
+        _profileEdit.value = Users(user.username)
+        _profileEdit.value!!.emailAddress = user.emailAddress
+        _profileEdit.value!!.phoneNumber = user.phoneNumber
+        _profileEdit.value!!.profileImgUrl = user.profileImgUrl
+        _profileEdit.value!!.lastResearch = user.lastResearch
+        _profileEdit.value!!.yourToDo = user.yourToDo
+        _profileEdit.value!!.bio = user.bio
     }
 
     /*********************************************************** CHECKLIST SCREEN **********************************************************************/
@@ -684,7 +764,8 @@ class ClassPlayViewModel: ViewModel() {
         _stepForTodo.value = step
     }
 
-    fun annulla(cosplaysImgsSRef: StorageReference) {
+    fun annulla(cosplaysImgsSRef: StorageReference, profileIconSR: StorageReference) {
+
 
         if (_todoEdit.value != null) {
             if (_formImages.value?.isNotEmpty() == true)
@@ -706,35 +787,19 @@ class ClassPlayViewModel: ViewModel() {
             _cosplayEditImages.value = null
         }
 
+        else if (_profileEdit.value != null) {
+            profileIconSR.child(_username.value!!+"Edit").delete()
+            _profileEdit.value = null
+        }
+
         else if (_formImages.value?.isNotEmpty() == true) {
             for (img in _formImages.value!!) {
                 cosplaysImgsSRef.child(img.key).delete()
             }
         }
 
-        _currentStep.value = 1
-        _totalSteps.value = 1
 
-        _currentTag.value = ""
-        _cosplayFormTags.value?.clear()
-        _formDescription.value = ""
-        _cosplayFormTime.value = mutableMapOf<String, Int>("anni" to 0, "mesi" to 0, "settimane" to 0, "giorni" to 0, "ore" to 0)
-        _formImages.value = mutableMapOf<String, String>()
-        _cosplayFormMaterialDescription.value = ""
-        _formTitle.value = ""
-        _cosplayFormTutorial.value = mutableMapOf<String, TutorialStep>()
-        setZoomCard(null)
-        setFavoriteOpen(false)
-    }
-
-    fun checkProfile() {
-        val cf = CheckForm()
-
-        val isError = cf.saveProfile(this)
-
-
-        if (isError == null)
-            setCardPopup(PopupType.WARNING, "Sei sicuro di voler modificare le informazioni?", WarningType.MODIFICAPROFILO)
+        clearForm()
     }
 
     fun saveProfile(uDB: DatabaseReference, profileIconSR: StorageReference) {
@@ -751,6 +816,8 @@ class ClassPlayViewModel: ViewModel() {
             }
             profileIconSR.child(_username.value!!+"Edit").delete()
         }
+
+        clearForm()
     }
 }
 

@@ -51,6 +51,7 @@ import com.example.classplayprototipofinale.screens.AppIcons
 import com.example.classplayprototipofinale.screens.LinkType
 import com.example.classplayprototipofinale.screens.PlusIcon
 import com.example.classplayprototipofinale.ui.theme.RedCol
+import com.example.classplayprototipofinale.ui.theme.StarCol
 import com.example.classplayprototipofinale.ui.theme.TagCol
 import com.example.classplayprototipofinale.ui.theme.home.TagsList
 import com.google.firebase.storage.StorageReference
@@ -81,7 +82,7 @@ class CosplayFormPages {
 
                 Row (modifier = Modifier
                     .fillMaxWidth(), horizontalArrangement = Arrangement.Center){
-                    Text(text = "Inserisci le migliori foto\ndel tuo Cosplay", fontSize = 15.sp, textAlign = TextAlign.Center, minLines = 2, color = Color.White)
+                    Text(text = "Inserisci le migliori foto\ndel tuo Cosplay\n\n(almeno una)", fontSize = 15.sp, textAlign = TextAlign.Center, minLines = 2, color = Color.White)
                 }
             }
         }
@@ -176,6 +177,7 @@ class CosplayFormPages {
             .fillMaxWidth()
             .padding(start = 20.dp)){
             Text(text = "Titolo", fontSize = 22.sp, color = Color.White)
+            Text(text = " *", fontSize = 22.sp, color = StarCol)
         }
 
         Row (modifier = Modifier
@@ -190,6 +192,7 @@ class CosplayFormPages {
             .fillMaxWidth()
             .padding(start = 20.dp)){
             Text(text = "Descrizione", fontSize = 22.sp, color = Color.White)
+            Text(text = " *", fontSize = 22.sp, color = StarCol)
         }
 
         Row (modifier = Modifier

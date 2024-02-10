@@ -25,11 +25,9 @@ class StarReview {
     /** Stelle della recensione dell'utente **/
 
     @Composable
-    fun UpdateReview(cpvm: ClassPlayViewModel, i: Int, cosplay: Cosplay, cpDB: DatabaseReference, size: Float, cosReview: Long) {
+    fun UpdateReview(i: Int, size: Float, cosReview: Long) {
 
-        Row (modifier = Modifier.clickable {
-            saveAvarageDelete(cpDB, cpvm, cosplay)
-        }){
+        Row {
             Image(painter = painterResource(id =
             if (cosReview.toInt() >= i)
                 R.drawable.star_1
@@ -52,26 +50,7 @@ class StarReview {
     @Composable
     fun NewReview(cpvm: ClassPlayViewModel, i: Int, cpDB: DatabaseReference, cosplay: Cosplay, avgReview: String?, size: Float) {
 
-        val vote : Float = avgReview?.replace(',', '.')?.toFloat() ?: 0.0f
-
-        Image(painter = painterResource(id =
-        if (vote/i >= 1)
-            R.drawable.star_1
-
-        else if ((i - floor(vote)).toInt() == 1 && vote - floor(vote) == 0.0f)
-            R.drawable.star_0
-
-        else if ((i - floor(vote)).toInt() == 1 && vote - floor(vote) <= 0.3)
-            R.drawable.star_13
-
-        else if ((i - floor(vote)).toInt() == 1 && vote - floor(vote) >= 0.7)
-            R.drawable.star_23
-
-        else if ((i - floor(vote)).toInt() != 1)
-            R.drawable.star_0
-
-        else
-            R.drawable.star_12), contentDescription = "Star number $i", modifier = Modifier
+        Image(painter = painterResource(id = R.drawable.star_0), contentDescription = "Star number $i", modifier = Modifier
             .size(size.dp)
             .padding(start = 3.dp)
             .clickable {

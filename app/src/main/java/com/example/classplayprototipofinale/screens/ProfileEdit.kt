@@ -53,6 +53,9 @@ import com.example.classplayprototipofinale.ui.theme.DetailsCol
 import com.example.classplayprototipofinale.ui.theme.RedCol
 import com.example.classplayprototipofinale.ui.theme.form.CheckForm
 import com.example.classplayprototipofinale.ui.theme.form.ProfileTextField
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalCoilApi::class)
@@ -66,8 +69,11 @@ fun ProfileEdit(cpvm: ClassPlayViewModel, uDB: DatabaseReference, ma: MainActivi
 
     var data by remember { mutableStateOf(user.profileImgUrl) }
 
-    cpvm.profileEdit.observe(ma) { user = it
-        data = user.profileImgUrl
+    cpvm.profileEdit.observe(ma) {
+        if (it != null) {
+            user = it
+            data = user.profileImgUrl
+        }
     }
 
     val painter = rememberImagePainter(data = data)
@@ -160,9 +166,16 @@ fun ProfileEdit(cpvm: ClassPlayViewModel, uDB: DatabaseReference, ma: MainActivi
             }
 
             Button(onClick = {
-                cpvm.setDestination(Screen.Profile.route)
-                val isWarning = cf.saveProfile(cpvm)
+                CoroutineScope(Dispatchers.Main).launch {
+                    cpvm.setDestination(Screen.Profile.route)
+                    val isWarning = cf.saveProfile(cpvm, uDB)
 
+                    if (isWarning == null)
+                        cpvm.setCardPopup(PopupType.WARNING, "Sei sicuro di voler modificare le informazioni?", WarningType.MODIFICAPROFILO)
+
+                    else
+                        cpvm.setCardPopup(PopupType.ERROR, isWarning)
+                }
             }, modifier = Modifier.size(120.dp, 40.dp), shape = RoundedCornerShape(50), colors = ButtonDefaults.buttonColors(
                 backgroundColor = BlueGradientCol,
                 contentColor = Color.White

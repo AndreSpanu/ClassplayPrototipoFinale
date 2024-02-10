@@ -122,7 +122,7 @@ class ProfileTextField {
                 singleLine = true,
                 textStyle = TextStyle(fontSize = 20.sp),
                 onValueChange = { newText ->
-                    if (newText.length < 10) {
+                    if (newText.length <= 10) {
                         phoneNumber = newText.filter { it.isDigit() }
                         cpvm.compileTag(phoneNumber!!)
                     }
@@ -163,7 +163,7 @@ class ProfileTextField {
                     )
                 },
                 value = email,
-                placeholder = ({ Text(text = "Inserisci Tag", fontSize = 20.sp) }),
+                placeholder = ({ Text(text = "E-mail", fontSize = 20.sp) }),
                 singleLine = true,
                 textStyle = TextStyle(fontSize = 20.sp),
                 onValueChange = { newText ->

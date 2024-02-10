@@ -62,6 +62,8 @@ import com.example.classplayprototipofinale.ui.theme.form.CosplayFormPages
 import com.example.classplayprototipofinale.ui.theme.form.CosplayGrid
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.storage.StorageReference
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @SuppressLint("SuspiciousIndentation")
@@ -203,8 +205,9 @@ fun CosplayFormScreen(navController: NavController, cpvm: ClassPlayViewModel, ma
             }
 
             Button(onClick = {
-                val risultato = cf.cosplayForm(cpvm = cpvm, cpDB, navController, cosplaysImgsSRef)
-                message = risultato?.first
+                CoroutineScope(Dispatchers.Main).launch {
+                    val risultato = cf.cosplayForm(cpvm = cpvm, cpDB, navController, cosplaysImgsSRef)
+                    message = risultato?.first
                     if ( message != null) {
                         newStep = risultato!!.second
                         if (!isAnimating) {
@@ -219,6 +222,7 @@ fun CosplayFormScreen(navController: NavController, cpvm: ClassPlayViewModel, ma
                             cpvm.setCardPopup(PopupType.WARNING, message!!, WarningType.COSPLAYSTEPMANCANTI)
                         }
                     }
+                }
                 }, modifier = Modifier.size(120.dp, 40.dp), shape = RoundedCornerShape(50), colors = buttonColors(
                 backgroundColor = BlueGradientCol,
                 contentColor = Color.White
@@ -250,7 +254,8 @@ fun CosplayFormScreen(navController: NavController, cpvm: ClassPlayViewModel, ma
                     .rotate(180F)
                     .clickable {
                         if (currentStep == totalSteps) {
-                            cpvm.newTutorialStep()
+                            if (totalSteps >= 7)
+                                cpvm.newTutorialStep()
                             cpvm.updateTotalSteps(1)
                         }
                         if (!isAnimating) {
@@ -267,9 +272,24 @@ fun CosplayFormScreen(navController: NavController, cpvm: ClassPlayViewModel, ma
 
         if (currentStep > 7 && !changeStepGrid) {
             Column (modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Bottom){
+
                 Row (modifier = Modifier
                     .fillMaxWidth()
                     .height(70.dp), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically){
+
+                    Icon(painter = painterResource(id = R.drawable.minus), contentDescription = "Aggiungi tutorial", tint = RedCol, modifier = Modifier
+                        .size(40.dp)
+                        .clickable {
+                            cpvm.removeCosplayStep(currentStep - 8)
+                            if (!isAnimating) {
+                                newStep = currentStep - 1
+                                cpvm.setCurrentStep(newStep)
+                                animateScroll()
+                            }
+                        })
+
+                    Spacer(modifier = Modifier.width(10.dp))
+
                     Column (modifier = Modifier
                         .size(45.dp)
                         .clickable {

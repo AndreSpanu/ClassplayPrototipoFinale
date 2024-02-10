@@ -107,7 +107,7 @@ class WarningUp {
                                 }
 
                                 WarningType.ANNULLA -> {
-                                    cpvm.annulla(cosplaysImgsSRef = cosplaysImgsSRef)
+                                    cpvm.annulla(cosplaysImgsSRef = cosplaysImgsSRef, profileIconsSRef)
                                 }
 
                                 WarningType.MODIFICAPROFILO -> {

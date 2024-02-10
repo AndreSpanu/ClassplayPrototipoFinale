@@ -1,6 +1,5 @@
 package com.example.classplayprototipofinale.ui.theme
 
-import com.example.classplayprototipofinale.R
 import com.example.classplayprototipofinale.models.Cosplay
 import com.example.classplayprototipofinale.models.Review
 import com.example.classplayprototipofinale.models.ToDo
@@ -10,8 +9,6 @@ import com.example.classplayprototipofinale.screens.AppIcons
 import com.example.classplayprototipofinale.screens.LinkType
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.storage.StorageReference
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 
 class CreateDatabase (){
@@ -87,5 +84,15 @@ class CreateDatabase (){
         userUpdate.yourToDo = mutableMapOf<String, ToDo>("Prova" to ToDo("Prova"))
 
         uDB.child(user.username!!).setValue(userUpdate)
+    }
+
+    fun user(uDB: DatabaseReference) {
+        val newUser = Users("DragonMaker")
+        newUser.bio = "Grande fan di Dragon Ball"
+        newUser.profileImgUrl = "https://firebasestorage.googleapis.com/v0/b/classplaydb-f47f8.appspot.com/o/PIcons%2FprofileColor.jpg?alt=media&token=f7297bda-df65-457b-8e22-cd482f1e2ba4"
+        newUser.emailAddress = "Email da sostituire"
+        newUser.phoneNumber = "3333333333"
+
+        uDB.child(newUser.username!!).setValue(newUser)
     }
 }
