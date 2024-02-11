@@ -50,6 +50,7 @@ import com.example.classplayprototipofinale.models.ToDoStep
 import com.example.classplayprototipofinale.navigation.Screen
 import com.example.classplayprototipofinale.ui.theme.BlueGradientCol
 import com.example.classplayprototipofinale.ui.theme.BottomBarCol
+import com.example.classplayprototipofinale.ui.theme.MyTypography
 import com.example.classplayprototipofinale.ui.theme.RedCol
 import com.example.classplayprototipofinale.ui.theme.ToDoCol
 import com.google.firebase.database.DatabaseReference
@@ -90,14 +91,14 @@ class ToDoCard {
             .padding(10.dp)
             .padding(start = 5.dp)){
             Row (modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically){
-                Text(text = todo.todoTitle!!, fontSize = 25.sp, color = Color.White)
-                Text(text = todoSteps.filter { it.completed == true }.size.toString() + "/" + todoSteps.size.toString(), color = Color.White, fontSize = 16.sp)
+                Text(text = todo.todoTitle!!, fontSize = 25.sp, style = MyTypography.typography.body2)
+                Text(text = todoSteps.filter { it.completed == true }.size.toString() + "/" + todoSteps.size.toString(), style = MyTypography.typography.body1, fontSize = 16.sp)
             }
 
             Spacer(modifier = Modifier.height(10.dp))
 
             Row (modifier = Modifier.fillMaxWidth()){
-                Column (modifier = Modifier.width(90.dp)){
+                Column (modifier = Modifier.width(85.dp)){
                     Image(painter = painter, contentDescription = "Immagine Todo", modifier = Modifier
                         .size(80.dp, 100.dp)
                         .clip(RoundedCornerShape(10)), contentScale = ContentScale.Crop)
@@ -145,7 +146,7 @@ class ToDoCard {
                     }
                 }
 
-                Spacer(modifier = Modifier.width(15.dp))
+                Spacer(modifier = Modifier.width(10.dp))
 
                 Column (modifier = Modifier
                     .fillMaxWidth()
@@ -171,7 +172,7 @@ class ToDoCard {
                                         Icon(painter = painter, contentDescription = "Icona dello step", tint = Color.White, modifier = Modifier.size(20.dp))
                                     }
 
-                                    Text(text = step.title!!, fontSize = 18.sp, color = Color.White, modifier = Modifier.width(120.dp))
+                                    Text(text = step.title!!, fontSize = 18.sp, style = MyTypography.typography.body1, modifier = Modifier.width(120.dp))
 
                                     var check by remember { mutableStateOf(getCheck(cpvm, ma, todoTitle, step.step!!)) }
 

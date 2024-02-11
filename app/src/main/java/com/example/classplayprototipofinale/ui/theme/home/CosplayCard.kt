@@ -56,6 +56,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
@@ -73,6 +74,7 @@ import com.example.classplayprototipofinale.ui.theme.BlueGradientCol
 import com.example.classplayprototipofinale.ui.theme.BubbleCol
 import com.example.classplayprototipofinale.ui.theme.BottomBarCol
 import com.example.classplayprototipofinale.ui.theme.DetailsCol
+import com.example.classplayprototipofinale.ui.theme.MyTypography
 import com.example.classplayprototipofinale.ui.theme.TagCol
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -124,7 +126,7 @@ class CosplayCard {
                         Modifier
                             .background(BubbleCol, RoundedCornerShape(50))
                             .padding(horizontal = 5.dp, vertical = 3.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween){
-                        Text(text = avgReview.toString(), color = Color.White, fontSize = 3.5.em)
+                        Text(text = avgReview.toString(), style = MyTypography.typography.body1, fontSize = 3.5.em)
                         Spacer(modifier = Modifier.width(5.dp))
                         Icon(painter = painterResource(id = R.drawable.star_1), contentDescription = null, tint = Color.White, modifier = Modifier.size(14.dp))
                     }
@@ -137,7 +139,7 @@ class CosplayCard {
                         Modifier
                             .background(BubbleCol, RoundedCornerShape(50))
                             .padding(horizontal = 5.dp, vertical = 3.dp)){
-                        Text(text = cosplay.cosplayName, color = Color.White, fontSize = 3.5.em)
+                        Text(text = cosplay.cosplayName, style = MyTypography.typography.body1, fontSize = 3.5.em)
                     }
                 }
             }
@@ -289,7 +291,7 @@ class CosplayCard {
                 val lastKey: String = timeFiltered.keys.last()
 
                 Row (modifier = Modifier.padding(start = 15.dp)){
-                    Text(text = "Tempo", color = Color.White, fontSize = 25.sp)
+                    Text(text = "Tempo", style = MyTypography.typography.body2, fontSize = 25.sp)
                 }
 
                 Spacer(modifier = Modifier.height(8.dp))
@@ -301,9 +303,9 @@ class CosplayCard {
                     }
 
                     if (time != "")
-                        Text(text = "$time e ${timeFiltered[lastKey]} $lastKey", color = Color.White, fontSize = 15.sp)
+                        Text(text = "$time e ${timeFiltered[lastKey]} $lastKey", style = MyTypography.typography.body1, fontSize = 15.sp)
                     else
-                        Text(text = "${timeFiltered[lastKey]} $lastKey", color = Color.White, fontSize = 15.sp)
+                        Text(text = "${timeFiltered[lastKey]} $lastKey", style = MyTypography.typography.body1, fontSize = 15.sp)
                 }
 
                 Spacer(modifier = Modifier.height(15.dp))
@@ -350,7 +352,7 @@ class CosplayCard {
             /** TagList **/
 
             FlowRow (modifier = Modifier.padding(horizontal = 15.dp)){
-                Text(text = "Tag", color = Color.White, fontSize = 25.sp)
+                Text(text = "Tag", style = MyTypography.typography.body2, fontSize = 25.sp)
             }
 
             Spacer(modifier = Modifier.height(10.dp))
@@ -360,7 +362,7 @@ class CosplayCard {
                     .fillMaxWidth()
                     .padding(start = 15.dp)){
                 for (tag in cosplay.tags!!.toSet()) {
-                    Text(text = tag, fontSize = 16.sp, color = Color.White, modifier = Modifier
+                    Text(text = tag, fontSize = 16.sp, style = MyTypography.typography.body1, modifier = Modifier
                         .padding(bottom = 5.dp)
                         .background(TagCol, RoundedCornerShape(50))
                         .padding(horizontal = 7.dp, vertical = 3.dp))
@@ -373,13 +375,13 @@ class CosplayCard {
             /** Description **/
 
             Row (modifier = Modifier.padding(start = 15.dp)){
-                Text(text = "Descrizione", color = Color.White, fontSize = 25.sp)
+                Text(text = "Descrizione", style = MyTypography.typography.body2, fontSize = 25.sp)
             }
 
             Spacer(modifier = Modifier.height(8.dp))
 
             Row (modifier = Modifier.padding(horizontal = 15.dp)){
-                Text(text = cosplay.description!!, color = Color.White, fontSize = 15.sp)
+                Text(text = cosplay.description!!, style = MyTypography.typography.body1, fontSize = 15.sp, textAlign = TextAlign.Justify)
             }
 
             Spacer(modifier = Modifier.height(15.dp))
@@ -392,13 +394,13 @@ class CosplayCard {
 
             if (cosplay.material != null) {
                 Row (modifier = Modifier.padding(start = 15.dp)){
-                    Text(text = "Materiali", color = Color.White, fontSize = 25.sp)
+                    Text(text = "Materiali", style = MyTypography.typography.body2, fontSize = 25.sp)
                 }
 
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Row (modifier = Modifier.padding(horizontal = 15.dp)){
-                    Text(text = cosplay.material!!, color = Color.White, fontSize = 15.sp)
+                    Text(text = cosplay.material!!, style = MyTypography.typography.body1, fontSize = 15.sp)
                 }
 
                 Spacer(modifier = Modifier.height(15.dp))
@@ -408,7 +410,7 @@ class CosplayCard {
 
             if (cosplay.tutorial != null) {
                 Row (modifier = Modifier.padding(start = 15.dp)){
-                    Text(text = "Tutorial", color = Color.White, fontSize = 25.sp)
+                    Text(text = "Tutorial", style = MyTypography.typography.body2, fontSize = 25.sp)
                 }
 
                 Spacer(modifier = Modifier.height(8.dp))
@@ -421,7 +423,7 @@ class CosplayCard {
                         .fillMaxWidth()
                         .padding(horizontal = 15.dp)
                         .padding(end = 5.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically){
-                        Text(text = (step.key.split("s")[1].toInt() + 1).toString(), color = Color.White, fontSize = 17.sp, modifier = Modifier.weight(1f))
+                        Text(text = (step.key.split("s")[1].toInt() + 1).toString(), style = MyTypography.typography.body1, fontSize = 17.sp, modifier = Modifier.weight(1f))
 
                         Row (modifier = Modifier
                             .weight(8f)
@@ -438,7 +440,7 @@ class CosplayCard {
                                 .background(DetailsCol, CircleShape), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center){
                                 Icon(painter = painter, contentDescription = null, modifier = Modifier.size(25.dp), tint = Color.White)
                             }
-                            Text(text = step.value.componentName!!, fontSize = 15.sp)
+                            Text(text = step.value.componentName!!, fontSize = 15.sp, style = MyTypography.typography.body1, color = Color.Black)
                         }
 
                         Icon(painter = painterResource(id = R.drawable.plus_image), contentDescription = "Crea una todo con questo step", modifier = Modifier
@@ -475,7 +477,7 @@ class CosplayCard {
 
             Row (Modifier
                 .padding(start = 15.dp)){
-                cosplay.cosplayName?.let { Text(text = it, fontSize = (25 - imageReduce * 8).sp, color = Color.White) }
+                cosplay.cosplayName?.let { Text(text = it, fontSize = (25 - imageReduce * 8).sp, style = MyTypography.typography.body2) }
             }
 
             /** Reviews **/
@@ -488,7 +490,7 @@ class CosplayCard {
                         sr.AvgReviews(avgReview = avgReview!!.toDouble(), i = i, size = 30 - imageReduce * 10)
                         Spacer(modifier = Modifier.width(2.dp))
                     }
-                    Text(text = avgReview.toString(), fontSize = (25 - imageReduce * 10).sp, modifier = Modifier.padding(start = 5.dp), color = Color.White)
+                    Text(text = avgReview.toString(), fontSize = (25 - imageReduce * 10).sp, modifier = Modifier.padding(start = 5.dp), style = MyTypography.typography.body1)
                 }
                 else {
                     if (imageReduce < 0.5f) {
@@ -497,7 +499,7 @@ class CosplayCard {
                                 sr.UpdateReview(i = i, size = 30 - imageReduce * 10, cosReview = cosReview)
                                 Spacer(modifier = Modifier.width(2.dp))
                             }
-                            Text(text = cosReview.toString(), fontSize = (25 - imageReduce * 10).sp, modifier = Modifier.padding(horizontal = 5.dp), color = Color.White)
+                            Text(text = cosReview.toString(), fontSize = (25 - imageReduce * 10).sp, modifier = Modifier.padding(horizontal = 5.dp), style = MyTypography.typography.body1)
                             Icon(imageVector = Icons.Default.Clear, contentDescription = "Elimina recensione", tint = Color.White, modifier = Modifier.size(38.dp).clickable {
                                 sr.saveAvarageDelete(cpDB, cpvm, cosplay)
                             })
@@ -515,7 +517,7 @@ class CosplayCard {
                             sr.AvgReviews(avgReview = avgReview!!.toDouble(), i = i, size = 30 - imageReduce * 10)
                             Spacer(modifier = Modifier.width(2.dp))
                         }
-                        Text(text = avgReview.toString(), fontSize = (20 - imageReduce * 5).sp, modifier = Modifier.padding(start = 5.dp), color = Color.White)
+                        Text(text = avgReview.toString(), fontSize = (20 - imageReduce * 5).sp, modifier = Modifier.padding(start = 5.dp), style = MyTypography.typography.body1)
                     }
                 }
             }
@@ -528,8 +530,8 @@ class CosplayCard {
                     .clickable {
                         cpvm.setOtherProfile(cosplay.username, uDB)
                     }){
-                Text(text = "@", fontSize = 20.sp, color = Color.White)
-                Text(text = cosplay.username!!, fontSize = 20.sp, color = Color.White, textDecoration = TextDecoration.Underline)
+                Text(text = "@", fontSize = 20.sp, style = MyTypography.typography.body1)
+                Text(text = cosplay.username!!, fontSize = 20.sp, style = MyTypography.typography.body1, textDecoration = TextDecoration.Underline)
             }
 
             /** Date and Favorite **/
@@ -538,7 +540,7 @@ class CosplayCard {
                 Modifier
                     .fillMaxWidth()
                     .padding(start = 10.dp, end = 30.dp), verticalAlignment = Alignment.Bottom, horizontalArrangement = Arrangement.SpaceBetween){
-                Text(text = cosplay.date!!, fontSize = 15.sp, color = Color.White)
+                Text(text = cosplay.date!!, fontSize = 15.sp, style = MyTypography.typography.body1)
 
                 if (cosplay.username != cpvm.username.value) {
                     if (favorites?.contains(cpvm.username.value) == true)

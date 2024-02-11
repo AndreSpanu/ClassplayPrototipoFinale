@@ -22,11 +22,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -47,9 +44,9 @@ import coil.compose.rememberImagePainter
 import com.example.classplayprototipofinale.ClassPlayViewModel
 import com.example.classplayprototipofinale.MainActivity
 import com.example.classplayprototipofinale.R
-import com.example.classplayprototipofinale.screens.AppIcons
 import com.example.classplayprototipofinale.screens.LinkType
 import com.example.classplayprototipofinale.screens.PlusIcon
+import com.example.classplayprototipofinale.ui.theme.MyTypography
 import com.example.classplayprototipofinale.ui.theme.RedCol
 import com.example.classplayprototipofinale.ui.theme.StarCol
 import com.example.classplayprototipofinale.ui.theme.TagCol
@@ -78,11 +75,11 @@ class CosplayFormPages {
                 .fillMaxSize()
                 .padding(horizontal = 15.dp, vertical = 3.dp)
                 .padding(top = 12.dp), verticalArrangement = Arrangement.SpaceBetween){
-                Text(text = "Foto", color = Color.White, fontSize = 35.sp)
+                Text(text = "Foto",  style = MyTypography.typography.body1, fontSize = 35.sp)
 
                 Row (modifier = Modifier
                     .fillMaxWidth(), horizontalArrangement = Arrangement.Center){
-                    Text(text = "Inserisci le migliori foto\ndel tuo Cosplay\n\n(almeno una)", fontSize = 15.sp, textAlign = TextAlign.Center, minLines = 2, color = Color.White)
+                    Text(text = "Inserisci le migliori foto\ndel tuo Cosplay\n\n(almeno una)", fontSize = 15.sp, textAlign = TextAlign.Center, style = MyTypography.typography.body1)
                 }
             }
         }
@@ -155,11 +152,11 @@ class CosplayFormPages {
                 .fillMaxSize()
                 .padding(horizontal = 15.dp, vertical = 3.dp)
                 .padding(top = 12.dp), verticalArrangement = Arrangement.SpaceBetween){
-                Text(text = "Titolo", color = Color.White, fontSize = 35.sp)
+                Text(text = "Titolo", style = MyTypography.typography.body1, fontSize = 35.sp)
 
                 Row (modifier = Modifier
                     .fillMaxWidth(), horizontalArrangement = Arrangement.Center){
-                    Text(text = "Dai un titolo e una descrizione\nal tuo cosplay", fontSize = 15.sp, textAlign = TextAlign.Center, minLines = 2, color = Color.White)
+                    Text(text = "Dai un titolo e una descrizione\nal tuo cosplay", fontSize = 15.sp, textAlign = TextAlign.Center, style = MyTypography.typography.body1)
                 }
             }
         }
@@ -176,8 +173,8 @@ class CosplayFormPages {
         Row (modifier = Modifier
             .fillMaxWidth()
             .padding(start = 20.dp)){
-            Text(text = "Titolo", fontSize = 22.sp, color = Color.White)
-            Text(text = " *", fontSize = 22.sp, color = StarCol)
+            Text(text = "Titolo", fontSize = 22.sp, style = MyTypography.typography.body2)
+            Text(text = " *", fontSize = 22.sp, color = StarCol, style = MyTypography.typography.body2)
         }
 
         Row (modifier = Modifier
@@ -191,8 +188,8 @@ class CosplayFormPages {
         Row (modifier = Modifier
             .fillMaxWidth()
             .padding(start = 20.dp)){
-            Text(text = "Descrizione", fontSize = 22.sp, color = Color.White)
-            Text(text = " *", fontSize = 22.sp, color = StarCol)
+            Text(text = "Descrizione", fontSize = 22.sp, style = MyTypography.typography.body2)
+            Text(text = " *", fontSize = 22.sp, color = StarCol, style = MyTypography.typography.body2)
         }
 
         Row (modifier = Modifier
@@ -219,11 +216,11 @@ class CosplayFormPages {
                 .fillMaxSize()
                 .padding(horizontal = 15.dp, vertical = 3.dp)
                 .padding(top = 12.dp), verticalArrangement = Arrangement.SpaceBetween){
-                Text(text = "Tags", color = Color.White, fontSize = 35.sp)
+                Text(text = "Tags", style = MyTypography.typography.body1, fontSize = 35.sp)
 
                 Row (modifier = Modifier
                     .fillMaxWidth(), horizontalArrangement = Arrangement.Center){
-                    Text(text = "Inserisci dei Tag per\nil tuo Cosplay", fontSize = 15.sp, textAlign = TextAlign.Center, minLines = 2, color = Color.White)
+                    Text(text = "Inserisci dei Tag per\nil tuo Cosplay", fontSize = 15.sp, textAlign = TextAlign.Center, style = MyTypography.typography.body1)
                 }
             }
         }
@@ -253,11 +250,11 @@ class CosplayFormPages {
             Column (modifier = Modifier
                 .fillMaxSize()
                 .padding(horizontal = 15.dp, vertical = 15.dp), verticalArrangement = Arrangement.SpaceBetween){
-                Text(text = "Inserimento \n Avanzato", color = Color.White, fontSize = 35.sp)
+                Text(text = "Inserimento \n Avanzato", style = MyTypography.typography.body1, fontSize = 35.sp)
 
                 Row (modifier = Modifier
                     .fillMaxWidth(), horizontalArrangement = Arrangement.Center){
-                    Text(text = "In questa sezione potrai inserire Tempo,\nMateriali e Tutorial al tuo Cosplay.\n\nNon sei obbligato a completare tutti i passaggi e potrai aggiungere il Cosplay\nquando vuoi!", fontSize = 15.sp, textAlign = TextAlign.Center, minLines = 2, color = Color.White)
+                    Text(text = "In questa sezione potrai inserire Tempo,\nMateriali e Tutorial al tuo Cosplay.\n\nNon sei obbligato a completare tutti i passaggi e potrai aggiungere il Cosplay\nquando vuoi!", fontSize = 15.sp, textAlign = TextAlign.Center, style = MyTypography.typography.body1)
                 }
             }
         }
@@ -275,11 +272,11 @@ class CosplayFormPages {
             Column (modifier = Modifier
                 .fillMaxSize()
                 .padding(horizontal = 15.dp, vertical = 15.dp), verticalArrangement = Arrangement.SpaceBetween){
-                Text(text = "Inserimento \n Avanzato", color = Color.White, fontSize = 35.sp)
+                Text(text = "Inserimento \n Avanzato", style = MyTypography.typography.body1, fontSize = 35.sp)
 
                 Row (modifier = Modifier
                     .fillMaxWidth(), horizontalArrangement = Arrangement.Center){
-                    Text(text = "Inserendo queste informazioni renderai\npiù visibile il tuo post e potrai condividere\ni tuoi metodi confrontandoti con la\ncommunity di ClassPlay e aiutandola a\nmigliorarsi!", fontSize = 15.sp, textAlign = TextAlign.Center, minLines = 2, color = Color.White)
+                    Text(text = "Inserendo queste informazioni renderai\npiù visibile il tuo post e potrai condividere\ni tuoi metodi confrontandoti con la\ncommunity di ClassPlay e aiutandola a\nmigliorarsi!", fontSize = 15.sp, textAlign = TextAlign.Center, style = MyTypography.typography.body1)
                 }
             }
         }
@@ -301,11 +298,11 @@ class CosplayFormPages {
                 .fillMaxSize()
                 .padding(horizontal = 15.dp, vertical = 3.dp)
                 .padding(top = 12.dp), verticalArrangement = Arrangement.SpaceBetween){
-                Text(text = "Tempo", color = Color.White, fontSize = 35.sp)
+                Text(text = "Tempo", style = MyTypography.typography.body1, fontSize = 35.sp)
 
                 Row (modifier = Modifier
                     .fillMaxWidth(), horizontalArrangement = Arrangement.Center){
-                    Text(text = "Dicci quanto tempo hai\nimpiegato per realizzare il Cosplay", fontSize = 15.sp, textAlign = TextAlign.Center, minLines = 2, color = Color.White)
+                    Text(text = "Dicci quanto tempo hai\nimpiegato per realizzare il Cosplay", fontSize = 15.sp, textAlign = TextAlign.Center, style = MyTypography.typography.body1)
                 }
             }
         }
@@ -331,11 +328,11 @@ class CosplayFormPages {
                 .fillMaxSize()
                 .padding(horizontal = 15.dp, vertical = 3.dp)
                 .padding(top = 12.dp), verticalArrangement = Arrangement.SpaceBetween){
-                Text(text = "Materiali", color = Color.White, fontSize = 35.sp)
+                Text(text = "Materiali", style = MyTypography.typography.body1, fontSize = 35.sp)
 
                 Row (modifier = Modifier
                     .fillMaxWidth(), horizontalArrangement = Arrangement.Center){
-                    Text(text = "Inserisci i materiali che hai usato\nper realizzare il cosplay", fontSize = 15.sp, textAlign = TextAlign.Center, minLines = 2, color = Color.White)
+                    Text(text = "Inserisci i materiali che hai usato\nper realizzare il cosplay", fontSize = 15.sp, textAlign = TextAlign.Center, style = MyTypography.typography.body1)
                 }
             }
         }
@@ -383,11 +380,11 @@ class CosplayFormPages {
                 .fillMaxSize()
                 .padding(horizontal = 15.dp, vertical = 3.dp)
                 .padding(top = 12.dp), verticalArrangement = Arrangement.SpaceBetween){
-                Text(text = "Tutorial", color = Color.White, fontSize = 35.sp)
+                Text(text = "Tutorial", style = MyTypography.typography.body1, fontSize = 35.sp)
 
                 Row (modifier = Modifier
                     .fillMaxWidth(), horizontalArrangement = Arrangement.Center){
-                    Text(text = "Inserisci i tutorial che hai seguito o che\nproponi per realizzare il cosplay", fontSize = 15.sp, textAlign = TextAlign.Center, minLines = 2, color = Color.White)
+                    Text(text = "Inserisci i tutorial che hai seguito o che\nproponi per realizzare il cosplay", fontSize = 15.sp, textAlign = TextAlign.Center, style = MyTypography.typography.body1)
                 }
             }
         }
@@ -411,7 +408,7 @@ class CosplayFormPages {
 
                 Spacer(modifier = Modifier.width(20.dp))
 
-                Text(text = "Inserisci icona", fontSize = 18.sp, color = Color.LightGray)
+                Text(text = "Inserisci icona", fontSize = 18.sp, color = Color.LightGray, style = MyTypography.typography.body1)
             }
 
             Spacer(modifier = Modifier.height(10.dp))
@@ -419,7 +416,7 @@ class CosplayFormPages {
             Row (modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp)){
-                Text(text = "Componente", fontSize = 18.sp, color = Color.White)
+                Text(text = "Componente", fontSize = 18.sp, style = MyTypography.typography.body2)
             }
 
             ctf.StepTitleTextField(cpvm = cpvm, i = i-8, ma)
@@ -429,7 +426,7 @@ class CosplayFormPages {
             Row (modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp)){
-                Text(text = "Tutorial", fontSize = 18.sp, color = Color.White)
+                Text(text = "Tutorial", fontSize = 18.sp, style = MyTypography.typography.body2)
             }
 
             Spacer(modifier = Modifier.height(7.dp))
@@ -443,7 +440,7 @@ class CosplayFormPages {
             Row (modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp)){
-                Text(text = "Descrizione", modifier = Modifier.width(180.dp), fontSize = 18.sp, color = Color.White)
+                Text(text = "Descrizione", modifier = Modifier.width(180.dp), fontSize = 18.sp, style = MyTypography.typography.body2)
             }
 
             Spacer(modifier = Modifier.height(7.dp))

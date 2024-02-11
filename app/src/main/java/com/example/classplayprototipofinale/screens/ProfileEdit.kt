@@ -50,6 +50,7 @@ import com.example.classplayprototipofinale.WarningType
 import com.example.classplayprototipofinale.navigation.Screen
 import com.example.classplayprototipofinale.ui.theme.BottomBarCol
 import com.example.classplayprototipofinale.ui.theme.DetailsCol
+import com.example.classplayprototipofinale.ui.theme.MyTypography
 import com.example.classplayprototipofinale.ui.theme.RedCol
 import com.example.classplayprototipofinale.ui.theme.form.CheckForm
 import com.example.classplayprototipofinale.ui.theme.form.ProfileTextField
@@ -123,21 +124,21 @@ fun ProfileEdit(cpvm: ClassPlayViewModel, uDB: DatabaseReference, ma: MainActivi
 
                 Spacer(modifier = Modifier.height(15.dp))
 
-                Text(text = "Username", color = Color.White, fontSize = 18.sp)
+                Text(text = "Username", fontSize = 18.sp, style = MyTypography.typography.body2)
 
                 pt.UsernameTextField(cpvm = cpvm)
 
-                Text(text = "Bio", color = Color.White, fontSize = 18.sp)
+                Text(text = "Bio", fontSize = 18.sp, style = MyTypography.typography.body2)
 
                 pt.BioTextField(cpvm = cpvm)
                 
                 Spacer(modifier = Modifier.height(10.dp))
 
-                Text(text = "Telefono", color = Color.White, fontSize = 18.sp)
+                Text(text = "Telefono", fontSize = 18.sp, style = MyTypography.typography.body2)
 
                 pt.PhoneTextField(cpvm = cpvm)
 
-                Text(text = "Email", color = Color.White, fontSize = 18.sp)
+                Text(text = "Email", fontSize = 18.sp, style = MyTypography.typography.body2)
 
                 Spacer(modifier = Modifier.height(10.dp))
 
@@ -162,7 +163,7 @@ fun ProfileEdit(cpvm: ClassPlayViewModel, uDB: DatabaseReference, ma: MainActivi
                 contentColor = RedCol
             )
             ) {
-                Text(text = "Annulla", fontSize = 18.sp)
+                Text(text = "Annulla", fontSize = 18.sp, style = MyTypography.typography.body2, color = RedCol)
             }
 
             Button(onClick = {
@@ -181,7 +182,7 @@ fun ProfileEdit(cpvm: ClassPlayViewModel, uDB: DatabaseReference, ma: MainActivi
                 contentColor = Color.White
             )
             ) {
-                Text(text = "Salva", fontSize = 17.sp)
+                Text(text = "Salva", fontSize = 17.sp, style = MyTypography.typography.body2)
             }
         }
     }

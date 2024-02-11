@@ -17,7 +17,6 @@ import com.example.classplayprototipofinale.models.Cosplay
 import com.example.classplayprototipofinale.models.Review
 import com.example.classplayprototipofinale.ui.theme.StarCol
 import com.google.firebase.database.DatabaseReference
-import java.text.DecimalFormat
 import kotlin.math.floor
 
 class StarReview {

@@ -27,6 +27,7 @@ import androidx.navigation.NavController
 import com.example.classplayprototipofinale.ClassPlayViewModel
 import com.example.classplayprototipofinale.MainActivity
 import com.example.classplayprototipofinale.R
+import com.example.classplayprototipofinale.ui.theme.MyTypography
 
 @Composable
 fun ChatScreen(navController: NavController, cpvm: ClassPlayViewModel, ma: MainActivity) {
@@ -46,11 +47,11 @@ fun ChatScreen(navController: NavController, cpvm: ClassPlayViewModel, ma: MainA
 
             Column (modifier = Modifier.fillMaxWidth()){
                 Row (modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.Top){
-                    Text(text = "DragonMaker", color = Color.White, fontSize = 20.sp)
-                    Text(text = "18:33", color = Color.White, fontSize = 13.sp)
+                    Text(text = "DragonMaker", fontSize = 20.sp, style = MyTypography.typography.body2)
+                    Text(text = "18:33", fontSize = 14.sp, style = MyTypography.typography.body1)
                 }
                 
-                Text(text = "Ciao per realizzare la spada di Trun...", color = Color.LightGray, fontSize = 16.sp)
+                Text(text = "Ciao per realizzare la spada di Trun...", color = Color.LightGray, fontSize = 15.sp, style = MyTypography.typography.body1)
             }
         }
 
@@ -67,11 +68,11 @@ fun ChatScreen(navController: NavController, cpvm: ClassPlayViewModel, ma: MainA
 
             Column (modifier = Modifier.fillMaxWidth()){
                 Row (modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.Top){
-                    Text(text = "DragonMaker", color = Color.White, fontSize = 20.sp)
-                    Text(text = "18:33", color = Color.White, fontSize = 13.sp)
+                    Text(text = "DragonMaker", fontSize = 20.sp, style = MyTypography.typography.body2)
+                    Text(text = "18:33", fontSize = 14.sp, style = MyTypography.typography.body1)
                 }
 
-                Text(text = "Ciao per realizzare la spada di Trun...", color = Color.LightGray, fontSize = 16.sp)
+                Text(text = "Ciao per realizzare la spada di Trun...", color = Color.LightGray, fontSize = 15.sp, style = MyTypography.typography.body1)
             }
         }
 

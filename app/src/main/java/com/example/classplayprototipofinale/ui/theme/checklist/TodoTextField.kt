@@ -40,8 +40,8 @@ import com.example.classplayprototipofinale.ClassPlayViewModel
 import com.example.classplayprototipofinale.MainActivity
 import com.example.classplayprototipofinale.R
 import com.example.classplayprototipofinale.models.ToDoStep
-import com.example.classplayprototipofinale.models.TutorialStep
 import com.example.classplayprototipofinale.screens.LinkType
+import com.example.classplayprototipofinale.ui.theme.MyTypography
 import com.example.classplayprototipofinale.ui.theme.UploadCol
 
 class TodoTextField {
@@ -64,7 +64,7 @@ class TodoTextField {
                     strokeWidth = 2.dp.toPx()
                 )
             },
-            value = title ?: "", placeholder = ({ Text(text = "Inserisci il titolo del cosplay")}), textStyle = TextStyle(fontSize = 20.sp),
+            value = title ?: "", placeholder = ({ Text(text = "Inserisci il titolo della ToDo", style = MyTypography.typography.body1, fontSize = 16.sp, color = Color.LightGray)}), textStyle = MyTypography.typography.body1.copy(fontSize = 20.sp),
             singleLine = true, onValueChange = { newText ->
                 if (newText.length < 20){
                     title = newText.filter { it.isLetterOrDigit() || it == ' ' || it == '_' }
@@ -94,8 +94,8 @@ class TodoTextField {
         TextField(modifier = Modifier
             .fillMaxWidth()
             .height(140.dp),
-            value = description, placeholder = ({ Text(text = "Inserisci la descrizione del cosplay")}), singleLine = false, maxLines = 5, shape = RoundedCornerShape(10),
-            textStyle = TextStyle(fontSize = 17.sp), onValueChange = { newText ->
+            value = description, placeholder = ({ Text(text = "Inserisci la descrizione del cosplay", style = MyTypography.typography.body1, fontSize = 16.sp, color = Color.Gray)}), singleLine = false, maxLines = 5, shape = RoundedCornerShape(10),
+            textStyle = MyTypography.typography.body1.copy(fontSize = 18.sp, color = Color.Black), onValueChange = { newText ->
                 if (newText.length < 130)
                     description = newText
                 cpvm.newDescriptionForm(description)
@@ -136,7 +136,7 @@ class TodoTextField {
                         strokeWidth = 2.dp.toPx()
                     )
                 },
-                value = title?: "", placeholder = ({ Text(text = "Nome del componente")}), singleLine = true, onValueChange = { newText ->
+                value = title?: "", placeholder = ({ Text(text = "Nome del componente",  style = MyTypography.typography.body1.copy(fontSize = 16.sp, color = Color.LightGray))}), singleLine = true, textStyle = MyTypography.typography.body1.copy(fontSize = 20.sp), onValueChange = { newText ->
                     if (newText.length < 20){
                         title = newText.filter { it.isLetterOrDigit() || it == ' ' }
                         tutorial["s$i"]?.title = title
@@ -174,8 +174,8 @@ class TodoTextField {
             TextField(modifier = Modifier
                 .fillMaxWidth()
                 .height(100.dp),
-                value = description ?: "", placeholder = ({ Text(text = "Descrivi cosa vuoi fare in questo step", fontSize = 12.sp)}),
-                textStyle = TextStyle(fontSize = 12.sp), shape = RoundedCornerShape(16), onValueChange = { newText ->
+                value = description ?: "", placeholder = ({ Text(text = "Descrivi cosa vuoi fare in questo step",  style = MyTypography.typography.body1.copy(fontSize = 16.sp, color = Color.Gray))}),
+                textStyle = MyTypography.typography.body1.copy(fontSize = 16.sp, color = Color.Black), shape = RoundedCornerShape(16), onValueChange = { newText ->
                     if (newText.length < 200){
                         description = newText
                         tutorial["s$i"]?.description = description
@@ -225,13 +225,13 @@ class TodoTextField {
                             textColor = Color.Black,
                             focusedIndicatorColor = Color.Transparent,
                             unfocusedIndicatorColor = Color.Transparent
-                        ), textStyle = TextStyle(fontSize = 14.sp)
+                        ),  textStyle = MyTypography.typography.body1.copy(fontSize = 15.sp, color = Color.Black)
                     )
 
                     ExposedDropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
                         LinkType.values().forEach { type ->
                             if (type != LinkType.NONE) {
-                                DropdownMenuItem(text = { Text(text = type.txt) }, onClick = {
+                                DropdownMenuItem(text = { Text(text = type.txt,  style = MyTypography.typography.body1.copy(fontSize = 16.sp, color = Color.Black)) }, onClick = {
                                     currentTypeSelection = type.txt
                                     cpvm.setTodoLinkType(i, type.txt)
                                     expanded = false
@@ -257,7 +257,7 @@ class TodoTextField {
                     .clickable {
                         cpvm.setShowCosplayTutorialSearch(true)
                     }, verticalAlignment = Alignment.CenterVertically){
-                    appLink?.let { Text(text = it, fontSize = 14.sp) }
+                    appLink?.let { Text(text = it,  style = MyTypography.typography.body1.copy(fontSize = 16.sp, color = Color.Black), maxLines = 1) }
                 }
             }
             else if (currentTypeSelection == LinkType.LINK.txt) {
@@ -267,7 +267,7 @@ class TodoTextField {
                 appLink?.let {
                     TextField(modifier = Modifier
                         .fillMaxWidth(),
-                        value = it, placeholder = null, singleLine = true, textStyle = TextStyle(fontSize = 14.sp), shape = RoundedCornerShape(50), onValueChange = {txt ->
+                        value = it, placeholder = null, singleLine = true,  textStyle = MyTypography.typography.body1.copy(fontSize = 16.sp, color = Color.Black), shape = RoundedCornerShape(50), onValueChange = {txt ->
                             appLink = txt
                             tutorial["s$i"]?.link = appLink
                             tutorial["s$i"]?.realAppLink = appLink
@@ -298,7 +298,7 @@ class TodoTextField {
                             strokeWidth = 2.dp.toPx()
                         )
                     }, horizontalArrangement = Arrangement.SpaceBetween){
-                    Text(text = "Prova.mp4", fontSize = 13.sp, color = Color.White)
+                    Text(text = "Prova.mp4", fontSize = 15.sp,  style = MyTypography.typography.body1)
 
                     Column (modifier = Modifier
                         .size(30.dp)

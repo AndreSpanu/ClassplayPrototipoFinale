@@ -54,8 +54,8 @@ import com.example.classplayprototipofinale.screens.PlusIcon
 import com.example.classplayprototipofinale.ui.theme.BackgroundColBlur
 import com.example.classplayprototipofinale.ui.theme.BlueGradientCol
 import com.example.classplayprototipofinale.ui.theme.BottomBarCol
-import com.example.classplayprototipofinale.ui.theme.DetailsCol
 import com.example.classplayprototipofinale.ui.theme.GridCol
+import com.example.classplayprototipofinale.ui.theme.MyTypography
 import com.example.classplayprototipofinale.ui.theme.StarCol
 
 
@@ -160,7 +160,7 @@ class CosplayGrid {
                         TextField(value = search, onValueChange = {
                             search = it
                             cpvm.updateCosplaySearch(it)
-                        }, textStyle = TextStyle(fontSize = 15.sp), colors = TextFieldDefaults.textFieldColors(
+                        }, textStyle = MyTypography.typography.body1.copy(fontSize = 15.sp, color = Color.Black), colors = TextFieldDefaults.textFieldColors(
                             backgroundColor = Color.Transparent,
                             focusedIndicatorColor = Color.Transparent,
                             unfocusedIndicatorColor = Color.Transparent
@@ -221,12 +221,12 @@ class CosplayGrid {
                                         Spacer(modifier = Modifier.width(20.dp))
 
                                         Column (modifier = Modifier.height(80.dp), verticalArrangement = Arrangement.SpaceBetween){
-                                            Text(text = cosplay.cosplayName!!)
-                                            Text(text = step.value.componentName!!)
-                                            Text(text = cosplay.username!!)
+                                            Text(text = cosplay.cosplayName!!, style = MyTypography.typography.body2.copy(fontSize = 15.sp, color = Color.Black))
+                                            Text(text = step.value.componentName!!, style = MyTypography.typography.body1.copy(fontSize = 15.sp, color = Color.Black))
+                                            Text(text = cosplay.username!!, style = MyTypography.typography.body1.copy(fontSize = 15.sp, color = Color.Black))
                                         }
                                     }
-                                    Spacer(modifier = Modifier.height(10.dp))
+                                    Spacer(modifier = Modifier.padding(vertical = 5.dp).height(2.dp).fillMaxWidth().padding(horizontal = 10.dp).background(Color.Gray))
                                 }
                             }
                         }
@@ -338,7 +338,7 @@ class CosplayGrid {
                         TextField(value = search, onValueChange = {
                             search = it
                             cpvm.updateCosplaySearch(it)
-                        }, textStyle = TextStyle(fontSize = 15.sp), colors = TextFieldDefaults.textFieldColors(
+                        }, textStyle = MyTypography.typography.body1.copy(fontSize = 15.sp, color = Color.Black), colors = TextFieldDefaults.textFieldColors(
                             backgroundColor = Color.Transparent,
                             focusedIndicatorColor = Color.Transparent,
                             unfocusedIndicatorColor = Color.Transparent
@@ -396,13 +396,13 @@ class CosplayGrid {
 
                                         Spacer(modifier = Modifier.width(20.dp))
 
-                                        Column (modifier = Modifier.height(80.dp), verticalArrangement = Arrangement.SpaceBetween){
-                                            Text(text = cosplay.cosplayName!!)
-                                            Text(text = step.value.componentName!!)
-                                            Text(text = cosplay.username!!)
+                                        Column (modifier = Modifier.height(80.dp).padding(vertical = 3.dp), verticalArrangement = Arrangement.SpaceBetween){
+                                            Text(text = cosplay.cosplayName!!, style = MyTypography.typography.body2.copy(fontSize = 15.sp, color = Color.Black))
+                                            Text(text = step.value.componentName!!, style = MyTypography.typography.body1.copy(fontSize = 15.sp, color = Color.Black))
+                                            Text(text = cosplay.username!!, style = MyTypography.typography.body1.copy(fontSize = 15.sp, color = Color.Black))
                                         }
                                     }
-                                    Spacer(modifier = Modifier.height(10.dp))
+                                    Spacer(modifier = Modifier.padding(vertical = 5.dp).height(2.dp).fillMaxWidth().padding(horizontal = 10.dp).background(Color.Gray))
                                 }
                             }
                         }

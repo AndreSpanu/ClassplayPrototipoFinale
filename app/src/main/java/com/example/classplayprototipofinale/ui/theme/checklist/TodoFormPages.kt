@@ -22,7 +22,6 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -43,9 +42,9 @@ import coil.compose.rememberImagePainter
 import com.example.classplayprototipofinale.ClassPlayViewModel
 import com.example.classplayprototipofinale.MainActivity
 import com.example.classplayprototipofinale.R
-import com.example.classplayprototipofinale.screens.AppIcons
 import com.example.classplayprototipofinale.screens.LinkType
 import com.example.classplayprototipofinale.screens.PlusIcon
+import com.example.classplayprototipofinale.ui.theme.MyTypography
 import com.example.classplayprototipofinale.ui.theme.RedCol
 import com.example.classplayprototipofinale.ui.theme.StarCol
 import com.example.classplayprototipofinale.ui.theme.TagCol
@@ -54,7 +53,6 @@ import com.google.firebase.storage.StorageReference
 class TodoFormPages {
 
     @SuppressLint("MutableCollectionMutableState")
-    @OptIn(ExperimentalCoilApi::class)
     @Composable
     fun Pagina1(cpvm: ClassPlayViewModel, ma: MainActivity, cosplaysImgsSRef: StorageReference) {
 
@@ -73,11 +71,11 @@ class TodoFormPages {
                 .fillMaxSize()
                 .padding(horizontal = 15.dp, vertical = 3.dp)
                 .padding(top = 12.dp), verticalArrangement = Arrangement.SpaceBetween){
-                Text(text = "Foto", color = Color.White, fontSize = 35.sp)
+                Text(text = "Foto", style = MyTypography.typography.body1, fontSize = 35.sp)
 
                 Row (modifier = Modifier
                     .fillMaxWidth(), horizontalArrangement = Arrangement.Center){
-                    Text(text = "Inserisci una foto per il tuo ToDo", fontSize = 15.sp, textAlign = TextAlign.Center, minLines = 2, color = Color.White)
+                    Text(text = "Inserisci una foto per il tuo ToDo", fontSize = 15.sp, textAlign = TextAlign.Center, minLines = 2, style = MyTypography.typography.body1)
                 }
             }
         }
@@ -146,11 +144,11 @@ class TodoFormPages {
                 .fillMaxSize()
                 .padding(horizontal = 15.dp, vertical = 3.dp)
                 .padding(top = 12.dp), verticalArrangement = Arrangement.SpaceBetween){
-                Text(text = "Titolo", color = Color.White, fontSize = 35.sp)
+                Text(text = "Titolo", style = MyTypography.typography.body1, fontSize = 35.sp)
 
                 Row (modifier = Modifier
                     .fillMaxWidth(), horizontalArrangement = Arrangement.Center){
-                    Text(text = "Dai un titolo e una descrizione\nalla tua ToDo", fontSize = 15.sp, textAlign = TextAlign.Center, minLines = 2, color = Color.White)
+                    Text(text = "Dai un titolo e una descrizione\nalla tua ToDo", fontSize = 15.sp, textAlign = TextAlign.Center, minLines = 2, style = MyTypography.typography.body1)
                 }
             }
         }
@@ -167,8 +165,8 @@ class TodoFormPages {
         Row (modifier = Modifier
             .fillMaxWidth()
             .padding(start = 20.dp)){
-            Text(text = "Titolo ", fontSize = 22.sp, color = Color.White)
-            Text(text = "*", fontSize = 22.sp, color = StarCol)
+            Text(text = "Titolo ", fontSize = 22.sp, style = MyTypography.typography.body2)
+            Text(text = "*", fontSize = 22.sp, color = StarCol, style = MyTypography.typography.body2)
         }
 
         Row (modifier = Modifier
@@ -182,8 +180,8 @@ class TodoFormPages {
         Row (modifier = Modifier
             .fillMaxWidth()
             .padding(start = 20.dp)){
-            Text(text = "Descrizione ", fontSize = 22.sp, color = Color.White)
-            Text(text = "*", fontSize = 22.sp, color = StarCol)
+            Text(text = "Descrizione ", fontSize = 22.sp, style = MyTypography.typography.body2)
+            Text(text = "*", fontSize = 22.sp, color = StarCol, style = MyTypography.typography.body2)
         }
 
         Row (modifier = Modifier
@@ -227,11 +225,11 @@ class TodoFormPages {
                 .fillMaxSize()
                 .padding(horizontal = 15.dp, vertical = 3.dp)
                 .padding(top = 12.dp), verticalArrangement = Arrangement.SpaceBetween){
-                Text(text = "Tutorial", color = Color.White, fontSize = 35.sp)
+                Text(text = "Tutorial", style = MyTypography.typography.body1, fontSize = 35.sp)
 
                 Row (modifier = Modifier
                     .fillMaxWidth(), horizontalArrangement = Arrangement.Center){
-                    Text(text = "Inserisci i tutorial che ti servono per\ncompletare il tuo cosplay", fontSize = 15.sp, textAlign = TextAlign.Center, minLines = 2, color = Color.White)
+                    Text(text = "Inserisci i tutorial che ti servono per\ncompletare il tuo cosplay", fontSize = 15.sp, textAlign = TextAlign.Center, minLines = 2, style = MyTypography.typography.body1)
                 }
             }
         }
@@ -255,7 +253,7 @@ class TodoFormPages {
 
                 Spacer(modifier = Modifier.width(20.dp))
 
-                Text(text = "Inserisci icona", fontSize = 18.sp, color = Color.LightGray)
+                Text(text = "Inserisci icona", fontSize = 18.sp, color = Color.LightGray, style = MyTypography.typography.body1)
             }
 
             Spacer(modifier = Modifier.height(10.dp))
@@ -263,7 +261,7 @@ class TodoFormPages {
             Row (modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp)){
-                Text(text = "Componente", fontSize = 18.sp, color = Color.White)
+                Text(text = "Componente", fontSize = 18.sp, style = MyTypography.typography.body2)
             }
 
             ttf.StepTitleTextField(cpvm = cpvm, i = i-3, ma)
@@ -273,7 +271,7 @@ class TodoFormPages {
             Row (modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp)){
-                Text(text = "Tutorial", fontSize = 18.sp, color = Color.White)
+                Text(text = "Tutorial", fontSize = 18.sp, style = MyTypography.typography.body2)
             }
 
             Spacer(modifier = Modifier.height(7.dp))
@@ -287,7 +285,7 @@ class TodoFormPages {
             Row (modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp)){
-                Text(text = "Descrizione", modifier = Modifier.width(180.dp), fontSize = 18.sp, color = Color.White)
+                Text(text = "Descrizione", modifier = Modifier.width(180.dp), fontSize = 18.sp, style = MyTypography.typography.body2)
             }
 
             Spacer(modifier = Modifier.height(7.dp))

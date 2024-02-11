@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.classplayprototipofinale.ClassPlayViewModel
 import com.example.classplayprototipofinale.R
+import com.example.classplayprototipofinale.ui.theme.MyTypography
 import com.example.classplayprototipofinale.ui.theme.StarCol
 
 class FormTutorial {
@@ -56,7 +57,7 @@ class FormTutorial {
                     }
 
                 })
-                Text(text = anni.toString(), color = Color.White, fontSize = 18.sp)
+                Text(text = anni.toString(), style = MyTypography.typography.body1, fontSize = 18.sp)
                 Icon(painter = painterResource(id = R.drawable.plus_image), contentDescription = "Aggiungi", tint = Color.White, modifier = Modifier.clickable {
                     anni++
                     cpvm.updateTimeForm("anni", anni.toString())
@@ -64,7 +65,7 @@ class FormTutorial {
             }
 
             Row (modifier = Modifier.width(90.dp).background(StarCol, RoundedCornerShape(50)).padding(5.dp), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically){
-                Text(text = "Anni", fontSize = 18.sp, color = Color.White)
+                Text(text = "Anni", fontSize = 18.sp, style = MyTypography.typography.body1)
             }
         }
         
@@ -84,7 +85,7 @@ class FormTutorial {
                         cpvm.updateTimeForm("mesi", mesi.toString())
                     }
                 })
-                Text(text = mesi.toString(), color = Color.White, fontSize = 18.sp)
+                Text(text = mesi.toString(), style = MyTypography.typography.body1, fontSize = 18.sp)
                 Icon(painter = painterResource(id = R.drawable.plus_image), contentDescription = "Aggiungi", tint = Color.White, modifier = Modifier.clickable {
                     if (mesi < 11) {
                         mesi++
@@ -94,7 +95,7 @@ class FormTutorial {
             }
 
             Row (modifier = Modifier.width(90.dp).background(StarCol, RoundedCornerShape(50)).padding(5.dp), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically){
-                Text(text = "Mesi", fontSize = 18.sp, color = Color.White)
+                Text(text = "Mesi", fontSize = 18.sp, style = MyTypography.typography.body1)
             }
         }
 
@@ -114,7 +115,7 @@ class FormTutorial {
                         cpvm.updateTimeForm("settimane", settimane.toString())
                     }
                 })
-                Text(text = settimane.toString(), color = Color.White, fontSize = 18.sp)
+                Text(text = settimane.toString(), style = MyTypography.typography.body1, fontSize = 18.sp)
                 Icon(painter = painterResource(id = R.drawable.plus_image), contentDescription = "Aggiungi", tint = Color.White, modifier = Modifier.clickable {
                     if (settimane < 3) {
                         settimane++
@@ -124,7 +125,7 @@ class FormTutorial {
             }
 
             Row (modifier = Modifier.width(90.dp).background(StarCol, RoundedCornerShape(50)).padding(5.dp), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically){
-                Text(text = "Sett", fontSize = 18.sp, color = Color.White)
+                Text(text = "Sett", fontSize = 18.sp, style = MyTypography.typography.body1)
             }
         }
 
@@ -144,7 +145,7 @@ class FormTutorial {
                         cpvm.updateTimeForm("giorni", giorni.toString())
                     }
                 })
-                Text(text = giorni.toString(), color = Color.White, fontSize = 18.sp)
+                Text(text = giorni.toString(), style = MyTypography.typography.body1, fontSize = 18.sp)
                 Icon(painter = painterResource(id = R.drawable.plus_image), contentDescription = "Aggiungi", tint = Color.White, modifier = Modifier.clickable {
                     if (giorni < 6) {
                         giorni++
@@ -154,7 +155,7 @@ class FormTutorial {
             }
 
             Row (modifier = Modifier.width(90.dp).background(StarCol, RoundedCornerShape(50)).padding(5.dp), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically){
-                Text(text = "Giorni", fontSize = 18.sp, color = Color.White)
+                Text(text = "Giorni", fontSize = 18.sp, style = MyTypography.typography.body1)
             }
         }
 
@@ -174,7 +175,7 @@ class FormTutorial {
                         cpvm.updateTimeForm("ore", ore.toString())
                     }
                 })
-                Text(text = ore.toString(), color = Color.White, fontSize = 18.sp)
+                Text(text = ore.toString(), style = MyTypography.typography.body1, fontSize = 18.sp)
                 Icon(painter = painterResource(id = R.drawable.plus_image), contentDescription = "Aggiungi", tint = Color.White, modifier = Modifier.clickable {
                     if (ore < 23) {
                         ore++
@@ -184,7 +185,7 @@ class FormTutorial {
             }
 
             Row (modifier = Modifier.width(90.dp).background(StarCol, RoundedCornerShape(50)).padding(5.dp), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically){
-                Text(text = "Ore", fontSize = 18.sp, color = Color.White)
+                Text(text = "Ore", fontSize = 18.sp, style = MyTypography.typography.body1)
             }
         }
     }
@@ -199,7 +200,7 @@ class FormTutorial {
         TextField(modifier = Modifier
             .height(200.dp)
             .fillMaxWidth(),
-            value = materialDescription, placeholder = ({ androidx.compose.material3.Text(text = "Descrivi i materiali utilizzati") }), singleLine = false, maxLines = 5, shape = RoundedCornerShape(10), textStyle = TextStyle(fontSize = 17.sp), onValueChange = {
+            value = materialDescription, placeholder = ({ androidx.compose.material3.Text(text = "Descrivi i materiali utilizzati", style = MyTypography.typography.body1, fontSize = 16.sp, color = Color.Gray) }), singleLine = false, maxLines = 5, shape = RoundedCornerShape(10), textStyle = MyTypography.typography.body1.copy(fontSize = 18.sp, color = Color.Black), onValueChange = {
                 if (it.length < 130)
                     materialDescription = it
                 cpvm.newMaterialDescriptionCosplayForm(materialDescription)

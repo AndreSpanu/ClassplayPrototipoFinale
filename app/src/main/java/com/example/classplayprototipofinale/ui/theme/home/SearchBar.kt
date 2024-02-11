@@ -35,12 +35,14 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
+import androidx.compose.ui.unit.sp
 import com.example.classplayprototipofinale.ClassPlayViewModel
 import com.example.classplayprototipofinale.MainActivity
 import com.example.classplayprototipofinale.R
 import com.example.classplayprototipofinale.models.Users
 import com.example.classplayprototipofinale.ui.theme.BackgroundCol
 import com.example.classplayprototipofinale.ui.theme.DetailsCol
+import com.example.classplayprototipofinale.ui.theme.MyTypography
 import com.google.firebase.database.DatabaseReference
 
 
@@ -71,7 +73,7 @@ class SearchBar {
                     keyboardController?.hide()
                 }
             },
-            value = value, shape = RoundedCornerShape(50), placeholder = ({ Text(text = "Cerca")}), singleLine = true, trailingIcon = {
+            value = value, textStyle = MyTypography.typography.body1.copy(color = Color.Black, fontSize = 18.sp), shape = RoundedCornerShape(50), placeholder = ({ Text(text = "Cerca", style = MyTypography.typography.body1, color = Color.Gray, fontSize = 16.sp)}), singleLine = true, trailingIcon = {
                 Icon(painter = painterResource(id = R.drawable.lente_viola), contentDescription = "", modifier = Modifier
                     .size(30.dp), tint = DetailsCol)
             }, onValueChange = { newText ->
@@ -119,7 +121,7 @@ class SearchBar {
                             }, verticalAlignment = Alignment.CenterVertically){
                             Icon(imageVector = Icons.Default.AccessTime, contentDescription = "Search", tint = DetailsCol, modifier = Modifier.size(25.dp))
                             Spacer(modifier = Modifier.width(20.dp))
-                            Text(text = tag, fontSize = 5.em, color = Color.White)
+                            Text(text = tag, fontSize = 5.em, style = MyTypography.typography.body1)
                         }
                     }
                 }
@@ -164,7 +166,7 @@ class SearchBar {
                         }, verticalAlignment = Alignment.CenterVertically){
                         Icon(painter = painterResource(id = R.drawable.lente_viola), contentDescription = "Search", tint = DetailsCol, modifier = Modifier.size(25.dp))
                         Spacer(modifier = Modifier.width(20.dp))
-                        Text(text = tag, fontSize = 5.em, color = Color.White)
+                        Text(text = tag, fontSize = 5.em, style = MyTypography.typography.body1)
                     }
                 }
             }

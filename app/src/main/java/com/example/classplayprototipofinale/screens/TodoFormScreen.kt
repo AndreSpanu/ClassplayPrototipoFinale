@@ -53,6 +53,7 @@ import com.example.classplayprototipofinale.WarningType
 import com.example.classplayprototipofinale.navigation.Screen
 import com.example.classplayprototipofinale.ui.theme.BlueGradientCol
 import com.example.classplayprototipofinale.ui.theme.BottomBarCol
+import com.example.classplayprototipofinale.ui.theme.MyTypography
 import com.example.classplayprototipofinale.ui.theme.RedCol
 import com.example.classplayprototipofinale.ui.theme.StarCol
 import com.example.classplayprototipofinale.ui.theme.TagCol
@@ -89,8 +90,6 @@ fun TodoFormScreen(navController: NavController, cpvm: ClassPlayViewModel, ma: M
     cpvm.totalSteps.observe(ma) { totalSteps = it }
     cpvm.showIconGrid.observe(ma) { showIconGrid = it }
     cpvm.showCosplayTutorialSearch.observe(ma) { searchCosplayTutorial = it }
-
-    val tutorialIcons = listOf(R.drawable.none, R.drawable.hat, R.drawable.wig, R.drawable.tshirt, R.drawable.gloves, R.drawable.shoes, R.drawable.trousers,  R.drawable.sword)
 
     val animatedScrollValue = remember { Animatable((currentStep -1) * stepDistance) }
     var isAnimating by remember { mutableStateOf(false) }
@@ -189,7 +188,7 @@ fun TodoFormScreen(navController: NavController, cpvm: ClassPlayViewModel, ma: M
                 contentColor = RedCol
             )
             ) {
-                Text(text = "Annulla", fontSize = 18.sp)
+                Text(text = "Annulla", fontSize = 18.sp, style = MyTypography.typography.body2, color = RedCol)
             }
 
             Button(onClick = {
@@ -216,7 +215,7 @@ fun TodoFormScreen(navController: NavController, cpvm: ClassPlayViewModel, ma: M
                 contentColor = Color.White
             )
             ) {
-                Text(text = "Salva", fontSize = 17.sp)
+                Text(text = "Salva", fontSize = 17.sp, style = MyTypography.typography.body2)
             }
         }
 
@@ -283,7 +282,7 @@ fun TodoFormScreen(navController: NavController, cpvm: ClassPlayViewModel, ma: M
                             changeStepGrid = true
                         }
                         .background(BlueGradientCol, RoundedCornerShape(35)), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center){
-                        Text(text = (currentStep - 2).toString(), fontSize = 30.sp, color = Color.White)
+                        Text(text = (currentStep - 2).toString(), fontSize = 30.sp, style = MyTypography.typography.body2)
                     }
 
                     if (currentStep == totalSteps) {
@@ -318,7 +317,7 @@ fun TodoFormScreen(navController: NavController, cpvm: ClassPlayViewModel, ma: M
                         Column (modifier = Modifier
                             .size(45.dp)
                             .background(BlueGradientCol, RoundedCornerShape(35)), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center){
-                            Text(text = (currentStep - 2).toString(), fontSize = 30.sp, color = Color.White)
+                            Text(text = (currentStep - 2).toString(), fontSize = 30.sp, style = MyTypography.typography.body2)
                         }
 
                         for (i in 3..totalSteps) {
@@ -337,7 +336,7 @@ fun TodoFormScreen(navController: NavController, cpvm: ClassPlayViewModel, ma: M
                                         }
                                     }
                                     .background(BottomBarCol, RoundedCornerShape(35)), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center){
-                                    Text(text = (i - 2).toString(), fontSize = 30.sp, color = Color.White)
+                                    Text(text = (i - 2).toString(), fontSize = 30.sp, style = MyTypography.typography.body2)
                                 }
                             }
                         }

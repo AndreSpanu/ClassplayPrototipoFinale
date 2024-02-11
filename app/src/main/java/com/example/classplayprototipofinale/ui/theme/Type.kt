@@ -12,12 +12,14 @@ import androidx.compose.ui.unit.sp
 import com.example.classplayprototipofinale.R
 
 object MyTypography {
-    private val rubikOneFontFamily = FontFamily(
-        Font(R.font.rubik_one_regular, FontWeight(700))
+    private val cpFontFamily = FontFamily(
+        //Font(R.font.rubik_one_regular, FontWeight(700)),
+        Font(R.font.montserrat_regular, FontWeight(300)),
+        Font(R.font.montserrat_bold, FontWeight(500))
     )
 
     val typography = androidx.compose.material.Typography(
-        h2 = TextStyle(
+        /*h2 = TextStyle(
             fontFamily = rubikOneFontFamily,
             fontWeight = FontWeight(700),
             fontSize = 26.sp,
@@ -33,7 +35,19 @@ object MyTypography {
             fontWeight = FontWeight(700),
             fontSize = 26.sp,
             color = Color.White
-        )
+        ),*/
+        body1 = TextStyle(
+            fontFamily = cpFontFamily,
+            fontWeight = FontWeight(300),
+            fontSize = 26.sp,
+            color = Color.White
+        ),
+        body2 = TextStyle(
+            fontFamily = cpFontFamily,
+            fontWeight = FontWeight(500),
+            fontSize = 26.sp,
+            color = Color.White
+        ),
     )
 }
 

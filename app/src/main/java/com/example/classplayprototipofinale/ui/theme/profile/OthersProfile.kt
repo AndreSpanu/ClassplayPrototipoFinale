@@ -2,7 +2,6 @@ package com.example.classplayprototipofinale.ui.theme.profile
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,11 +17,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -40,31 +36,17 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.example.classplayprototipofinale.ClassPlayViewModel
 import com.example.classplayprototipofinale.MainActivity
-import com.example.classplayprototipofinale.PopupType
-import com.example.classplayprototipofinale.R
-import com.example.classplayprototipofinale.WarningType
-import com.example.classplayprototipofinale.models.Cosplay
 import com.example.classplayprototipofinale.models.Users
-import com.example.classplayprototipofinale.navigation.Screen
 import com.example.classplayprototipofinale.ui.theme.BackgroundColBlur
 import com.example.classplayprototipofinale.ui.theme.BlueGradientCol
 import com.example.classplayprototipofinale.ui.theme.BottomBarCol
-import com.example.classplayprototipofinale.ui.theme.BubbleCol
-import com.example.classplayprototipofinale.ui.theme.DetailsCol
-import com.example.classplayprototipofinale.ui.theme.RedCol
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
+import com.example.classplayprototipofinale.ui.theme.MyTypography
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ValueEventListener
 
 class OthersProfile {
 
@@ -94,18 +76,21 @@ class OthersProfile {
                     .fillMaxSize()
                     .padding(top = 40.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
 
-                Column (modifier = Modifier
-                    .size(350.dp, 580.dp)
-                    .background(
-                        brush = Brush.verticalGradient(
-                            colors = listOf(
-                                BlueGradientCol,
-                                BottomBarCol
-                            ),
-                            startY = 0f,
-                            endY = Float.POSITIVE_INFINITY
-                        ), RoundedCornerShape(6)
-                    )){
+                Box(modifier = Modifier
+                    .size(350.dp, 580.dp)) {
+
+                    Column (modifier = Modifier
+                        .size(350.dp, 580.dp)
+                        .background(
+                            brush = Brush.verticalGradient(
+                                colors = listOf(
+                                    BlueGradientCol,
+                                    BottomBarCol
+                                ),
+                                startY = 0f,
+                                endY = Float.POSITIVE_INFINITY
+                            ), RoundedCornerShape(6)
+                        )){
                         Row (Modifier.padding(start = 20.dp, top = 15.dp)){
                             Image(painter = painter, contentDescription = "Profile icon", modifier = Modifier
                                 .size(120.dp)
@@ -119,10 +104,10 @@ class OthersProfile {
 
                             Spacer(modifier = Modifier.width(15.dp))
 
-                            Column {
-                                user.username?.let { Text(text = it, fontSize = 25.sp, color = Color.White) }
+                            Column (Modifier.padding(top = 10.dp)){
+                                user.username?.let { Text(text = it, fontSize = 25.sp, style = MyTypography.typography.body1) }
                                 Spacer(modifier = Modifier.height(20.dp))
-                                user.bio?.let { Text(text = it, color = Color.White) }
+                                user.bio?.let { Text(text = it, style = MyTypography.typography.body1, fontSize = 15.sp) }
                             }
                         }
 
@@ -131,15 +116,15 @@ class OthersProfile {
                         Row (modifier = Modifier.padding(horizontal = 25.dp), verticalAlignment = Alignment.CenterVertically){
                             Icon(imageVector = Icons.Default.Call, contentDescription = "Numero di telefono", tint = Color.White)
                             Spacer(modifier = Modifier.width(15.dp))
-                            user.phoneNumber?.let { Text(text = it, color = Color.White, fontSize = 20.sp) }
+                            user.phoneNumber?.let { Text(text = it, style = MyTypography.typography.body1, fontSize = 20.sp) }
                         }
 
                         Spacer(modifier = Modifier.height(15.dp))
 
                         Row (modifier = Modifier.padding(horizontal = 25.dp), verticalAlignment = Alignment.CenterVertically){
-                            Icon(imageVector = Icons.Default.Mail, contentDescription = "Numero di telefono", tint = Color.White)
+                            Icon(imageVector = Icons.Default.Mail, contentDescription = "Email", tint = Color.White)
                             Spacer(modifier = Modifier.width(15.dp))
-                            user.emailAddress?.let { Text(text = it, color = Color.White, fontSize = 20.sp) }
+                            user.emailAddress?.let { Text(text = it, style = MyTypography.typography.body1, fontSize = 20.sp) }
                         }
 
                         Spacer(modifier = Modifier
@@ -158,6 +143,23 @@ class OthersProfile {
                             }
                         }
                     }
+
+                    Row (
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 10.dp, vertical = 10.dp), horizontalArrangement = Arrangement.End, verticalAlignment = Alignment.CenterVertically) {
+                        Box(modifier = Modifier
+                            .size(30.dp)
+                            .background(Color.White, RoundedCornerShape(50))) {
+                            Icon(imageVector = Icons.Default.Close, contentDescription = "Close the card", modifier = Modifier
+                                .clickable {
+                                    cpvm.setOtherProfile(null)
+                                }
+                                .fillMaxSize(), tint = BottomBarCol)
+                        }
+                    }
+                }
+
             }
 
             if (profileZoom) {

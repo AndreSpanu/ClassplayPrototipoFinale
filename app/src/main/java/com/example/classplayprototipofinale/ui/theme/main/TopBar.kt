@@ -44,6 +44,7 @@ import com.example.classplayprototipofinale.R
 import com.example.classplayprototipofinale.models.Users
 import com.example.classplayprototipofinale.ui.theme.BottomBarCol
 import com.example.classplayprototipofinale.ui.theme.GridCol
+import com.example.classplayprototipofinale.ui.theme.MyTypography
 import com.example.classplayprototipofinale.ui.theme.TodoBackgroundCol
 
 enum class switcher(val bg: List<Color>, var tc: List<Color>, var w: List<Float>) {
@@ -130,7 +131,7 @@ class TopBar {
                             cpvm.setDone(true)
                         }
                         .background(col.bg[0], CircleShape), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-                        Text(text = "done", fontSize = 14.sp, color = col.tc[0])
+                        Text(text = "done", fontSize = 14.sp, color = col.tc[0], style = MyTypography.typography.body1)
                     }
                     Column(modifier = Modifier
                         .fillMaxHeight()
@@ -139,7 +140,7 @@ class TopBar {
                             cpvm.setDone(false)
                         }
                         .background(col.bg[1], CircleShape), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-                        Text(text = "todo", fontSize = 14.sp, color = col.tc[1])
+                        Text(text = "todo", fontSize = 14.sp, color = col.tc[1], style = MyTypography.typography.body1)
                     }
                 }
             }

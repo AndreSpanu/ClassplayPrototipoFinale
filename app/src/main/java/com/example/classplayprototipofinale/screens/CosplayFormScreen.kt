@@ -54,6 +54,7 @@ import com.example.classplayprototipofinale.WarningType
 import com.example.classplayprototipofinale.navigation.Screen
 import com.example.classplayprototipofinale.ui.theme.BlueGradientCol
 import com.example.classplayprototipofinale.ui.theme.BottomBarCol
+import com.example.classplayprototipofinale.ui.theme.MyTypography
 import com.example.classplayprototipofinale.ui.theme.RedCol
 import com.example.classplayprototipofinale.ui.theme.StarCol
 import com.example.classplayprototipofinale.ui.theme.TagCol
@@ -201,7 +202,7 @@ fun CosplayFormScreen(navController: NavController, cpvm: ClassPlayViewModel, ma
                 backgroundColor = Color.Transparent,
                 contentColor = RedCol
             )) {
-                Text(text = "Annulla", fontSize = 18.sp)
+                Text(text = "Annulla", fontSize = 18.sp, style = MyTypography.typography.body2, color = RedCol)
             }
 
             Button(onClick = {
@@ -227,7 +228,7 @@ fun CosplayFormScreen(navController: NavController, cpvm: ClassPlayViewModel, ma
                 backgroundColor = BlueGradientCol,
                 contentColor = Color.White
             )) {
-                Text(text = "Aggiungi", fontSize = 17.sp)
+                Text(text = "Aggiungi", fontSize = 17.sp, style = MyTypography.typography.body2)
             }
         }
 
@@ -296,7 +297,7 @@ fun CosplayFormScreen(navController: NavController, cpvm: ClassPlayViewModel, ma
                             changeStepGrid = true
                         }
                         .background(BlueGradientCol, RoundedCornerShape(35)), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center){
-                        Text(text = (currentStep - 7).toString(), fontSize = 30.sp, color = Color.White)
+                        Text(text = (currentStep - 7).toString(), fontSize = 30.sp, style = MyTypography.typography.body2)
                     }
 
                     if (currentStep == totalSteps) {
@@ -331,7 +332,7 @@ fun CosplayFormScreen(navController: NavController, cpvm: ClassPlayViewModel, ma
                         Column (modifier = Modifier
                             .size(45.dp)
                             .background(BlueGradientCol, RoundedCornerShape(35)), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center){
-                            Text(text = (currentStep - 7).toString(), fontSize = 30.sp, color = Color.White)
+                            Text(text = (currentStep - 7).toString(), fontSize = 30.sp, style = MyTypography.typography.body2)
                         }
 
                         for (i in 8..totalSteps) {
@@ -350,7 +351,7 @@ fun CosplayFormScreen(navController: NavController, cpvm: ClassPlayViewModel, ma
                                         }
                                     }
                                     .background(BottomBarCol, RoundedCornerShape(35)), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center){
-                                    Text(text = (i - 7).toString(), fontSize = 30.sp, color = Color.White)
+                                    Text(text = (i - 7).toString(), fontSize = 30.sp, style = MyTypography.typography.body2)
                                 }
                             }
                         }

@@ -59,6 +59,7 @@ import com.example.classplayprototipofinale.ui.theme.StarCol
 import kotlin.math.roundToInt
 import com.example.classplayprototipofinale.R
 import com.example.classplayprototipofinale.ui.theme.GridCol
+import com.example.classplayprototipofinale.ui.theme.MyTypography
 import com.example.classplayprototipofinale.ui.theme.RedCol
 import com.example.classplayprototipofinale.ui.theme.form.FormTutorial
 import kotlinx.coroutines.delay
@@ -154,19 +155,19 @@ class PopupMenu {
                     Column (modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 40.dp)){
-                        Text(text = "Segnala", color = Color.White, fontSize = 20.sp)
+                        Text(text = "Segnala", style = MyTypography.typography.body1, fontSize = 20.sp)
                         Spacer(modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 12.dp)
                             .height(1.dp)
                             .background(Color.White))
-                        Text(text = "Condividi", color = Color.White, fontSize = 20.sp)
+                        Text(text = "Condividi", style = MyTypography.typography.body1, fontSize = 20.sp)
                         Spacer(modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 12.dp)
                             .height(1.dp)
                             .background(Color.White))
-                        Text(text = "Blocca Utente", color = Color.White, fontSize = 20.sp)
+                        Text(text = "Blocca Utente", style = MyTypography.typography.body1, fontSize = 20.sp)
                         Spacer(modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 12.dp)
@@ -276,7 +277,7 @@ class PopupMenu {
                         .fillMaxWidth()
                         .padding(horizontal = 40.dp)){
 
-                        Text(text = "Notifiche", fontSize = 20.sp, color = Color.White)
+                        Text(text = "Notifiche", fontSize = 20.sp, style = MyTypography.typography.body1)
 
                         Spacer(modifier = Modifier
                             .fillMaxWidth()
@@ -284,7 +285,7 @@ class PopupMenu {
                             .height(1.dp)
                             .background(Color.White))
 
-                        Text(text = "Tempo di Utilizzo", fontSize = 20.sp, color = Color.White)
+                        Text(text = "Tempo di Utilizzo", fontSize = 20.sp, style = MyTypography.typography.body1)
 
                         Spacer(modifier = Modifier
                             .fillMaxWidth()
@@ -292,7 +293,7 @@ class PopupMenu {
                             .height(1.dp)
                             .background(Color.White))
 
-                        Text(text = "Lingua", fontSize = 20.sp, color = Color.White)
+                        Text(text = "Lingua", fontSize = 20.sp, style = MyTypography.typography.body1)
 
                         Spacer(modifier = Modifier
                             .fillMaxWidth()
@@ -300,7 +301,7 @@ class PopupMenu {
                             .height(1.dp)
                             .background(Color.White))
 
-                        Text(text = "Aiuto", fontSize = 20.sp, color = Color.White)
+                        Text(text = "Aiuto", fontSize = 20.sp, style = MyTypography.typography.body1)
 
                         Spacer(modifier = Modifier
                             .fillMaxWidth()
@@ -308,7 +309,7 @@ class PopupMenu {
                             .height(1.dp)
                             .background(Color.White))
 
-                        Text(text = "Contatti", fontSize = 20.sp, color = Color.White)
+                        Text(text = "Contatti", fontSize = 20.sp, style = MyTypography.typography.body1)
 
                         Spacer(modifier = Modifier
                             .fillMaxWidth()
@@ -316,7 +317,7 @@ class PopupMenu {
                             .height(1.dp)
                             .background(Color.White))
 
-                        Text(text = "Aggiungi Account", fontSize = 20.sp, color = Color.White)
+                        Text(text = "Aggiungi Account", fontSize = 20.sp, style = MyTypography.typography.body1)
 
                         Spacer(modifier = Modifier
                             .fillMaxWidth()
@@ -332,7 +333,7 @@ class PopupMenu {
                             .height(1.dp)
                             .background(Color.White))
 
-                        Text(text = "Elimina Profilo", fontSize = 20.sp, color = RedCol)
+                        Text(text = "Elimina Profilo", fontSize = 20.sp, color = RedCol, style = MyTypography.typography.body1)
 
                         Spacer(modifier = Modifier
                             .fillMaxWidth()
@@ -449,7 +450,7 @@ class PopupMenu {
                         .padding(horizontal = 40.dp)){
 
                         /** Filter Valutazione **/
-                        Text(text = "Valutazione", fontSize = 20.sp, color = Color.White)
+                        Text(text = "Valutazione", fontSize = 20.sp, style = MyTypography.typography.body2)
                         Spacer(modifier = Modifier.height(10.dp))
                         Row (Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically){
                             MinMaxDropDown(cpvm = cpvm, ma)
@@ -459,7 +460,7 @@ class PopupMenu {
                             .fillMaxWidth()
                             .padding(end = 40.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically){
                             Row (verticalAlignment = Alignment.CenterVertically){
-                                Text(text = "Cresc.", fontSize = 20.sp, color = Color.White)
+                                Text(text = "Cresc.", fontSize = 20.sp, style = MyTypography.typography.body2)
                                 RadioButton(selected = filter.first, onClick = {
                                     if (!filter.first) {
                                         cpvm.setFilter(true)
@@ -471,7 +472,7 @@ class PopupMenu {
                             }
 
                             Row (verticalAlignment = Alignment.CenterVertically){
-                                Text(text = "Decresc.", fontSize = 20.sp, color = Color.White)
+                                Text(text = "Decresc.", fontSize = 20.sp, style = MyTypography.typography.body2)
                                 RadioButton(selected = !filter.first, onClick = {
                                     if (filter.first) {
                                         cpvm.setFilter(false)
@@ -489,7 +490,7 @@ class PopupMenu {
                             .height(1.dp)
                             .background(Color.White))
 
-                        Text(text = "Tempo di realizzazione max", fontSize = 20.sp, color = Color.White)
+                        Text(text = "Tempo di realizzazione max", fontSize = 20.sp, style = MyTypography.typography.body2)
                         Spacer(modifier = Modifier.height(10.dp))
 
                         ft.TimeForm(cpvm = cpvm)
@@ -529,12 +530,12 @@ class PopupMenu {
                     modifier = Modifier.menuAnchor(), shape = RoundedCornerShape(20), colors = TextFieldDefaults.textFieldColors(
                         backgroundColor = StarCol,
                         textColor = Color.White
-                    ), textStyle = TextStyle(fontSize = 20.sp)
+                    ), textStyle = MyTypography.typography.body1
                 )
 
                 ExposedDropdownMenu(expanded = minExpanded, onDismissRequest = { minExpanded = false }) {
                     for (i in 0..5) {
-                        DropdownMenuItem(text = { Text(text = i.toString()) }, onClick = {
+                        DropdownMenuItem(text = { Text(text = i.toString(), style = MyTypography.typography.body1, color = Color.Black) }, onClick = {
                             cpvm.setFilter(min = i)
                             minExpanded = false
                         })
@@ -556,12 +557,12 @@ class PopupMenu {
                     modifier = Modifier.menuAnchor(), shape = RoundedCornerShape(20), colors = TextFieldDefaults.textFieldColors(
                         backgroundColor = StarCol,
                         textColor = Color.White
-                    ), textStyle = TextStyle(fontSize = 20.sp)
+                    ), textStyle = MyTypography.typography.body1
                 )
 
                 ExposedDropdownMenu(expanded = maxExpanded, onDismissRequest = { maxExpanded = false }, modifier = Modifier.background(StarCol)) {
                     for (i in 0..5) {
-                        DropdownMenuItem(text = { Text(text = i.toString(), color = Color.White) }, onClick = {
+                        DropdownMenuItem(text = { Text(text = i.toString(), style = MyTypography.typography.body1) }, onClick = {
                             cpvm.setFilter(max = i)
                             maxExpanded = false
                         }, modifier = Modifier)
@@ -617,13 +618,13 @@ class PopupMenu {
                     RoundedCornerShape(topStartPercent = 10, topEndPercent = 10)
                 )
                 .padding(15.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.SpaceBetween) {
-                Text(text = message ?: "", textAlign = TextAlign.Center, fontSize = 23.sp, color = Color.White)
+                Text(text = message ?: "", textAlign = TextAlign.Center, fontSize = 23.sp, style = MyTypography.typography.body1)
                 Button(onClick = { endAnimator.start(); end = true }, colors = ButtonDefaults.buttonColors(
                     backgroundColor = GridCol),
                     shape = RoundedCornerShape(50),
                     modifier = Modifier.width(120.dp)
                 ) {
-                    Text(text = "Ok", fontSize = 20.sp, color = Color.White)
+                    Text(text = "Ok", fontSize = 20.sp, style = MyTypography.typography.body1)
                 }
             }
         }

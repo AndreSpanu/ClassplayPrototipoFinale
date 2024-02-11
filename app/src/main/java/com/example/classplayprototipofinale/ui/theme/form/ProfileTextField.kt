@@ -26,6 +26,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.classplayprototipofinale.ClassPlayViewModel
+import com.example.classplayprototipofinale.ui.theme.MyTypography
 
 class ProfileTextField {
 
@@ -47,7 +48,7 @@ class ProfileTextField {
                     strokeWidth = 2.dp.toPx()
                 )
             },
-            value = username!!, placeholder = ({ Text(text = "Inserisci il titolo del cosplay")}), textStyle = TextStyle(fontSize = 20.sp),
+            value = username!!, placeholder = ({ Text(text = "Inserisci il titolo del cosplay", style = MyTypography.typography.body1, fontSize = 16.sp, color = Color.LightGray)}), textStyle = MyTypography.typography.body1.copy(fontSize = 20.sp),
             singleLine = true, onValueChange = { newText ->
                 if (newText.length < 15){
                     username = newText.filter { it.isLetterOrDigit() || it == '_' }
@@ -77,8 +78,8 @@ class ProfileTextField {
         TextField(modifier = Modifier
             .fillMaxWidth()
             .height(100.dp),
-            value = bio, placeholder = ({ Text(text = "Scrivi una tua biografia")}), singleLine = false, maxLines = 5, shape = RoundedCornerShape(10),
-            textStyle = TextStyle(fontSize = 17.sp), onValueChange = { newText ->
+            value = bio, placeholder = ({ Text(text = "Scrivi una tua biografia", style = MyTypography.typography.body1, fontSize = 16.sp, color = Color.Gray)}), singleLine = false, maxLines = 5, shape = RoundedCornerShape(10),
+            textStyle = MyTypography.typography.body1.copy(fontSize = 18.sp, color = Color.Black), onValueChange = { newText ->
                 if (newText.length < 100)
                     bio = newText
                 cpvm.newDescriptionForm(bio)
@@ -118,9 +119,9 @@ class ProfileTextField {
                     )
                 },
                 value = phoneNumber ?: "",
-                placeholder = ({ Text(text = "Numero di telefono", fontSize = 20.sp) }),
+                placeholder = ({ Text(text = "Numero di telefono", style = MyTypography.typography.body1, fontSize = 16.sp, color = Color.LightGray) }),
                 singleLine = true,
-                textStyle = TextStyle(fontSize = 20.sp),
+                textStyle = MyTypography.typography.body1.copy(fontSize = 20.sp),
                 onValueChange = { newText ->
                     if (newText.length <= 10) {
                         phoneNumber = newText.filter { it.isDigit() }
@@ -163,9 +164,9 @@ class ProfileTextField {
                     )
                 },
                 value = email,
-                placeholder = ({ Text(text = "E-mail", fontSize = 20.sp) }),
+                placeholder = ({ Text(text = "E-mail", style = MyTypography.typography.body1, fontSize = 16.sp, color = Color.LightGray) }),
                 singleLine = true,
-                textStyle = TextStyle(fontSize = 20.sp),
+                textStyle = MyTypography.typography.body1.copy(fontSize = 20.sp),
                 onValueChange = { newText ->
                     if (newText.length < 25) {
                         email = newText.filter { it.isLetterOrDigit() || it == '@' || it == '.' || it == '_' }

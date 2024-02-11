@@ -30,7 +30,6 @@ import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Mail
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -45,7 +44,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.example.classplayprototipofinale.ClassPlayViewModel
 import com.example.classplayprototipofinale.MainActivity
@@ -60,12 +58,9 @@ import com.example.classplayprototipofinale.navigation.Screen
 import com.example.classplayprototipofinale.ui.theme.BackgroundColBlur
 import com.example.classplayprototipofinale.ui.theme.BottomBarCol
 import com.example.classplayprototipofinale.ui.theme.DetailsCol
+import com.example.classplayprototipofinale.ui.theme.MyTypography
 import com.example.classplayprototipofinale.ui.theme.RedCol
 import com.example.classplayprototipofinale.ui.theme.profile.ProfileCard
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.getValue
 
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -111,7 +106,7 @@ fun ProfileScreen(cpvm: ClassPlayViewModel, ma: MainActivity, cpDB: DatabaseRefe
                     ), RoundedCornerShape(6)
                 )){
                 if (favoriteOpen) {
-                    Text(text = "Preferiti", fontSize = 25.sp, color = Color.White, modifier = Modifier.padding(20.dp))
+                    Text(text = "Preferiti", fontSize = 25.sp, modifier = Modifier.padding(20.dp), style = MyTypography.typography.body2)
                     Spacer(modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 20.dp)
@@ -148,9 +143,9 @@ fun ProfileScreen(cpvm: ClassPlayViewModel, ma: MainActivity, cpDB: DatabaseRefe
                         Spacer(modifier = Modifier.width(15.dp))
 
                         Column {
-                            cpvm.currentUser.value?.username?.let { Text(text = it, fontSize = 25.sp, color = Color.White) }
+                            cpvm.currentUser.value?.username?.let { Text(text = it, fontSize = 25.sp, style = MyTypography.typography.body2) }
                             Spacer(modifier = Modifier.height(20.dp))
-                            cpvm.currentUser.value?.bio?.let { Text(text = it, color = Color.White) }
+                            cpvm.currentUser.value?.bio?.let { Text(text = it, fontSize = 15.sp, style = MyTypography.typography.body1) }
                         }
                     }
 
@@ -159,7 +154,7 @@ fun ProfileScreen(cpvm: ClassPlayViewModel, ma: MainActivity, cpDB: DatabaseRefe
                     Row (modifier = Modifier.padding(horizontal = 25.dp), verticalAlignment = Alignment.CenterVertically){
                         Icon(imageVector = Icons.Default.Call, contentDescription = "Numero di telefono", tint = Color.White)
                         Spacer(modifier = Modifier.width(15.dp))
-                        cpvm.currentUser.value?.phoneNumber?.let { Text(text = it, color = Color.White, fontSize = 20.sp) }
+                        cpvm.currentUser.value?.phoneNumber?.let { Text(text = it, fontSize = 20.sp, style = MyTypography.typography.body1) }
                     }
 
                     Spacer(modifier = Modifier.height(15.dp))
@@ -167,7 +162,7 @@ fun ProfileScreen(cpvm: ClassPlayViewModel, ma: MainActivity, cpDB: DatabaseRefe
                     Row (modifier = Modifier.padding(horizontal = 25.dp), verticalAlignment = Alignment.CenterVertically){
                         Icon(imageVector = Icons.Default.Mail, contentDescription = "Numero di telefono", tint = Color.White)
                         Spacer(modifier = Modifier.width(15.dp))
-                        cpvm.currentUser.value?.emailAddress?.let { Text(text = it, color = Color.White, fontSize = 20.sp) }
+                        cpvm.currentUser.value?.emailAddress?.let { Text(text = it, fontSize = 20.sp, style = MyTypography.typography.body1) }
                     }
 
                     Spacer(modifier = Modifier
@@ -301,7 +296,7 @@ fun ProfileScreen(cpvm: ClassPlayViewModel, ma: MainActivity, cpDB: DatabaseRefe
                     contentColor = RedCol
                 )
                 ) {
-                    Text(text = "Elimina", fontSize = 18.sp)
+                    Text(text = "Elimina", fontSize = 18.sp, style = MyTypography.typography.body2, color = RedCol)
                 }
 
                 Button(onClick = {
@@ -312,7 +307,7 @@ fun ProfileScreen(cpvm: ClassPlayViewModel, ma: MainActivity, cpDB: DatabaseRefe
                     contentColor = Color.White
                 )
                 ) {
-                    Text(text = "Modifica", fontSize = 17.sp)
+                    Text(text = "Modifica", fontSize = 17.sp, style = MyTypography.typography.body2)
                 }
             }
         }

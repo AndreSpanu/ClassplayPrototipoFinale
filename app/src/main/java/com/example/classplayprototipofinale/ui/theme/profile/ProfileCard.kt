@@ -29,12 +29,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
-import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.example.classplayprototipofinale.ClassPlayViewModel
 import com.example.classplayprototipofinale.R
 import com.example.classplayprototipofinale.models.Cosplay
 import com.example.classplayprototipofinale.ui.theme.BubbleCol
+import com.example.classplayprototipofinale.ui.theme.MyTypography
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -44,7 +44,6 @@ class ProfileCard {
 
     /** La card nella miniatura del profilo **/
 
-    @OptIn(ExperimentalCoilApi::class)
     @Composable
     fun ProfileCardShow(cpvm: ClassPlayViewModel, cosplay: Cosplay, cpDB: DatabaseReference) {
 
@@ -86,7 +85,7 @@ class ProfileCard {
                         Modifier
                             .background(BubbleCol, RoundedCornerShape(50))
                             .padding(horizontal = 5.dp, vertical = 3.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween){
-                        Text(text = avgReview.toString(), color = Color.White, fontSize = 3.5.em)
+                        Text(text = avgReview.toString(), style = MyTypography.typography.body1, fontSize = 3.em)
                         Spacer(modifier = Modifier.width(5.dp))
                         Icon(painter = painterResource(id = R.drawable.star_1), contentDescription = null, tint = Color.White, modifier = Modifier.size(14.dp))
                     }
@@ -99,7 +98,7 @@ class ProfileCard {
                         Modifier
                             .background(BubbleCol, RoundedCornerShape(50))
                             .padding(horizontal = 5.dp, vertical = 3.dp)){
-                        cosplay.cosplayName?.let { Text(text = it, color = Color.White, fontSize = 3.5.em) }
+                        cosplay.cosplayName?.let { Text(text = it, style = MyTypography.typography.body1, fontSize = 3.em) }
                     }
                 }
             }

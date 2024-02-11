@@ -2,7 +2,6 @@ package com.example.classplayprototipofinale.ui.theme.home
 
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
@@ -22,7 +21,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -38,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.classplayprototipofinale.ClassPlayViewModel
 import com.example.classplayprototipofinale.MainActivity
+import com.example.classplayprototipofinale.ui.theme.MyTypography
 import com.example.classplayprototipofinale.ui.theme.TagCol
 import kotlin.math.roundToInt
 
@@ -65,7 +64,7 @@ class TagsList {
                     .padding(10.dp, 3.dp, 5.dp, 3.dp)
                 ) {
                     Row(modifier = Modifier.fillMaxHeight(), verticalAlignment = Alignment.CenterVertically) {
-                        Text(text = tag, fontSize = 16.sp, color = Color.White)
+                        Text(text = tag, fontSize = 16.sp, style = MyTypography.typography.body1)
 
                         Spacer(modifier = Modifier.width(10.dp))
 
@@ -134,7 +133,7 @@ class TagsList {
                     .padding(10.dp, 3.dp, 5.dp, 3.dp)
                 ) {
                     Row(modifier = Modifier.fillMaxHeight(), verticalAlignment = Alignment.CenterVertically) {
-                        Text(text = tag, fontSize = 16.sp, color = Color.White)
+                        Text(text = tag, fontSize = 16.sp, style = MyTypography.typography.body1)
 
                         Spacer(modifier = Modifier.width(10.dp))
 

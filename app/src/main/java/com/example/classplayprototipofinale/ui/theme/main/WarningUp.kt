@@ -29,6 +29,7 @@ import com.example.classplayprototipofinale.ClassPlayViewModel
 import com.example.classplayprototipofinale.PopupType
 import com.example.classplayprototipofinale.WarningType
 import com.example.classplayprototipofinale.ui.theme.GridCol
+import com.example.classplayprototipofinale.ui.theme.MyTypography
 import com.example.classplayprototipofinale.ui.theme.RedCol
 import com.example.classplayprototipofinale.ui.theme.WarningCol
 import com.google.firebase.database.DatabaseReference
@@ -54,7 +55,7 @@ class WarningUp {
                 .background(WarningCol, RoundedCornerShape(10))
                 .padding(vertical = 10.dp, horizontal = 10.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.SpaceBetween){
 
-                Text(text = message, fontSize = 20.sp, color = Color.White, textAlign = TextAlign.Center)
+                Text(text = message, fontSize = 20.sp, style = MyTypography.typography.body1, textAlign = TextAlign.Center)
 
                 Row (modifier = Modifier
                     .fillMaxWidth()
@@ -69,7 +70,7 @@ class WarningUp {
                         .border(3.dp, RedCol, RoundedCornerShape(50)),
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center){
-                        Text(text = "No", color = RedCol, fontSize = 22.sp)
+                        Text(text = "No", color = RedCol, fontSize = 22.sp, style = MyTypography.typography.body1)
                     }
 
                     Column (modifier = Modifier
@@ -134,7 +135,7 @@ class WarningUp {
                         .background(GridCol, RoundedCornerShape(50)),
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center){
-                        Text(text = "Si", color = Color.White, fontSize = 22.sp)
+                        Text(text = "Si", style = MyTypography.typography.body1, fontSize = 22.sp)
                     }
                 }
             }
