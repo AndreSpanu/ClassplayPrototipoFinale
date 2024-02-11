@@ -125,7 +125,7 @@ class MainActivity : ComponentActivity() {
 
                     /** Creazione Database **/
                     //cd.cosplay(cpDB, cosplaysImgsSRef)
-                    //cd.user(uDB)
+                    cd.user(uDB)
 
                     bg.SetBackground()
 

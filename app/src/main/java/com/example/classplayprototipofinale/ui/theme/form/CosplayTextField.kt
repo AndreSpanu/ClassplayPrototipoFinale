@@ -56,6 +56,7 @@ class CosplayTextField {
 
         var title by remember { mutableStateOf(cpvm.formTitle.value) }
         val keyboardController = LocalSoftwareKeyboardController.current
+        val context = LocalContext.current
 
 
         TextField(modifier = Modifier
@@ -74,6 +75,9 @@ class CosplayTextField {
                     title = newText.filter { it.isLetterOrDigit() || it == ' ' || it == '_' }
                     cpvm.cFormTitle(title ?: "")
                 }
+                else
+                    cpvm.textLimit(context)
+
             }, colors = TextFieldDefaults.textFieldColors(
                 containerColor = Color.Transparent,
                 textColor = Color.White,
@@ -93,6 +97,7 @@ class CosplayTextField {
 
         var tag by remember { mutableStateOf(cpvm.currentTag.value) }
         val keyboardController = LocalSoftwareKeyboardController.current
+        val context = LocalContext.current
 
         Row (modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically){
             TextField(modifier = Modifier
@@ -114,6 +119,8 @@ class CosplayTextField {
                         tag = newText.filter { it.isLetterOrDigit() || it == ' ' || it == '_' }
                         cpvm.compileTag(tag ?: "")
                     }
+                    else
+                        cpvm.textLimit(context)
                 }, colors = TextFieldDefaults.textFieldColors(
                     containerColor = Color.Transparent,
                     textColor = Color.White,
@@ -145,6 +152,7 @@ class CosplayTextField {
 
         var description by remember { mutableStateOf(cpvm.formDescription.value ?: "") }
         val keyboardController = LocalSoftwareKeyboardController.current
+        val context = LocalContext.current
 
 
         TextField(modifier = Modifier
@@ -154,6 +162,8 @@ class CosplayTextField {
             textStyle = MyTypography.typography.body1.copy(fontSize = 18.sp, color = Color.Black), onValueChange = { newText ->
                 if (newText.length < 130)
                     description = newText
+                else
+                    cpvm.textLimit(context)
                 cpvm.newDescriptionForm(description)
             }, colors = TextFieldDefaults.textFieldColors(
                 containerColor = Color.White,
@@ -174,6 +184,7 @@ class CosplayTextField {
         var title by remember { mutableStateOf(cpvm.cosplayFormTutorial.value?.get("s$i")?.componentName) }
         val keyboardController = LocalSoftwareKeyboardController.current
         var tutorial = cpvm.cosplayFormTutorial.value ?: mutableMapOf<String, TutorialStep>()
+        val context = LocalContext.current
 
         cpvm.cosplayFormTutorial.observe(ma) { tutorial = it
             title = it["s$i"]?.componentName
@@ -198,6 +209,8 @@ class CosplayTextField {
                         tutorial["s$i"]?.componentName = title
                         cpvm.updateTutorial(tutorial)
                     }
+                    else
+                        cpvm.textLimit(context)
                 }, colors = TextFieldDefaults.textFieldColors(
                     containerColor = Color.Transparent,
                     textColor = Color.White,
@@ -218,6 +231,7 @@ class CosplayTextField {
         var description by remember { mutableStateOf(cpvm.cosplayFormTutorial.value?.get("s$i")?.description) }
         val keyboardController = LocalSoftwareKeyboardController.current
         var tutorial = cpvm.cosplayFormTutorial.value ?: mutableMapOf<String, TutorialStep>()
+        val context = LocalContext.current
 
         cpvm.cosplayFormTutorial.observe(ma) { tutorial = it
             description = it["s$i"]?.description
@@ -237,6 +251,8 @@ class CosplayTextField {
                         tutorial["s$i"]?.description = description
                         cpvm.updateTutorial(tutorial)
                     }
+                    else
+                        cpvm.textLimit(context)
                 }, colors = TextFieldDefaults.textFieldColors(
                     containerColor = Color.White,
                     textColor = Color.Black,

@@ -58,6 +58,12 @@ sealed class BottomNavItem(
         titleResId = R.string.screen_title_cosplayForm,
         icon = R.drawable.cosplayform_icon
     )
+
+    object Profile : BottomNavItem(
+        route = Screen.Profile.route,
+        titleResId = R.string.screen_title_cosplayForm,
+        icon = R.drawable.cosplayform_icon
+    )
 }
 
 @Composable
@@ -71,7 +77,8 @@ fun BottomNavigationBar(
         BottomNavItem.Chat,
         BottomNavItem.Home,
         BottomNavItem.CosplayForm,
-        BottomNavItem.Checklist
+        BottomNavItem.Checklist,
+        BottomNavItem.Profile
     )
 
     BottomNavigation  (backgroundColor = Color.Transparent, elevation = 0.dp, modifier = Modifier
@@ -85,10 +92,21 @@ fun BottomNavigationBar(
         items.forEach { item ->
             BottomNavigationItem(
                 icon = {
-                    Icon(painter = painterResource(id = item.icon),
-                        contentDescription = stringResource(id = item.titleResId),
-                        modifier = Modifier.size(40.dp),
-                        tint = Color.White)
+                    if (item.route == Screen.Profile.route) {
+                        Image(painter = painter, contentDescription = "Profile icon", modifier = Modifier
+                            .size(42.dp)
+                            .align(CenterVertically)
+                            .clip(
+                                RoundedCornerShape(50.dp)
+                            ), contentScale = ContentScale.Crop
+                        )
+                    }
+                    else {
+                        Icon(painter = painterResource(id = item.icon),
+                            contentDescription = stringResource(id = item.titleResId),
+                            modifier = Modifier.size(40.dp),
+                            tint = Color.White)
+                    }
                 },
                 selected = currentRoute == item.route,
                 onClick = {
@@ -115,39 +133,5 @@ fun BottomNavigationBar(
                 modifier = Modifier.background(color= Color.Transparent),
             )
         }
-
-        /** Il BottomNavItem del Profilo **/
-
-        BottomNavigationItem(selected = currentRoute == Screen.Profile.route, onClick = {
-            navController.navigate(Screen.Profile.route) {
-                cpvm.setZoomCard(null)
-                cpvm.setOtherProfile(null)
-                cpvm.setStepVideo(null)
-
-                if (currentRoute == BottomNavItem.CosplayForm.route || currentRoute == Screen.NewTodo.route || currentRoute == Screen.ProfileEdit.route) {
-                    cpvm.setCardPopup(PopupType.WARNING, "Vuoi abbandonare la pagina?\n\nLe modifiche andranno perse!", WarningType.ANNULLA)
-                    cpvm.setDestination(Screen.Profile.route)
-                }
-                else {
-                    navController.navigate(Screen.Profile.route) {
-                        navController.graph.startDestinationRoute?.let { route ->
-                            popUpTo(route) {
-                                saveState = true
-                            }
-                        }
-                        launchSingleTop = true
-                        restoreState = true
-                    }
-                }
-            }
-        }, icon = {
-            Image(painter = painter, contentDescription = "Profile icon", modifier = Modifier
-                .size(42.dp)
-                .align(CenterVertically)
-                .clip(
-                    RoundedCornerShape(50.dp)
-                ), contentScale = ContentScale.Crop
-            )
-        })
     }
 }

@@ -839,6 +839,10 @@ class ClassPlayViewModel: ViewModel() {
     fun notImplemented(context: Context) {
         Toast.makeText(context, "Funzione non implementata", Toast.LENGTH_LONG).show()
     }
+
+    fun textLimit(context: Context) {
+        Toast.makeText(context, "Limite di caratteri raggiunto", Toast.LENGTH_SHORT).show()
+    }
 }
 
 enum class PopupType() {

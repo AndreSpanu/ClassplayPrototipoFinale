@@ -39,6 +39,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -73,7 +74,6 @@ fun ProfileScreen(cpvm: ClassPlayViewModel, ma: MainActivity, cpDB: DatabaseRefe
     var profileZoom by remember { mutableStateOf(false) }
     var favoriteOpen by remember { mutableStateOf(false) }
     var zoomCard by remember { mutableStateOf<Cosplay?>(null) }
-    var imgUrl by remember { mutableStateOf("") }
 
     cpvm.favoriteOpen.observe(ma) { favoriteOpen = it }
 

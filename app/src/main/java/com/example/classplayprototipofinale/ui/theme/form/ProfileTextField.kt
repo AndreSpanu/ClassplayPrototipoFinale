@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
@@ -36,6 +37,7 @@ class ProfileTextField {
 
         var username by remember { mutableStateOf(cpvm.formTitle.value) }
         val keyboardController = LocalSoftwareKeyboardController.current
+        val context = LocalContext.current
 
 
         TextField(modifier = Modifier
@@ -54,6 +56,8 @@ class ProfileTextField {
                     username = newText.filter { it.isLetterOrDigit() || it == '_' }
                     cpvm.cFormTitle(username!!)
                 }
+                else
+                    cpvm.textLimit(context)
             }, colors = TextFieldDefaults.textFieldColors(
                 containerColor = Color.Transparent,
                 textColor = Color.White,
@@ -73,6 +77,7 @@ class ProfileTextField {
 
         var bio by remember { mutableStateOf(cpvm.formDescription.value!!) }
         val keyboardController = LocalSoftwareKeyboardController.current
+        val context = LocalContext.current
 
 
         TextField(modifier = Modifier
@@ -82,6 +87,8 @@ class ProfileTextField {
             textStyle = MyTypography.typography.body1.copy(fontSize = 18.sp, color = Color.Black), onValueChange = { newText ->
                 if (newText.length < 100)
                     bio = newText
+                else
+                    cpvm.textLimit(context)
                 cpvm.newDescriptionForm(bio)
             }, colors = TextFieldDefaults.textFieldColors(
                 containerColor = Color.White,
@@ -102,6 +109,7 @@ class ProfileTextField {
 
         var phoneNumber by remember { mutableStateOf(cpvm.currentTag.value) }
         val keyboardController = LocalSoftwareKeyboardController.current
+        val context = LocalContext.current
 
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -127,6 +135,8 @@ class ProfileTextField {
                         phoneNumber = newText.filter { it.isDigit() }
                         cpvm.compileTag(phoneNumber!!)
                     }
+                    else
+                        cpvm.textLimit(context)
                 },
                 colors = TextFieldDefaults.textFieldColors(
                     containerColor = Color.Transparent,
@@ -147,6 +157,7 @@ class ProfileTextField {
     fun EmailTextField(cpvm: ClassPlayViewModel) {
         var email by remember { mutableStateOf(cpvm.cosplayFormMaterialDescription.value!!) }
         val keyboardController = LocalSoftwareKeyboardController.current
+        val context = LocalContext.current
 
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -172,6 +183,8 @@ class ProfileTextField {
                         email = newText.filter { it.isLetterOrDigit() || it == '@' || it == '.' || it == '_' }
                         cpvm.newMaterialDescriptionCosplayForm(email)
                     }
+                    else
+                        cpvm.textLimit(context)
                 },
                 colors = TextFieldDefaults.textFieldColors(
                     containerColor = Color.Transparent,

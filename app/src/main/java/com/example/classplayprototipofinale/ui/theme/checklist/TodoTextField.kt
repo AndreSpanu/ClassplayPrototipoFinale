@@ -54,6 +54,7 @@ class TodoTextField {
 
         var title by remember { mutableStateOf(cpvm.formTitle.value) }
         val keyboardController = LocalSoftwareKeyboardController.current
+        val context = LocalContext.current
 
 
         TextField(modifier = Modifier
@@ -72,6 +73,8 @@ class TodoTextField {
                     title = newText.filter { it.isLetterOrDigit() || it == ' ' || it == '_' }
                     cpvm.cFormTitle(title!!)
                 }
+                else
+                    cpvm.textLimit(context)
             }, colors = TextFieldDefaults.textFieldColors(
                 containerColor = Color.Transparent,
                 textColor = Color.White,
@@ -91,6 +94,7 @@ class TodoTextField {
 
         var description by remember { mutableStateOf(cpvm.formDescription.value ?: "") }
         val keyboardController = LocalSoftwareKeyboardController.current
+        val context = LocalContext.current
 
 
         TextField(modifier = Modifier
@@ -100,6 +104,8 @@ class TodoTextField {
             textStyle = MyTypography.typography.body1.copy(fontSize = 18.sp, color = Color.Black), onValueChange = { newText ->
                 if (newText.length < 130)
                     description = newText
+                else
+                    cpvm.textLimit(context)
                 cpvm.newDescriptionForm(description)
             }, colors = TextFieldDefaults.textFieldColors(
                 containerColor = Color.White,
@@ -120,6 +126,7 @@ class TodoTextField {
         var title by remember { mutableStateOf(cpvm.todoFormTutorial.value?.get("s$i")?.title) }
         val keyboardController = LocalSoftwareKeyboardController.current
         var tutorial = cpvm.todoFormTutorial.value ?: mutableMapOf<String, ToDoStep>()
+        val context = LocalContext.current
 
         cpvm.todoFormTutorial.observe(ma) { tutorial = it
             title = it["s$i"]?.title
@@ -144,6 +151,8 @@ class TodoTextField {
                         tutorial["s$i"]?.title = title
                         cpvm.updateTodoTutorial(tutorial)
                     }
+                    else
+                        cpvm.textLimit(context)
                 }, colors = TextFieldDefaults.textFieldColors(
                     containerColor = Color.Transparent,
                     textColor = Color.White,
@@ -164,6 +173,7 @@ class TodoTextField {
         var description by remember { mutableStateOf(cpvm.todoFormTutorial.value?.get("s$i")?.description) }
         val keyboardController = LocalSoftwareKeyboardController.current
         var tutorial = cpvm.todoFormTutorial.value ?: mutableMapOf<String, ToDoStep>()
+        val context = LocalContext.current
 
         cpvm.todoFormTutorial.observe(ma) { tutorial = it
             description = it["s$i"]?.description
@@ -183,6 +193,8 @@ class TodoTextField {
                         tutorial["s$i"]?.description = description
                         cpvm.updateTodoTutorial(tutorial)
                     }
+                    else
+                        cpvm.textLimit(context)
                 }, colors = TextFieldDefaults.textFieldColors(
                     containerColor = Color.White,
                     textColor = Color.Black,
