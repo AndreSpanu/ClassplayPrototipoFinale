@@ -105,6 +105,21 @@ fun TodoFormScreen(navController: NavController, cpvm: ClassPlayViewModel, ma: M
         }
     }
 
+    fun eliminateStep() {
+        if (!isAnimating) {
+            newStep = currentStep - 1
+            cpvm.setCurrentStep(newStep)
+            animateScroll()
+
+        }
+    }
+
+    cpvm.eliminate.observe(ma) {
+        if (it == true) {
+            eliminateStep()
+            cpvm.setEliminate(false)
+        } }
+
     Box (Modifier.fillMaxSize()){
         Column(modifier = Modifier
             .fillMaxSize()
@@ -266,12 +281,9 @@ fun TodoFormScreen(navController: NavController, cpvm: ClassPlayViewModel, ma: M
                     Icon(painter = painterResource(id = R.drawable.minus), contentDescription = "Aggiungi tutorial", tint = RedCol, modifier = Modifier
                         .size(40.dp)
                         .clickable {
-                            cpvm.removeTodoStep(currentStep - 3)
-                            if (!isAnimating) {
-                                newStep = currentStep - 1
-                                cpvm.setCurrentStep(newStep)
-                                animateScroll()
-                            }
+
+                            cpvm.setCardPopup(PopupType.WARNING, "Sei sicuro di voler eliminare questo step? Una volta eliminato non potrà essere recuperato!\n\nVuoi continuare?", WarningType.ELIMINATODOSTEP)
+
                         })
 
                     Spacer(modifier = Modifier.width(10.dp))

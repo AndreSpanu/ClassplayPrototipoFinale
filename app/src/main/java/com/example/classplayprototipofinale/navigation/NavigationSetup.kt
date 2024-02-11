@@ -22,7 +22,7 @@ import com.google.firebase.storage.StorageReference
 fun NavigationSetup(navController: NavHostController, cpvm: ClassPlayViewModel, ma: MainActivity, cpDB: DatabaseReference, profileIconsSRef: StorageReference, uDB: DatabaseReference, cosplayImgsRef: StorageReference, user: Users) {
     NavHost(navController, startDestination = BottomNavItem.Home.route) {
         composable(BottomNavItem.Chat.route) {
-            ChatScreen(navController = navController, cpvm = cpvm, ma = ma)
+            ChatScreen(cpvm = cpvm)
         }
         composable(BottomNavItem.Home.route) {
             HomeScreen(cpvm, ma, cpDB, uDB, user)

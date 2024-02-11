@@ -1,8 +1,10 @@
 package com.example.classplayprototipofinale
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.widget.Toast
 import androidx.compose.ui.focus.FocusManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -41,6 +43,7 @@ class ClassPlayViewModel: ViewModel() {
     private val _otherProfile = MutableLiveData<Users?>().also { it.value = null }
     private val _tagList = MutableLiveData<MutableSet<String>>().also { it.value = mutableSetOf() }             /** La lista dei tag di filtraggio ricerca **/
     private val _searchScreen = MutableLiveData<Boolean>().also { it.value = false }                            /** La schermata di ricerca per tag **/
+    private val _eliminate = MutableLiveData<Boolean>().also { it.value = false }
     private val _searchFocus = MutableLiveData<FocusManager>()                                                  /** Il focus sul textField della barra di ricerca **/
     private val _stepVideo = MutableLiveData<TutorialStep?>().also { it.value = null }                          /** Il video da visualizzare **/
 
@@ -49,6 +52,7 @@ class ClassPlayViewModel: ViewModel() {
     val otherProfile: LiveData<Users?> = _otherProfile;
     val tagList: LiveData<MutableSet<String>> = _tagList;
     val searchScreen: LiveData<Boolean> = _searchScreen
+    val eliminate: LiveData<Boolean> = _eliminate
     val searchFocus: LiveData<FocusManager> = _searchFocus
     val stepVideo: LiveData<TutorialStep?> = _stepVideo
 
@@ -319,15 +323,17 @@ class ClassPlayViewModel: ViewModel() {
         _todoFormTutorial.value = tutorial
     }
 
-    fun removeCosplayStep(step: Int) {
+    fun removeCosplayStep() {
+        val step = _currentStep.value?.minus(8)
         val newMap = mutableMapOf<String, TutorialStep>()
+        _eliminate.value = true
 
         for( element in _cosplayFormTutorial.value!!) {
             newMap[element.key] = element.value
         }
 
         if ((_cosplayFormTutorial.value?.size ?: 0) > 1) {
-            for (i in step until _cosplayFormTutorial.value!!.size - 1) {
+            for (i in step!! until _cosplayFormTutorial.value!!.size - 1) {
                 newMap["s$i"] = _cosplayFormTutorial.value!!["s${i+1}"]!!
             }
             _cosplayFormTutorial.value = newMap
@@ -339,15 +345,17 @@ class ClassPlayViewModel: ViewModel() {
         }
     }
 
-    fun removeTodoStep(step: Int) {
+    fun removeTodoStep() {
+        val step = _currentStep.value?.minus(3)
         val newMap = mutableMapOf<String, ToDoStep>()
+        _eliminate.value = true
 
         for( element in _todoFormTutorial.value!!) {
             newMap[element.key] = element.value
         }
 
         if ((_todoFormTutorial.value?.size ?: 0) > 1) {
-            for (i in step until _todoFormTutorial.value!!.size - 1) {
+            for (i in step!! until _todoFormTutorial.value!!.size - 1) {
                 newMap["s$i"] = _todoFormTutorial.value!!["s${i+1}"]!!
             }
             _todoFormTutorial.value = newMap
@@ -679,6 +687,10 @@ class ClassPlayViewModel: ViewModel() {
         val (asc, minVal, maxVal) = _filter.value!!
 
         val firstFilter = _cosplayList.value?.filter { it ->
+            val tagList = it.tags
+            tagList?.add(it.cosplayName!!)
+            tagList?.containsAll(_tagList.value ?: listOf()) ?: false
+        }?.filter { it ->
 
             val avg = it.avgReviews?.replace(',', '.')?.toFloat() ?: 0.0f
 
@@ -696,14 +708,6 @@ class ClassPlayViewModel: ViewModel() {
         else {
             _cosplayListFiltered.value = firstFilter?.sortedByDescending { it.avgReviews?.replace(',', '.')?.toFloat() ?: 0.0f }
         }
-    }
-
-    /** Settaggio iniziale della lista di cosplay da visualizzare **/
-    @SuppressLint("SuspiciousIndentation")
-    fun setCosplayListFiltered() {
-        val (_, minVal, maxVal) = _filter.value!!
-        if (timeToHours(_cosplayFormTime.value!!) == 0L && minVal == 0 && maxVal == 5)
-            _cosplayListFiltered.value = _cosplayList.value
     }
 
     private fun timeToHours(time: MutableMap<String, Int>): Long {
@@ -819,6 +823,22 @@ class ClassPlayViewModel: ViewModel() {
 
         clearForm()
     }
+
+    fun getCheck(todoTitle: String, step: String) : Boolean {
+        return _yourTodo.value?.get(todoTitle)?.steps?.get(step)?.completed ?: false
+    }
+
+    fun getCompletedNumber(todoTitle: String) : String {
+        return _yourTodo.value?.get(todoTitle)?.steps?.filter { it.value.completed ?: false }?.size.toString() ?: "0"
+    }
+
+    fun setEliminate(bool: Boolean) {
+        _eliminate.value = bool
+    }
+
+    fun notImplemented(context: Context) {
+        Toast.makeText(context, "Funzione non implementata", Toast.LENGTH_LONG).show()
+    }
 }
 
 enum class PopupType() {
@@ -835,6 +855,8 @@ enum class WarningType() {
     MODIFICACOSPLAY,
     ELIMINATODO,
     TODODACOSPLAY,
+    ELIMINATODOSTEP,
+    ELIMINACOSLAYSTEP,
     ANNULLA,
     COSPLAYSTEPMANCANTI,
     TODOSTEPMANCANTI,

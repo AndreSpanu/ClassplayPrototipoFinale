@@ -15,26 +15,35 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.example.classplayprototipofinale.ClassPlayViewModel
-import com.example.classplayprototipofinale.MainActivity
 import com.example.classplayprototipofinale.R
 import com.example.classplayprototipofinale.ui.theme.MyTypography
 
 @Composable
-fun ChatScreen(navController: NavController, cpvm: ClassPlayViewModel, ma: MainActivity) {
+fun ChatScreen(cpvm: ClassPlayViewModel) {
+
+    val context = LocalContext.current
+    LaunchedEffect(true) {
+        cpvm.notImplemented(context)
+    }
 
     Column (modifier = Modifier.fillMaxSize()){
         
-        Spacer(modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp, vertical = 10.dp).height(2.dp).background(Color.White))
+        Spacer(modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 10.dp, vertical = 10.dp)
+            .height(2.dp)
+            .background(Color.White))
 
         Row (modifier = Modifier
             .fillMaxWidth()
@@ -55,7 +64,11 @@ fun ChatScreen(navController: NavController, cpvm: ClassPlayViewModel, ma: MainA
             }
         }
 
-        Spacer(modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp, vertical = 10.dp).height(2.dp).background(Color.White))
+        Spacer(modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 10.dp, vertical = 10.dp)
+            .height(2.dp)
+            .background(Color.White))
 
         Row (modifier = Modifier
             .fillMaxWidth()
@@ -76,7 +89,11 @@ fun ChatScreen(navController: NavController, cpvm: ClassPlayViewModel, ma: MainA
             }
         }
 
-        Spacer(modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp, vertical = 10.dp).height(2.dp).background(Color.White))
+        Spacer(modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 10.dp, vertical = 10.dp)
+            .height(2.dp)
+            .background(Color.White))
 
     }
     //Image(painter = painterResource(id = R.drawable.chat), contentDescription = null, modifier = Modifier.fillMaxSize(), contentScale = ContentScale.Crop)

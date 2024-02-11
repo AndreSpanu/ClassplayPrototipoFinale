@@ -38,7 +38,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.example.classplayprototipofinale.ClassPlayViewModel
 import com.example.classplayprototipofinale.MainActivity
@@ -57,14 +56,13 @@ import com.google.firebase.database.DatabaseReference
 
 class ToDoCard {
     @SuppressLint("MutableCollectionMutableState")
-    @OptIn(ExperimentalCoilApi::class)
     @Composable
-    fun ChecklistCard(todoTitle: String, cpvm: ClassPlayViewModel, uDB: DatabaseReference, ma: MainActivity, todo: ToDo, navController: NavController, done: Boolean) {
+    fun ChecklistCard(todoTitle: String, cpvm: ClassPlayViewModel, uDB: DatabaseReference, ma: MainActivity, todo: ToDo, navController: NavController, done: Boolean, doneTodos: List<ToDo>
+    ) {
 
-        var user by remember { mutableStateOf(cpvm.currentUser.value) }
         var todoSteps by remember { mutableStateOf(todo.steps!!.values) }
 
-        cpvm.currentUser.observe(ma) { user = it
+        cpvm.currentUser.observe(ma) {
             if (it.yourToDo != null) {
                 if (it.yourToDo!![todoTitle]?.steps?.values != null) {
                     todoSteps = it.yourToDo!![todoTitle]?.steps!!.values
@@ -74,169 +72,157 @@ class ToDoCard {
 
         val painter = rememberImagePainter(data = todo.img!!.values.first())
 
-        Column (modifier = Modifier
-            .width(330.dp)
-            .heightIn(220.dp)
-            .shadow(10.dp)
-            .background(
-                brush = Brush.verticalGradient(
-                    colors = listOf(
-                        BlueGradientCol,
-                        BottomBarCol
-                    ),
-                    startY = 0f,
-                    endY = Float.POSITIVE_INFINITY
-                ), RoundedCornerShape(6)
-            )
-            .padding(10.dp)
-            .padding(start = 5.dp)){
-            Row (modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically){
-                Text(text = todo.todoTitle!!, fontSize = 25.sp, style = MyTypography.typography.body2)
-                Text(text = todoSteps.filter { it.completed == true }.size.toString() + "/" + todoSteps.size.toString(), style = MyTypography.typography.body1, fontSize = 16.sp)
-            }
-
-            Spacer(modifier = Modifier.height(10.dp))
-
-            Row (modifier = Modifier.fillMaxWidth()){
-                Column (modifier = Modifier.width(85.dp)){
-                    Image(painter = painter, contentDescription = "Immagine Todo", modifier = Modifier
-                        .size(80.dp, 100.dp)
-                        .clip(RoundedCornerShape(10)), contentScale = ContentScale.Crop)
-
-                    Spacer(modifier = Modifier.height(10.dp))
-
-                    Row {
-                        Column(modifier = Modifier
-                            .size(30.dp)
-                            .shadow(5.dp, CircleShape)
-                            .background(ToDoCol, CircleShape), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-                            Icon(painter = painterResource(id = R.drawable.pencil), contentDescription = "Icona dello step", tint = Color.White, modifier = Modifier
-                                .clickable {
-                                    cpvm.setTodoEdit(getCurrentTodo(cpvm, ma, todo.todoTitle!!))
-                                    navController.navigate(Screen.NewTodo.route) {
-                                        navController.graph.startDestinationRoute?.let { route ->
-                                            popUpTo(route) {
-                                                saveState = true
-                                            }
-                                        }
-                                        launchSingleTop = true
-                                        restoreState = true
-                                    }
-                                }
-                                .size(22.dp))
-                        }
-
-                        Spacer(modifier = Modifier.width(20.dp))
-
-                        Column(modifier = Modifier
-                            .size(30.dp)
-                            .shadow(5.dp, CircleShape)
-                            .background(RedCol, CircleShape)
-                            .clickable {
-                                cpvm.setDestination(null)
-                                cpvm.setCardPopup(
-                                    PopupType.WARNING,
-                                    "Vuoi eliminare questa ToDo list?\n\nUna volta eliminata non sarà pù recuperabile!",
-                                    WarningType.ELIMINATODO
-                                )
-                                cpvm.setTodoEdit(todo)
-                            }, horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-                            Icon(painter = painterResource(id = R.drawable.bin), contentDescription = "Icona dello step", tint = Color.White, modifier = Modifier.size(30.dp))
-                        }
-                    }
+        if (done && doneTodos.contains(todo) || !done && !doneTodos.contains(todo)) {
+            Column (modifier = Modifier
+                .width(330.dp)
+                .heightIn(220.dp)
+                .shadow(10.dp)
+                .background(
+                    brush = Brush.verticalGradient(
+                        colors = listOf(
+                            BlueGradientCol,
+                            BottomBarCol
+                        ),
+                        startY = 0f,
+                        endY = Float.POSITIVE_INFINITY
+                    ), RoundedCornerShape(6)
+                )
+                .padding(10.dp)
+                .padding(start = 5.dp)){
+                Row (modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically){
+                    Text(text = todo.todoTitle!!, fontSize = 25.sp, style = MyTypography.typography.body2)
+                    Text(text = cpvm.getCompletedNumber(todoTitle) + "/" + todoSteps.size.toString(), style = MyTypography.typography.body1, fontSize = 16.sp)
                 }
 
-                Spacer(modifier = Modifier.width(10.dp))
+                Spacer(modifier = Modifier.height(10.dp))
 
-                Column (modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 5.dp, end = 5.dp)){
+                Row (modifier = Modifier.fillMaxWidth()){
+                    Column (modifier = Modifier.width(85.dp)){
+                        Image(painter = painter, contentDescription = "Immagine Todo", modifier = Modifier
+                            .size(80.dp, 100.dp)
+                            .clip(RoundedCornerShape(10)), contentScale = ContentScale.Crop)
 
-                    val size = todoSteps.size
-                    var openAll by remember { mutableStateOf(false) }
+                        Spacer(modifier = Modifier.height(10.dp))
 
-                    val todoOrdered = todoSteps.sortedBy { it.step }
-
-
-                    for (step in todoOrdered.take(3 + (size) * boolToInt(openAll))) {
-
-                        val painter = rememberImagePainter(data = step.icon)
-
-                        Row (modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween){
-                            Column {
-                                Row (modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween){
-                                    Column(modifier = Modifier
-                                        .size(25.dp)
-                                        .shadow(5.dp, CircleShape)
-                                        .background(ToDoCol, CircleShape), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-                                        Icon(painter = painter, contentDescription = "Icona dello step", tint = Color.White, modifier = Modifier.size(20.dp))
+                        Row {
+                            Column(modifier = Modifier
+                                .size(30.dp)
+                                .shadow(5.dp, CircleShape)
+                                .background(ToDoCol, CircleShape), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
+                                Icon(painter = painterResource(id = R.drawable.pencil), contentDescription = "Icona dello step", tint = Color.White, modifier = Modifier
+                                    .clickable {
+                                        cpvm.setTodoEdit(getCurrentTodo(cpvm, ma, todo.todoTitle!!))
+                                        navController.navigate(Screen.NewTodo.route) {
+                                            navController.graph.startDestinationRoute?.let { route ->
+                                                popUpTo(route) {
+                                                    saveState = true
+                                                }
+                                            }
+                                            launchSingleTop = true
+                                            restoreState = true
+                                        }
                                     }
+                                    .size(22.dp))
+                            }
 
-                                    Text(text = step.title!!, fontSize = 18.sp, style = MyTypography.typography.body1, modifier = Modifier.width(120.dp))
+                            Spacer(modifier = Modifier.width(20.dp))
 
-                                    var check by remember { mutableStateOf(getCheck(cpvm, ma, todoTitle, step.step!!)) }
+                            Column(modifier = Modifier
+                                .size(30.dp)
+                                .shadow(5.dp, CircleShape)
+                                .background(RedCol, CircleShape)
+                                .clickable {
+                                    cpvm.setDestination(null)
+                                    cpvm.setCardPopup(
+                                        PopupType.WARNING,
+                                        "Vuoi eliminare questa ToDo list?\n\nUna volta eliminata non sarà pù recuperabile!",
+                                        WarningType.ELIMINATODO
+                                    )
+                                    cpvm.setTodoEdit(todo)
+                                }, horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
+                                Icon(painter = painterResource(id = R.drawable.bin), contentDescription = "Icona dello step", tint = Color.White, modifier = Modifier.size(30.dp))
+                            }
+                        }
+                    }
 
-                                    Box(modifier = Modifier
-                                        .size(25.dp)
-                                        .border(2.dp, Color.White, CircleShape)
-                                        .clickable {
-                                            if (done)
-                                                checkStep(uDB, step, todo, cpvm, true)
-                                            else
+                    Spacer(modifier = Modifier.width(10.dp))
+
+                    Column (modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 5.dp, end = 5.dp)){
+
+                        val size = todoSteps.size
+                        var openAll by remember { mutableStateOf(false) }
+
+                        val todoOrdered = todoSteps.sortedBy { it.step }
+
+
+                        for (step in todoOrdered.take(3 + (size) * boolToInt(openAll))) {
+
+                            val painter = rememberImagePainter(data = step.icon)
+
+                            Row (modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween){
+                                Column {
+                                    Row (modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween){
+                                        Column(modifier = Modifier
+                                            .size(25.dp)
+                                            .shadow(5.dp, CircleShape)
+                                            .background(ToDoCol, CircleShape), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
+                                            Icon(painter = painter, contentDescription = "Icona dello step", tint = Color.White, modifier = Modifier.size(20.dp))
+                                        }
+
+                                        Text(text = step.title!!, fontSize = 18.sp, style = MyTypography.typography.body1, modifier = Modifier.width(120.dp))
+
+                                        var check by remember { mutableStateOf(cpvm.getCheck(todoTitle, "s${step.step?.minus(1)}")) }
+
+                                        Box(modifier = Modifier
+                                            .size(25.dp)
+                                            .border(2.dp, Color.White, CircleShape)
+                                            .clickable {
                                                 checkStep(uDB, step, todo, cpvm, check)
-                                            check = !check
-                                        }) {
-                                        if (check || done)
-                                            Image(painter = painterResource(id = R.drawable.check), contentDescription = "Fatto", modifier = Modifier.fillMaxSize())
+                                                check = !check
+                                            }) {
+                                            if (check)
+                                                Image(painter = painterResource(id = R.drawable.check), contentDescription = "Fatto", modifier = Modifier.fillMaxSize())
+                                        }
                                     }
                                 }
                             }
-                        }
-                        
-                        Spacer(modifier = Modifier.height(10.dp))
-                    }
 
-                    if (size > 3){
-                        Row (modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center){
-                            if (openAll)
-                                Icon(painter = painterResource(id = R.drawable.back_arrow), contentDescription = "Mostra meno", modifier = Modifier
-                                    .clickable {
-                                        openAll = false
-                                    }
-                                    .rotate(90f), tint = Color.Gray)
-                            else
-                                Icon(painter = painterResource(id = R.drawable.back_arrow), contentDescription = "Mostra più", modifier = Modifier
-                                    .clickable {
-                                        openAll = true
-                                    }
-                                    .rotate(-90f), tint = Color.Gray)
+                            Spacer(modifier = Modifier.height(10.dp))
+                        }
+
+                        if (size > 3){
+                            Row (modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center){
+                                if (openAll)
+                                    Icon(painter = painterResource(id = R.drawable.back_arrow), contentDescription = "Mostra meno", modifier = Modifier
+                                        .clickable {
+                                            openAll = false
+                                        }
+                                        .rotate(90f), tint = Color.Gray)
+                                else
+                                    Icon(painter = painterResource(id = R.drawable.back_arrow), contentDescription = "Mostra più", modifier = Modifier
+                                        .clickable {
+                                            openAll = true
+                                        }
+                                        .rotate(-90f), tint = Color.Gray)
+                            }
                         }
                     }
                 }
             }
+
+            Spacer(modifier = Modifier.height(20.dp))
         }
     }
 
     private fun checkStep(uDB: DatabaseReference, step: ToDoStep, todo: ToDo, cpvm: ClassPlayViewModel, check: Boolean) {
         val userUpdate = cpvm.currentUser.value
 
-        userUpdate!!.yourToDo!![todo.todoTitle]!!.steps!!["s"+(step.step!! - 1).toString()]!!.completed = !check
+        userUpdate!!.yourToDo!![todo.todoTitle]!!.steps!!["s" + (step.step!! - 1).toString()]!!.completed =
+            !check
 
         uDB.child(cpvm.username.value!!).setValue(userUpdate)
-    }
-
-    private fun getCheck(cpvm: ClassPlayViewModel, ma: MainActivity, todoTitle: String, step: Int): Boolean {
-        var bool : Boolean? = false
-        cpvm.currentUser.observe(ma) {
-            if (it?.yourToDo?.get(todoTitle)?.steps?.isNotEmpty() == true) {
-                if (it.yourToDo?.get(todoTitle)?.steps!!["s"+(step - 1)] != null)
-                    bool = it.yourToDo?.get(todoTitle)?.steps!!["s"+(step - 1)]!!.completed }
-            }
-
-        if (bool == null)
-            return false
-
-        return bool!!
     }
 
     private fun getCurrentTodo(cpvm: ClassPlayViewModel, ma: MainActivity, todoTitle: String): ToDo {

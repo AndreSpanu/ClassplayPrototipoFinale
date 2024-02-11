@@ -55,7 +55,7 @@ class WarningUp {
                 .background(WarningCol, RoundedCornerShape(10))
                 .padding(vertical = 10.dp, horizontal = 10.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.SpaceBetween){
 
-                Text(text = message, fontSize = 20.sp, style = MyTypography.typography.body1, textAlign = TextAlign.Center)
+                Text(text = message, fontSize = 18.sp, style = MyTypography.typography.body1, textAlign = TextAlign.Center)
 
                 Row (modifier = Modifier
                     .fillMaxWidth()
@@ -113,6 +113,14 @@ class WarningUp {
 
                                 WarningType.MODIFICAPROFILO -> {
                                     cpvm.saveProfile(uDB, profileIconsSRef)
+                                }
+
+                                WarningType.ELIMINATODOSTEP -> {
+                                    cpvm.removeTodoStep()
+                                }
+
+                                WarningType.ELIMINACOSLAYSTEP -> {
+                                    cpvm.removeCosplayStep()
                                 }
 
                                 else -> {}

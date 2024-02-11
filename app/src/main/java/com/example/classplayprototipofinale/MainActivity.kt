@@ -178,11 +178,23 @@ class MainActivity : ComponentActivity() {
 
                     when (cardPopup.first) {
 
-                        PopupType.CARD -> pm.CardPopup(cpvm)
+                        PopupType.CARD -> {
+                            val context = LocalContext.current
+                            LaunchedEffect(true) {
+                                cpvm.notImplemented(context)
+                            }
+                            pm.CardPopup(cpvm)
+                        }
 
                         PopupType.FILTER -> pm.FilterPopup(cpvm = cpvm, this)
 
-                        PopupType.IMPOSTAZIONI -> pm.ImpostazioniPopup(cpvm = cpvm, this)
+                        PopupType.IMPOSTAZIONI -> {
+                            val context = LocalContext.current
+                            LaunchedEffect(true) {
+                                cpvm.notImplemented(context)
+                            }
+                            pm.ImpostazioniPopup(cpvm = cpvm, this)
+                        }
 
                         PopupType.ERROR -> pm.ErrorPopup(cpvm = cpvm)
 

@@ -107,6 +107,21 @@ fun CosplayFormScreen(navController: NavController, cpvm: ClassPlayViewModel, ma
         }
     }
 
+    fun eliminateStep() {
+        if (!isAnimating) {
+            newStep = currentStep - 1
+            cpvm.setCurrentStep(newStep)
+            animateScroll()
+
+        }
+    }
+
+    cpvm.eliminate.observe(ma) {
+        if (it == true) {
+            eliminateStep()
+            cpvm.setEliminate(false)
+        } }
+
     Box (Modifier.fillMaxSize()){
         Column(modifier = Modifier
             .fillMaxSize()
@@ -281,12 +296,7 @@ fun CosplayFormScreen(navController: NavController, cpvm: ClassPlayViewModel, ma
                     Icon(painter = painterResource(id = R.drawable.minus), contentDescription = "Aggiungi tutorial", tint = RedCol, modifier = Modifier
                         .size(40.dp)
                         .clickable {
-                            cpvm.removeCosplayStep(currentStep - 8)
-                            if (!isAnimating) {
-                                newStep = currentStep - 1
-                                cpvm.setCurrentStep(newStep)
-                                animateScroll()
-                            }
+                            cpvm.setCardPopup(PopupType.WARNING, "Sei sicuro di voler eliminare questo step? Una volta eliminato non potrà essere recuperato!\n\nVuoi continuare?", WarningType.ELIMINACOSLAYSTEP)
                         })
 
                     Spacer(modifier = Modifier.width(10.dp))

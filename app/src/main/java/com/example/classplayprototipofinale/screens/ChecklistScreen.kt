@@ -39,16 +39,17 @@ fun CheckListScreen(navController: NavController, cpvm: ClassPlayViewModel, ma: 
 
     var done by remember { mutableStateOf(false) }
     var todos by remember { mutableStateOf(listOf<ToDo>()) }
+    var doneTodos by remember { mutableStateOf(listOf<ToDo>()) }
     val todoMap = user.yourToDo
 
     cpvm.done.observe(ma) {
         done = it
         if (todoMap != null) {
-            val doneTodos = todoMap.values.filter { map -> map.steps!!.values.filter { step -> step.completed == false }.isEmpty() }
-            todos = if (done)
+            doneTodos = todoMap.values.filter { map -> map.steps!!.values.filter { step -> step.completed == false }.isEmpty() }
+            /*todos = if (done)
                 doneTodos
             else
-                todoMap.values.filter { map -> !doneTodos.contains(map) }
+                todoMap.values.filter { map -> !doneTodos.contains(map) }*/
         }
     }
 
@@ -58,14 +59,24 @@ fun CheckListScreen(navController: NavController, cpvm: ClassPlayViewModel, ma: 
         }
     }
 
+
+
     Box (Modifier.fillMaxSize()) {
         Column (modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState()), horizontalAlignment = Alignment.CenterHorizontally){
 
-            for (todo in todos) {
-                tc.ChecklistCard(todo.todoTitle ?: "", cpvm, uDB, ma, todo, navController, done)
-                Spacer(modifier = Modifier.height(20.dp))
+            var index = 0
+
+            for (todo in todos/*.filter {
+                if (done){
+                    doneTodos.contains(it)
+                }
+                else {
+                    !doneTodos.contains(it)
+                }
+            }*/) {
+                tc.ChecklistCard(todo.todoTitle ?: "", cpvm, uDB, ma, todo, navController, done, doneTodos)
             }
         }
 

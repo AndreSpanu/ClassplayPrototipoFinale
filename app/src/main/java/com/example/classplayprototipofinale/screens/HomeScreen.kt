@@ -42,28 +42,13 @@ fun HomeScreen(cpvm: ClassPlayViewModel, ma: MainActivity, cpDB: DatabaseReferen
     var profileCard by remember { mutableStateOf<Users?>(null) }
     var searchScreen by remember { mutableStateOf(false) }
 
-    var cosplaysList by remember { mutableStateOf(listOf<Cosplay>()) }
     var cosplaysListFiltered by remember { mutableStateOf(listOf<Cosplay>()) }
 
     cpvm.tagList.observe(ma) { tags = it }
     cpvm.zoomCard.observe(ma) { zoomCard = it }
     cpvm.otherProfile.observe(ma) { profileCard = it }
     cpvm.searchScreen.observe(ma) { searchScreen = it }
-    cpvm.cosplayListFiltered.observe(ma) { it ->
-        cosplaysList = it
-        cosplaysListFiltered = cosplaysList.filter {
-            val tagList = it.tags
-            tagList?.add(it.cosplayName!!)
-            tagList?.containsAll(tags) ?: false
-        }.toMutableList()
-    }
-    cpvm.tagList.observe(ma) {
-        cosplaysListFiltered = cosplaysList.filter {
-            val tagList = it.tags
-            tagList?.add(it.cosplayName!!)
-            tagList?.containsAll(tags) ?: false
-        }.toMutableList()
-    }
+    cpvm.cosplayListFiltered.observe(ma) { cosplaysListFiltered = it }
 
     /** La lista di Cosplay si aggiorna con il Database **/
 
@@ -74,13 +59,13 @@ fun HomeScreen(cpvm: ClassPlayViewModel, ma: MainActivity, cpDB: DatabaseReferen
                 for (snap in snapshot.children){
                     newList.add(snap.getValue(Cosplay::class.java)!!)
                 }
-                cosplaysList = newList
                 cpvm.setCosplayList(newList)
-                cpvm.setCosplayListFiltered()
+                cpvm.filterCosplayList()
             }
         }
         override fun onCancelled(error: DatabaseError) {}
     })
+
 
     Box(modifier = Modifier
         .fillMaxSize()) {

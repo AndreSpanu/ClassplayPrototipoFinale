@@ -87,7 +87,6 @@ class CosplayCard {
 
     /** La card nella miniatura della HomePage **/
 
-    @OptIn(ExperimentalCoilApi::class)
     @Composable
     fun HomeCard(cpvm: ClassPlayViewModel, cosplay: Cosplay, cpDB: DatabaseReference) {
 

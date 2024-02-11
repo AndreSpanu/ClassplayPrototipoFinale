@@ -530,12 +530,12 @@ class PopupMenu {
                     modifier = Modifier.menuAnchor(), shape = RoundedCornerShape(20), colors = TextFieldDefaults.textFieldColors(
                         backgroundColor = StarCol,
                         textColor = Color.White
-                    ), textStyle = MyTypography.typography.body1
+                    ), textStyle = MyTypography.typography.body1.copy(fontSize = 18.sp)
                 )
 
                 ExposedDropdownMenu(expanded = minExpanded, onDismissRequest = { minExpanded = false }) {
                     for (i in 0..5) {
-                        DropdownMenuItem(text = { Text(text = i.toString(), style = MyTypography.typography.body1, color = Color.Black) }, onClick = {
+                        DropdownMenuItem(text = { Text(text = i.toString(), style = MyTypography.typography.body1, color = Color.Black, fontSize = 18.sp) }, onClick = {
                             cpvm.setFilter(min = i)
                             minExpanded = false
                         })
@@ -557,12 +557,12 @@ class PopupMenu {
                     modifier = Modifier.menuAnchor(), shape = RoundedCornerShape(20), colors = TextFieldDefaults.textFieldColors(
                         backgroundColor = StarCol,
                         textColor = Color.White
-                    ), textStyle = MyTypography.typography.body1
+                    ), textStyle = MyTypography.typography.body1.copy(fontSize = 18.sp)
                 )
 
                 ExposedDropdownMenu(expanded = maxExpanded, onDismissRequest = { maxExpanded = false }, modifier = Modifier.background(StarCol)) {
                     for (i in 0..5) {
-                        DropdownMenuItem(text = { Text(text = i.toString(), style = MyTypography.typography.body1) }, onClick = {
+                        DropdownMenuItem(text = { Text(text = i.toString(), style = MyTypography.typography.body1, fontSize = 18.sp) }, onClick = {
                             cpvm.setFilter(max = i)
                             maxExpanded = false
                         }, modifier = Modifier)
