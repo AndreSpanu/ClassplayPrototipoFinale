@@ -123,6 +123,14 @@ class WarningUp {
                                     cpvm.removeCosplayStep()
                                 }
 
+                                WarningType.SALVACOSPLAY -> {
+
+                                }
+
+                                WarningType.SALVATODO -> {
+
+                                }
+
                                 else -> {}
                             }
 

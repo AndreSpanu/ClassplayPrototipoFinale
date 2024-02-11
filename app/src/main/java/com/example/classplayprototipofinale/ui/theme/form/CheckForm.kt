@@ -192,7 +192,7 @@ class CheckForm {
             var key = -1
             for (step in tutorial) {
                 if (step.value.icon != PlusIcon.PLUS.url && step.value.title != "" && !((step.value.link == "" || (step.value.linkType == LinkType.LINK.txt && !((step.value.link ?: "").matches(Regex("http://[a-zA-Z0-9._%+-]+\\.[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}"))) && !((step.value.link ?: "").matches(Regex("https://[a-zA-Z0-9._%+-]+\\.[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")))) ) && step.value.description == "" ) ) {
-                    if (!((step.value.link ?: "").matches(Regex("http://[a-zA-Z0-9._%+-]+\\.[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}"))) && !((step.value.link ?: "").matches(Regex("https://[a-zA-Z0-9._%+-]+\\.[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}"))) && !noLink.second)
+                    if (!((step.value.link ?: "").matches(Regex("http://[a-zA-Z0-9._%+-]+\\.[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}"))) && !((step.value.link ?: "").matches(Regex("https://[a-zA-Z0-9._%+-]+\\.[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}"))) && !noLink.second && step.value.linkType == LinkType.LINK.txt)
                         noLink = Pair(step.key.split("s")[1].toInt() + 3, true)
                     counter++
                 }

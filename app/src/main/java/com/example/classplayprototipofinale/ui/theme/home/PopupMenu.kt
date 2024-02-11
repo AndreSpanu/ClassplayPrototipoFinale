@@ -452,9 +452,8 @@ class PopupMenu {
                         /** Filter Valutazione **/
                         Text(text = "Valutazione", fontSize = 20.sp, style = MyTypography.typography.body2)
                         Spacer(modifier = Modifier.height(10.dp))
-                        Row (Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically){
-                            MinMaxDropDown(cpvm = cpvm, ma)
-                        }
+
+                        MinMaxDropDown(cpvm = cpvm, ma)
 
                         Row (modifier = Modifier
                             .fillMaxWidth()
@@ -517,55 +516,107 @@ class PopupMenu {
         var minExpanded by remember { mutableStateOf(false) }
         var maxExpanded by remember { mutableStateOf(false) }
 
-        Row (modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween){
-            ExposedDropdownMenuBox(expanded = minExpanded, onExpandedChange = { minExpanded = !minExpanded }, modifier = Modifier.weight(0.95f)) {
-                TextField(value = "Min |   ${filter.second}", onValueChange = {}, readOnly = true, trailingIcon = {
-                    Row (verticalAlignment = Alignment.CenterVertically){
-                        Icon(painter = painterResource(id = R.drawable.star_1), contentDescription = null, tint = Color.White, modifier = Modifier.size(20.dp))
+        Row (modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically){
+            
+            Text(text = "Minima", style = MyTypography.typography.body1, fontSize = 18.sp)
+
+            ExposedDropdownMenuBox(expanded = minExpanded, onExpandedChange = { minExpanded = !minExpanded }, modifier = Modifier
+                .width(200.dp)
+                .height(40.dp)) {
+                TextField(value = "", onValueChange = {}, readOnly = true, trailingIcon = {
+                    Row (modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 5.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically){
+                        for (i in 1..5) {
+                            if (i <= filter.second)
+                                Icon(painter = painterResource(id = R.drawable.star_1), contentDescription = null, tint = StarCol, modifier = Modifier.size(25.dp))
+                            else
+                                Icon(painter = painterResource(id = R.drawable.star_0), contentDescription = null, tint = StarCol, modifier = Modifier.size(25.dp))
+                        }
                         if (minExpanded)
                             Icon(imageVector = Icons.Default.KeyboardArrowUp, contentDescription = "Chiudi menu")
                         else
                             Icon(imageVector = Icons.Default.KeyboardArrowDown, contentDescription = "Apri menu")
                     } },
                     modifier = Modifier.menuAnchor(), shape = RoundedCornerShape(20), colors = TextFieldDefaults.textFieldColors(
-                        backgroundColor = StarCol,
-                        textColor = Color.White
-                    ), textStyle = MyTypography.typography.body1.copy(fontSize = 18.sp)
+                        backgroundColor = Color.White
+                    )
                 )
 
-                ExposedDropdownMenu(expanded = minExpanded, onDismissRequest = { minExpanded = false }) {
+                ExposedDropdownMenu(expanded = minExpanded, onDismissRequest = { minExpanded = false }, modifier = Modifier.background(Color.White)) {
                     for (i in 0..5) {
-                        DropdownMenuItem(text = { Text(text = i.toString(), style = MyTypography.typography.body1, color = Color.Black, fontSize = 18.sp) }, onClick = {
+                        DropdownMenuItem(text = { Row (modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 5.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically){
+                            for (j in 1..5) {
+                                if (j <= i)
+                                    Icon(painter = painterResource(id = R.drawable.star_1), contentDescription = null, tint = StarCol, modifier = Modifier.size(25.dp))
+                                else
+                                    Icon(painter = painterResource(id = R.drawable.star_0), contentDescription = null, tint = StarCol, modifier = Modifier.size(25.dp))
+                            }
+                        } }, onClick = {
                             cpvm.setFilter(min = i)
                             minExpanded = false
                         })
+
+                        if (i != 5)
+                            Spacer(modifier = Modifier.fillMaxWidth().padding(horizontal = 5.dp).height(1.dp).background(Color.Gray))
                     }
                 }
             }
-            
-            Spacer(modifier = Modifier.weight(0.1f))
+        }
+        
+        Spacer(modifier = Modifier.height(10.dp))
 
-            ExposedDropdownMenuBox(expanded = maxExpanded, onExpandedChange = { maxExpanded = !maxExpanded }, modifier = Modifier.weight(0.95f)) {
-                TextField(value = "Max |   ${filter.third}", onValueChange = {}, readOnly = true, trailingIcon = {
-                    Row (verticalAlignment = Alignment.CenterVertically){
-                        Icon(painter = painterResource(id = R.drawable.star_1), contentDescription = null, tint = Color.White, modifier = Modifier.size(20.dp))
+        Row (modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically){
+
+            Text(text = "Massima", style = MyTypography.typography.body1, fontSize = 18.sp)
+
+            ExposedDropdownMenuBox(expanded = maxExpanded, onExpandedChange = { maxExpanded = !maxExpanded }, modifier = Modifier
+                .width(200.dp)
+                .height(40.dp)) {
+                TextField(value = "", onValueChange = {}, readOnly = true, trailingIcon = {
+                    Row (
+                        Modifier
+                            .fillMaxWidth()
+                            .height(35.dp)
+                            .padding(horizontal = 5.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically){
+                        for (i in 1..5) {
+                            if (i <= filter.third)
+                                Icon(painter = painterResource(id = R.drawable.star_1), contentDescription = null, tint = StarCol, modifier = Modifier.size(25.dp))
+                            else
+                                Icon(painter = painterResource(id = R.drawable.star_0), contentDescription = null, tint = StarCol, modifier = Modifier.size(25.dp))
+                        }
                         if (maxExpanded)
                             Icon(imageVector = Icons.Default.KeyboardArrowUp, contentDescription = "Chiudi menu")
                         else
                             Icon(imageVector = Icons.Default.KeyboardArrowDown, contentDescription = "Apri menu")
                     } },
                     modifier = Modifier.menuAnchor(), shape = RoundedCornerShape(20), colors = TextFieldDefaults.textFieldColors(
-                        backgroundColor = StarCol,
-                        textColor = Color.White
+                        backgroundColor = Color.White
                     ), textStyle = MyTypography.typography.body1.copy(fontSize = 18.sp)
                 )
 
-                ExposedDropdownMenu(expanded = maxExpanded, onDismissRequest = { maxExpanded = false }, modifier = Modifier.background(StarCol)) {
+                ExposedDropdownMenu(expanded = maxExpanded, onDismissRequest = { maxExpanded = false }, modifier = Modifier.background(Color.White)) {
                     for (i in 0..5) {
-                        DropdownMenuItem(text = { Text(text = i.toString(), style = MyTypography.typography.body1, fontSize = 18.sp) }, onClick = {
+                        DropdownMenuItem(text = { Row (modifier = Modifier
+                            .fillMaxWidth()
+                            .height(35.dp)
+                            .padding(horizontal = 5.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically){
+                            for (j in 1..5) {
+                                if (j <= i)
+                                    Icon(painter = painterResource(id = R.drawable.star_1), contentDescription = null, tint = StarCol, modifier = Modifier.size(25.dp))
+                                else
+                                    Icon(painter = painterResource(id = R.drawable.star_0), contentDescription = null, tint = StarCol, modifier = Modifier.size(25.dp))
+                            }
+                        }
+                        }, onClick = {
                             cpvm.setFilter(max = i)
                             maxExpanded = false
-                        }, modifier = Modifier)
+                        })
+
+                        if (i != 5)
+                            Spacer(modifier = Modifier.fillMaxWidth().padding(horizontal = 5.dp).height(1.dp).background(Color.Gray))
                     }
                 }
             }

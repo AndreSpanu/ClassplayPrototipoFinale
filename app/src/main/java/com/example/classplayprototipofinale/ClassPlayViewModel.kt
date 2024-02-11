@@ -674,6 +674,8 @@ class ClassPlayViewModel: ViewModel() {
     fun setYourTodo(todo: MutableMap<String, ToDo>?) {
         if (todo != null)
             _yourTodo.value = todo
+        else
+            _yourTodo.value = mutableMapOf()
     }
 
     /*********************************************************** FILTER POPUP **********************************************************************/
@@ -855,6 +857,8 @@ enum class PopupType() {
 }
 
 enum class WarningType() {
+    SALVACOSPLAY,
+    SALVATODO,
     ELIMINACOSPLAY,
     MODIFICACOSPLAY,
     ELIMINATODO,

@@ -46,17 +46,14 @@ fun CheckListScreen(navController: NavController, cpvm: ClassPlayViewModel, ma: 
         done = it
         if (todoMap != null) {
             doneTodos = todoMap.values.filter { map -> map.steps!!.values.filter { step -> step.completed == false }.isEmpty() }
-            /*todos = if (done)
-                doneTodos
-            else
-                todoMap.values.filter { map -> !doneTodos.contains(map) }*/
         }
     }
 
     cpvm.yourTodo.observe(ma) {
-        if (it?.values != null) {
-            todos = it.values.toList()
-        }
+        todos = if (it?.values != null) {
+            it.values.toList()
+        } else
+            mutableListOf()
     }
 
 
@@ -66,17 +63,10 @@ fun CheckListScreen(navController: NavController, cpvm: ClassPlayViewModel, ma: 
             .fillMaxSize()
             .verticalScroll(rememberScrollState()), horizontalAlignment = Alignment.CenterHorizontally){
 
-            var index = 0
-
-            for (todo in todos/*.filter {
-                if (done){
-                    doneTodos.contains(it)
+            if (todos.isNotEmpty()) {
+                for (todo in todos) {
+                    tc.ChecklistCard(todo.todoTitle ?: "", cpvm, uDB, ma, todo, navController, done, doneTodos)
                 }
-                else {
-                    !doneTodos.contains(it)
-                }
-            }*/) {
-                tc.ChecklistCard(todo.todoTitle ?: "", cpvm, uDB, ma, todo, navController, done, doneTodos)
             }
         }
 

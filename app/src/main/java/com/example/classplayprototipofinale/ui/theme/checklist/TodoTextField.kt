@@ -43,7 +43,9 @@ import com.example.classplayprototipofinale.MainActivity
 import com.example.classplayprototipofinale.R
 import com.example.classplayprototipofinale.models.ToDoStep
 import com.example.classplayprototipofinale.screens.LinkType
+import com.example.classplayprototipofinale.ui.theme.DetailsCol
 import com.example.classplayprototipofinale.ui.theme.MyTypography
+import com.example.classplayprototipofinale.ui.theme.StarCol
 import com.example.classplayprototipofinale.ui.theme.UploadCol
 
 class TodoTextField {
@@ -239,22 +241,81 @@ class TodoTextField {
                             textColor = Color.Black,
                             focusedIndicatorColor = Color.Transparent,
                             unfocusedIndicatorColor = Color.Transparent
-                        ),  textStyle = MyTypography.typography.body1.copy(fontSize = 15.sp, color = Color.Black)
+                        ), textStyle = MyTypography.typography.body1.copy(fontSize = 15.sp, color = Color.Black)
                     )
 
-                    ExposedDropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
-                        LinkType.values().forEach { type ->
-                            if (type != LinkType.NONE) {
-                                DropdownMenuItem(text = { Text(text = type.txt,  style = MyTypography.typography.body1.copy(fontSize = 16.sp, color = Color.Black)) }, onClick = {
-                                    currentTypeSelection = type.txt
-                                    cpvm.setTodoLinkType(i, type.txt)
-                                    expanded = false
-                                    appLink = ""
-                                    tutorial["s$i"]?.link = appLink
-                                    cpvm.updateTodoTutorial(tutorial)
-                                })
+                    ExposedDropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }, modifier = Modifier.background(Color.White)) {
+
+                        DropdownMenuItem(text = { Row (modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 8.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically){
+                            Text(text = "Nessun Link", style = MyTypography.typography.body1.copy(fontSize = 16.sp, color = Color.Black))
+                        } }, onClick = {
+                            currentTypeSelection = LinkType.NONE.txt
+                            cpvm.setTodoLinkType(i, LinkType.NONE.txt)
+                            expanded = false
+                            appLink = ""
+                            tutorial["s$i"]?.link = appLink
+                            cpvm.updateTodoTutorial(tutorial)
+                        })
+                        Spacer(modifier = Modifier.fillMaxWidth().padding(horizontal = 5.dp).height(1.5.dp).background(
+                            StarCol
+                        ))
+
+                        DropdownMenuItem(text = { Row (modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 8.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically){
+                            Text(text = LinkType.LINK.txt, style = MyTypography.typography.body1.copy(fontSize = 16.sp, color = Color.Black))
+
+                            Icon(painter = painterResource(id = R.drawable.lente_viola), contentDescription = null, tint = DetailsCol, modifier = Modifier.size(25.dp))
+                        } }, onClick = {
+                            currentTypeSelection = LinkType.LINK.txt
+                            cpvm.setTodoLinkType(i, LinkType.LINK.txt)
+                            expanded = false
+                            appLink = ""
+                            tutorial["s$i"]?.link = appLink
+                            cpvm.updateTodoTutorial(tutorial)
+                        })
+                        Spacer(modifier = Modifier.fillMaxWidth().padding(horizontal = 5.dp).height(1.5.dp).background(
+                            StarCol
+                        ))
+
+                        DropdownMenuItem(text = { Row (modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 8.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically){
+                            Text(text = LinkType.APP.txt, style = MyTypography.typography.body1.copy(fontSize = 16.sp, color = Color.Black))
+
+                            Icon(painter = painterResource(id = R.drawable.link), contentDescription = null, tint = DetailsCol, modifier = Modifier.size(25.dp))
+                        } }, onClick = {
+                            currentTypeSelection = LinkType.APP.txt
+                            cpvm.setTodoLinkType(i, LinkType.APP.txt)
+                            expanded = false
+                            appLink = ""
+                            tutorial["s$i"]?.link = appLink
+                            cpvm.updateTodoTutorial(tutorial)
+                        })
+                        Spacer(modifier = Modifier.fillMaxWidth().padding(horizontal = 5.dp).height(1.5.dp).background(
+                            StarCol
+                        ))
+
+                        DropdownMenuItem(text = { Row (modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 8.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically){
+                            Text(text = LinkType.PHONE.txt, style = MyTypography.typography.body1.copy(fontSize = 16.sp, color = Color.Black))
+
+                            Column (modifier = Modifier
+                                .size(25.dp)
+                                .background(UploadCol, RoundedCornerShape(50)), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center){
+                                Icon(painter = painterResource(id = R.drawable.upload), contentDescription = "Carica un video", modifier = Modifier.size(15.dp), tint = Color.White)
                             }
-                        }
+                        } }, onClick = {
+                            currentTypeSelection = LinkType.PHONE.txt
+                            cpvm.setTodoLinkType(i, LinkType.PHONE.txt)
+                            expanded = false
+                            appLink = ""
+                            tutorial["s$i"]?.link = appLink
+                            cpvm.updateTodoTutorial(tutorial)
+                        })
                     }
                 }
             }

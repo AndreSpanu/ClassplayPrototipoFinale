@@ -181,7 +181,6 @@ class TodoFormPages {
             .fillMaxWidth()
             .padding(start = 20.dp)){
             Text(text = "Descrizione ", fontSize = 22.sp, style = MyTypography.typography.body2)
-            Text(text = "*", fontSize = 22.sp, color = StarCol, style = MyTypography.typography.body2)
         }
 
         Row (modifier = Modifier
