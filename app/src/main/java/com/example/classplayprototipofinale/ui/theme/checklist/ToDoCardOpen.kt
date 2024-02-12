@@ -1,5 +1,7 @@
 package com.example.classplayprototipofinale.ui.theme.checklist
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -140,21 +142,21 @@ class ToDoCardOpen {
                                                 when (step.linkType) {
 
                                                     LinkType.LINK.txt -> {
-                                                        /*val intent = Intent(
+                                                        val intent = Intent(
                                                             Intent.ACTION_VIEW,
                                                             Uri.parse(step.realAppLink)
                                                         )
-                                                        context.startActivity(intent)*/
-                                                        cpvm.setTodoStepVideo(step)
+                                                        context.startActivity(intent)
+                                                        //cpvm.setTodoStepVideo(step)
                                                     }
 
                                                     LinkType.APP.txt -> {
-                                                        /*val intent = Intent(
+                                                        val intent = Intent(
                                                             Intent.ACTION_VIEW,
                                                             Uri.parse(step.realAppLink)
                                                         )
-                                                        context.startActivity(intent)*/
-                                                        cpvm.setTodoStepVideo(step)
+                                                        context.startActivity(intent)
+                                                        //cpvm.setTodoStepVideo(step)
                                                     }
 
                                                     LinkType.PHONE.txt -> {
