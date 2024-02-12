@@ -117,7 +117,9 @@ fun CosplayFormScreen(navController: NavController, cpvm: ClassPlayViewModel, ma
     }
 
     cpvm.eliminate.observe(ma) {
+        println(it)
         if (it == true) {
+            println("Prova")
             eliminateStep()
             cpvm.setEliminate(false)
         } }

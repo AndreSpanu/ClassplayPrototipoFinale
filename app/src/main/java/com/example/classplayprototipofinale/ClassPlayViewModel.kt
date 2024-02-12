@@ -341,20 +341,24 @@ class ClassPlayViewModel: ViewModel() {
 
             for (i in step until _cosplayFormTutorial.value!!.size - 1) {
                 newMap["s$i"] = _cosplayFormTutorial.value!!["s${i+1}"]!!
+                newMap["s$i"]?.step = i +1
             }
             _cosplayFormTutorial.value = newMap
-            _totalSteps.value = _totalSteps.value!! - 1
         }
         else {
             _cosplayFormTutorial.value?.clear()
             newTutorialStep()
         }
+
+        _totalSteps.value = _totalSteps.value!! - 1
     }
 
     fun removeTodoStep() {
         val step = _currentStep.value?.minus(3)
         val newMap = mutableMapOf<String, ToDoStep>()
         _eliminate.value = true
+
+        println("No")
 
         if ((_todoFormTutorial.value?.size ?: 0) > 1) {
 
@@ -364,14 +368,16 @@ class ClassPlayViewModel: ViewModel() {
 
             for (i in step until _todoFormTutorial.value!!.size - 1) {
                 newMap["s$i"] = _todoFormTutorial.value!!["s${i+1}"]!!
+                newMap["s$i"]?.step = i + 1
             }
             _todoFormTutorial.value = newMap
-            _totalSteps.value = _totalSteps.value!! - 1
         }
         else {
             _todoFormTutorial.value?.clear()
             newTutorialStep()
         }
+
+        _totalSteps.value = _totalSteps.value!! - 1
     }
 
     /** Aggiornamento dell'ordine degli step della todo **/
