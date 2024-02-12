@@ -288,7 +288,7 @@ class CosplayCard {
 
         if (cosplay.time?.filter { it.value > 0 }?.isNotEmpty() == true) {
             for (elem in TimeType.values()) {
-                if (cosplay.time!![elem.name] != null)
+                if (cosplay.time!![elem.name] != null && cosplay.time!![elem.name] != 0)
                     timeFiltered[elem.name] = cosplay.time!![elem.name]!!
             }
         }

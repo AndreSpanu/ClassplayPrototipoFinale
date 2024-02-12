@@ -36,6 +36,8 @@ class CheckForm {
 
         val tutorial = cpvm.cosplayFormTutorial.value
 
+
+
         newCosplay.username = cpvm.username.value!!
         newCosplay.imgUrls = cpvm.formImages.value
         newCosplay.description = cpvm.formDescription.value

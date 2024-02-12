@@ -3,9 +3,11 @@ package com.example.classplayprototipofinale.ui.theme.checklist
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -324,15 +326,28 @@ class TodoTextField {
 
                 Spacer(modifier = Modifier.height(15.dp))
 
-                Row (modifier = Modifier
+                Box (modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp)
-                    .background(Color.White, RoundedCornerShape(50))
-                    .padding(start = 20.dp)
                     .clickable {
                         cpvm.setShowCosplayTutorialSearch(true)
-                    }, verticalAlignment = Alignment.CenterVertically){
-                    appLink?.let { Text(text = it,  style = MyTypography.typography.body1.copy(fontSize = 16.sp, color = Color.Black), maxLines = 1) }
+                    }){
+                    appLink?.let {
+                        TextField(value = it, onValueChange = {}, readOnly = true, trailingIcon = {
+                            Icon(
+                                painter = painterResource(id = R.drawable.lente_viola),
+                                contentDescription = null,
+                                tint = StarCol,
+                                modifier = Modifier.size(30.dp)
+                            )
+                        }, singleLine = true, modifier = Modifier.fillMaxWidth(), colors = TextFieldDefaults.textFieldColors(
+                            containerColor = Color.White
+                        ), shape = RoundedCornerShape(50), textStyle = MyTypography.typography.body1.copy(fontSize = 16.sp, color = Color.Black))
+                    }
+
+                    Row (modifier = Modifier.fillMaxSize().clickable {
+                        cpvm.setShowCosplayTutorialSearch(true)
+                    }){}
                 }
             }
             else if (currentTypeSelection == LinkType.LINK.txt) {

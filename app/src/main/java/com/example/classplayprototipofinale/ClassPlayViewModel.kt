@@ -333,12 +333,13 @@ class ClassPlayViewModel: ViewModel() {
         val newMap = mutableMapOf<String, TutorialStep>()
         _eliminate.value = true
 
-        for( element in _cosplayFormTutorial.value!!) {
-            newMap[element.key] = element.value
-        }
-
         if ((_cosplayFormTutorial.value?.size ?: 0) > 1) {
-            for (i in step!! until _cosplayFormTutorial.value!!.size - 1) {
+
+            for( i in 0 until step!!) {
+                newMap["s$i"] = _cosplayFormTutorial.value!!["s${i}"]!!
+            }
+
+            for (i in step until _cosplayFormTutorial.value!!.size - 1) {
                 newMap["s$i"] = _cosplayFormTutorial.value!!["s${i+1}"]!!
             }
             _cosplayFormTutorial.value = newMap
@@ -355,12 +356,13 @@ class ClassPlayViewModel: ViewModel() {
         val newMap = mutableMapOf<String, ToDoStep>()
         _eliminate.value = true
 
-        for( element in _todoFormTutorial.value!!) {
-            newMap[element.key] = element.value
-        }
-
         if ((_todoFormTutorial.value?.size ?: 0) > 1) {
-            for (i in step!! until _todoFormTutorial.value!!.size - 1) {
+
+            for( i in 0 until step!!) {
+                newMap["s$i"] = _todoFormTutorial.value!!["s${i}"]!!
+            }
+
+            for (i in step until _todoFormTutorial.value!!.size - 1) {
                 newMap["s$i"] = _todoFormTutorial.value!!["s${i+1}"]!!
             }
             _todoFormTutorial.value = newMap
