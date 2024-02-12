@@ -281,7 +281,7 @@ fun TodoFormScreen(navController: NavController, cpvm: ClassPlayViewModel, ma: M
                     Icon(painter = painterResource(id = R.drawable.minus), contentDescription = "Aggiungi tutorial", tint = RedCol, modifier = Modifier
                         .size(40.dp)
                         .clickable {
-
+                            cpvm.setDestination(null)
                             cpvm.setCardPopup(PopupType.WARNING, "Sei sicuro di voler eliminare questo step? Una volta eliminato non potrà essere recuperato!\n\nVuoi continuare?", WarningType.ELIMINATODOSTEP)
 
                         })

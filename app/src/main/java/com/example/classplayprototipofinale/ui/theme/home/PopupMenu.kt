@@ -555,8 +555,10 @@ class PopupMenu {
                                     Icon(painter = painterResource(id = R.drawable.star_0), contentDescription = null, tint = StarCol, modifier = Modifier.size(25.dp))
                             }
                         } }, onClick = {
-                            cpvm.setFilter(min = i)
-                            minExpanded = false
+                            if (i <= filter.third) {
+                                cpvm.setFilter(min = i)
+                                minExpanded = false
+                            }
                         })
 
                         if (i != 5)
@@ -611,8 +613,10 @@ class PopupMenu {
                             }
                         }
                         }, onClick = {
-                            cpvm.setFilter(max = i)
-                            maxExpanded = false
+                            if (i >= filter.second) {
+                                cpvm.setFilter(max = i)
+                                maxExpanded = false
+                            }
                         })
 
                         if (i != 5)
