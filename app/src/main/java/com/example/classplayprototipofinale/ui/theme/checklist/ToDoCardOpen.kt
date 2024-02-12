@@ -1,7 +1,5 @@
 package com.example.classplayprototipofinale.ui.theme.checklist
 
-import android.annotation.SuppressLint
-import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -14,7 +12,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -38,58 +35,23 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import com.example.classplayprototipofinale.ClassPlayViewModel
 import com.example.classplayprototipofinale.MainActivity
-import com.example.classplayprototipofinale.PopupType
 import com.example.classplayprototipofinale.R
-import com.example.classplayprototipofinale.WarningType
 import com.example.classplayprototipofinale.models.ToDo
 import com.example.classplayprototipofinale.models.ToDoStep
-import com.example.classplayprototipofinale.navigation.Screen
 import com.example.classplayprototipofinale.ui.theme.BlueGradientCol
 import com.example.classplayprototipofinale.ui.theme.BottomBarCol
 import com.example.classplayprototipofinale.ui.theme.MyTypography
-import com.example.classplayprototipofinale.ui.theme.RedCol
 import com.example.classplayprototipofinale.ui.theme.ToDoCol
 import com.google.firebase.database.DatabaseReference
-import android.net.Uri
-import androidx.compose.foundation.ScrollState
-import androidx.compose.foundation.gestures.detectDragGestures
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.absoluteOffset
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Call
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Mail
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.core.content.ContextCompat.startActivity
-import com.example.classplayprototipofinale.models.Cosplay
 import com.example.classplayprototipofinale.screens.LinkType
 import com.example.classplayprototipofinale.ui.theme.BackgroundCol
-import com.example.classplayprototipofinale.ui.theme.BackgroundColBlur
-import com.example.classplayprototipofinale.ui.theme.BubbleCol
-import com.example.classplayprototipofinale.ui.theme.DetailsCol
 import com.example.classplayprototipofinale.ui.theme.GridCol
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
-import kotlin.math.roundToInt
 
 class ToDoCardOpen {
     @Composable
@@ -178,19 +140,21 @@ class ToDoCardOpen {
                                                 when (step.linkType) {
 
                                                     LinkType.LINK.txt -> {
-                                                        val intent = Intent(
+                                                        /*val intent = Intent(
                                                             Intent.ACTION_VIEW,
                                                             Uri.parse(step.realAppLink)
                                                         )
-                                                        context.startActivity(intent)
+                                                        context.startActivity(intent)*/
+                                                        cpvm.setTodoStepVideo(step)
                                                     }
 
                                                     LinkType.APP.txt -> {
-                                                        val intent = Intent(
+                                                        /*val intent = Intent(
                                                             Intent.ACTION_VIEW,
                                                             Uri.parse(step.realAppLink)
                                                         )
-                                                        context.startActivity(intent)
+                                                        context.startActivity(intent)*/
+                                                        cpvm.setTodoStepVideo(step)
                                                     }
 
                                                     LinkType.PHONE.txt -> {
@@ -199,6 +163,7 @@ class ToDoCardOpen {
 
                                                     else -> {}
                                                 }
+
                                             }, textDecoration =
                                         if (step.linkType == LinkType.LINK.txt || step.linkType == LinkType.APP.txt)
                                             TextDecoration.Underline
