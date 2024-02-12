@@ -61,7 +61,10 @@ class StarReview {
     /** Stelle delle recensioni globali non cliccabili **/
 
     @Composable
-    fun AvgReviews(avgReview: Double, i: Int, size: Float) {
+    fun AvgReviews(avg: String, i: Int, size: Float) {
+
+        val avgReview = avg.replace(',', '.').toFloat() ?: 0.0f
+
         Image(painter = painterResource(id =
         if (avgReview / i >= 1)
             R.drawable.star_1

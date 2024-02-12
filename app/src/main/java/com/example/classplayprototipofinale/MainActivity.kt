@@ -30,12 +30,14 @@ import coil.compose.ImagePainter
 import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
 import com.example.classplayprototipofinale.models.Cosplay
+import com.example.classplayprototipofinale.models.ToDo
 import com.example.classplayprototipofinale.models.Users
 import com.example.classplayprototipofinale.navigation.BottomNavigationBar
 import com.example.classplayprototipofinale.navigation.NavigationSetup
 import com.example.classplayprototipofinale.ui.theme.main.Background
 import com.example.classplayprototipofinale.ui.theme.ComposeBottomNavTheme
 import com.example.classplayprototipofinale.ui.theme.CreateDatabase
+import com.example.classplayprototipofinale.ui.theme.checklist.ToDoCardOpen
 import com.example.classplayprototipofinale.ui.theme.home.CosplayCard
 import com.example.classplayprototipofinale.ui.theme.home.PopupMenu
 import com.example.classplayprototipofinale.ui.theme.home.SearchBar
@@ -81,10 +83,12 @@ class MainActivity : ComponentActivity() {
 
                     var cardPopup by remember { mutableStateOf(Triple(PopupType.NONE, "", WarningType.NONE)) }
                     var zoomCard by remember { mutableStateOf<Cosplay?>(null) }
+                    var todoCard by remember { mutableStateOf<ToDo?>(null) }
                     var profileCard by remember { mutableStateOf<Users?>(null) }
 
                     cpvm.cardPopup.observe(this) { cardPopup = it }
                     cpvm.zoomCard.observe(this) { zoomCard = it }
+                    cpvm.todoCard.observe(this) { todoCard = it }
                     cpvm.otherProfile.observe(this) { profileCard = it }
 
                     val navController = rememberNavController()
@@ -103,6 +107,9 @@ class MainActivity : ComponentActivity() {
 
                     var showVideo by remember { mutableStateOf(cpvm.stepVideo.value) }
                     cpvm.stepVideo.observe(this) { showVideo = it }
+
+                    var showTodoVideo by remember { mutableStateOf(cpvm.todoStepVideo.value) }
+                    cpvm.todoStepVideo.observe(this) { showTodoVideo = it }
 
                     uDB.child(cpvm.username.value!!).addValueEventListener(object : ValueEventListener {
                         override fun onDataChange(snapshot: DataSnapshot) {
@@ -132,7 +139,7 @@ class MainActivity : ComponentActivity() {
                     Scaffold(
                         backgroundColor = Color.Transparent,
 
-                        topBar = { if (currentRoute != null) tb.SetTopBar(currentRoute, sb, cpvm, th) },
+                        topBar = { if (currentRoute != null) tb.SetTopBar(currentRoute, sb, cpvm, th, navController) },
 
                         bottomBar = { BottomNavigationBar(navController, cpvm, painter, cosplaysImgsSRef) }
 
@@ -165,9 +172,19 @@ class MainActivity : ComponentActivity() {
                                 op.Profile(cpvm = cpvm, cpDB = cpDB, th)
                             }
 
+                            if (todoCard != null) {
+                                val tco = ToDoCardOpen()
+                                tco.TodoCardInfo(cpvm = cpvm, ma = th, uDB)
+                            }
+
                             if (showVideo != null) {
                                 val v = Video()
                                 v.ShowVideo(cpvm)
+                            }
+
+                            if (showTodoVideo != null) {
+                                val v = Video()
+                                v.ShowTodoVideo(cpvm)
                             }
 
                             if (cardPopup.first == PopupType.WARNING)

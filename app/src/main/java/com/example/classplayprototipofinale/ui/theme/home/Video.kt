@@ -56,4 +56,32 @@ class Video {
         }
     }
 
+    @Composable
+    fun ShowTodoVideo(cpvm: ClassPlayViewModel) {
+
+        val step by remember { mutableStateOf(cpvm.todoStepVideo.value) }
+
+        Column (modifier = Modifier
+            .fillMaxSize()
+            .background(BackgroundCol)
+            .clickable {}, verticalArrangement = Arrangement.Bottom){
+            Column (modifier = Modifier
+                .fillMaxHeight(0.75f)
+                .fillMaxWidth()){
+                Image(painter = painterResource(id = R.drawable.video), contentDescription = null, modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        cpvm.setTodoStepVideo(null)
+                    }, contentScale = ContentScale.FillWidth)
+
+                Column (modifier = Modifier
+                    .verticalScroll(rememberScrollState())
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp)){
+                    step!!.description?.let { Text(text = it, style = MyTypography.typography.body1, fontSize = 20.sp) }
+                }
+            }
+        }
+    }
+
 }

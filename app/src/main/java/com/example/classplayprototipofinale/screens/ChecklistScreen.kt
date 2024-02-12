@@ -50,10 +50,9 @@ fun CheckListScreen(navController: NavController, cpvm: ClassPlayViewModel, ma: 
     }
 
     cpvm.yourTodo.observe(ma) {
-        todos = if (it?.values != null) {
-            it.values.toList()
-        } else
-            mutableListOf()
+        if (it?.values?.isNotEmpty() == true) {
+            todos = it.values.toList()
+        }
     }
 
 

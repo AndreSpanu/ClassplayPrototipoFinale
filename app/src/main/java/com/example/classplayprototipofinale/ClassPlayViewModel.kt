@@ -28,6 +28,7 @@ class ClassPlayViewModel: ViewModel() {
     private val _destination = MutableLiveData<String?>().also { it.value = null }                              /** Destinazione dove viene reindirizzato l'utente dopo aver confermato l'Annulla **/
     private val _cosplayEdit = MutableLiveData<Cosplay?>().also { it.value = null }                             /** Le informazioni relative al cosplay in fase di modifica **/
     private val _todoEdit = MutableLiveData<ToDo?>().also { it.value = null }                                   /** Le informazioni relative alla checklist in fase di modifica **/
+    private val _todoCard = MutableLiveData<ToDo?>().also { it.value = null }
     private val _cosplayEditImages = MutableLiveData<MutableMap<String, String>?>().also { it.value = null }
 
     val cosplayList: LiveData<List<Cosplay>> = _cosplayList
@@ -35,6 +36,7 @@ class ClassPlayViewModel: ViewModel() {
     val cardPopup: LiveData<Triple<PopupType, String, WarningType>> = _cardPopup
     val destination: LiveData<String?> = _destination
     val todoEdit: LiveData<ToDo?> = _todoEdit
+    val todoCard: LiveData<ToDo?> = _todoCard
     val cosplayEdit: LiveData<Cosplay?> = _cosplayEdit
 
     //Home Screen
@@ -46,6 +48,7 @@ class ClassPlayViewModel: ViewModel() {
     private val _eliminate = MutableLiveData<Boolean>().also { it.value = false }
     private val _searchFocus = MutableLiveData<FocusManager>()                                                  /** Il focus sul textField della barra di ricerca **/
     private val _stepVideo = MutableLiveData<TutorialStep?>().also { it.value = null }                          /** Il video da visualizzare **/
+    private val _todoStepVideo = MutableLiveData<ToDoStep?>().also { it.value = null }
 
     val searchingText: LiveData<String> = _searchingText;
     val zoomCard: LiveData<Cosplay?> = _zoomCard;
@@ -55,6 +58,7 @@ class ClassPlayViewModel: ViewModel() {
     val eliminate: LiveData<Boolean> = _eliminate
     val searchFocus: LiveData<FocusManager> = _searchFocus
     val stepVideo: LiveData<TutorialStep?> = _stepVideo
+    val todoStepVideo: LiveData<ToDoStep?> = _todoStepVideo
 
     //Profile Screen
     private val _username = MutableLiveData<String>().also { it.value = "tester" }                              /** Lo username del currentUser **/
@@ -198,6 +202,7 @@ class ClassPlayViewModel: ViewModel() {
         setZoomCard(null)
         setOtherProfile(null)
         setFavoriteOpen(false)
+        setTodoCard(null)
     }
 
     /*********************************************************** COSPLAY FORM **********************************************************************/
@@ -427,7 +432,8 @@ class ClassPlayViewModel: ViewModel() {
         uDB.child(_username.value!!).setValue(userUpdate)
 
         if (_todoEdit.value != null) {
-            uDB.child(_username.value!!).child("yourToDo").child(_todoEdit.value!!.todoTitle!!).removeValue()
+            if (_todoEdit.value!!.todoTitle!! != todo.todoTitle)
+                uDB.child(_username.value!!).child("yourToDo").child(_todoEdit.value!!.todoTitle!!).removeValue()
 
             if ((_formImages.value?.keys?.first() ?: "a") != (_todoEdit.value!!.img?.keys?.first() ?: "a"))
                 cosplaysImgsSRef.child(_todoEdit.value!!.img!!.keys.first()).delete()
@@ -453,6 +459,7 @@ class ClassPlayViewModel: ViewModel() {
             _todoFormTutorial.value = todo.steps
             _currentStep.value = 1
             _totalSteps.value = todo.steps!!.size + 2
+            setTodoCard(null)
         }
     }
 
@@ -604,6 +611,10 @@ class ClassPlayViewModel: ViewModel() {
         setOtherProfile(null)
     }
 
+    fun setTodoCard(todo: ToDo?) {
+        _todoCard.value = todo
+    }
+
     fun setOtherProfile(username: String?, uDB: DatabaseReference? = null) {
         if (username == null)
             _otherProfile.value = null
@@ -676,6 +687,7 @@ class ClassPlayViewModel: ViewModel() {
             _yourTodo.value = todo
         else
             _yourTodo.value = mutableMapOf()
+
     }
 
     /*********************************************************** FILTER POPUP **********************************************************************/
@@ -731,6 +743,10 @@ class ClassPlayViewModel: ViewModel() {
         _stepVideo.value = step
     }
 
+    fun setTodoStepVideo(step: ToDoStep?) {
+        _todoStepVideo.value = step
+    }
+
     fun cosplayEditSet() {
         _formImages.value = _zoomCard.value?.imgUrls
         _formTitle.value = _zoomCard.value?.cosplayName
@@ -763,7 +779,6 @@ class ClassPlayViewModel: ViewModel() {
         _cosplayEdit.value = _zoomCard.value
 
         _zoomCard.value = null
-
     }
 
     fun setStepForTodo(step: TutorialStep) {
@@ -803,7 +818,6 @@ class ClassPlayViewModel: ViewModel() {
                 cosplaysImgsSRef.child(img.key).delete()
             }
         }
-
 
         clearForm()
     }
@@ -870,4 +884,12 @@ enum class WarningType() {
     TODOSTEPMANCANTI,
     MODIFICAPROFILO,
     NONE
+}
+
+enum class TimeType() {
+    anni,
+    mesi,
+    settimane,
+    giorni,
+    ore
 }

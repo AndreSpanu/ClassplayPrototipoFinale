@@ -1,6 +1,7 @@
 package com.example.classplayprototipofinale.ui.theme.checklist
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -53,6 +54,10 @@ import com.example.classplayprototipofinale.ui.theme.MyTypography
 import com.example.classplayprototipofinale.ui.theme.RedCol
 import com.example.classplayprototipofinale.ui.theme.ToDoCol
 import com.google.firebase.database.DatabaseReference
+import android.net.Uri
+import androidx.compose.ui.platform.LocalContext
+import androidx.core.content.ContextCompat.startActivity
+import com.example.classplayprototipofinale.screens.LinkType
 
 class ToDoCard {
     @SuppressLint("MutableCollectionMutableState")
@@ -62,15 +67,9 @@ class ToDoCard {
 
         var todoSteps by remember { mutableStateOf(todo.steps!!.values) }
 
-        cpvm.currentUser.observe(ma) {
-            if (it.yourToDo != null) {
-                if (it.yourToDo!![todoTitle]?.steps?.values != null) {
-                    todoSteps = it.yourToDo!![todoTitle]?.steps!!.values
-                }
-            }
-        }
-
         val painter = rememberImagePainter(data = todo.img!!.values.first())
+
+        cpvm.yourTodo.observe(ma) { todoSteps = it?.get(todoTitle)?.steps?.values ?: mutableListOf<ToDoStep>() }
 
         if (done && doneTodos.contains(todo) || !done && !doneTodos.contains(todo)) {
             Column (modifier = Modifier
@@ -86,7 +85,9 @@ class ToDoCard {
                         startY = 0f,
                         endY = Float.POSITIVE_INFINITY
                     ), RoundedCornerShape(6)
-                )
+                ).clickable {
+                    cpvm.setTodoCard(todo)
+                }
                 .padding(10.dp)
                 .padding(start = 5.dp)){
                 Row (modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically){
@@ -155,7 +156,6 @@ class ToDoCard {
                         var openAll by remember { mutableStateOf(false) }
 
                         val todoOrdered = todoSteps.sortedBy { it.step }
-
 
                         for (step in todoOrdered.take(3 + (size) * boolToInt(openAll))) {
 

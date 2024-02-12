@@ -76,13 +76,14 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+    implementation ("androidx.fragment:fragment-ktx:1.3.0")
+
 
     //Image Picker
     implementation ("androidx.activity:activity-ktx:1.2.0")
-    implementation ("androidx.fragment:fragment-ktx:1.3.0")
-    implementation ("io.coil-kt:coil-compose:1.3.0")
     implementation ("com.squareup.picasso:picasso:2.8")
 
     //Coil -> AsyncImage
     implementation("io.coil-kt:coil-compose:2.4.0")
+    implementation ("io.coil-kt:coil-compose:1.3.0")
 }

@@ -18,6 +18,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
@@ -34,6 +36,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.classplayprototipofinale.ClassPlayViewModel
 import com.example.classplayprototipofinale.MainActivity
 import com.example.classplayprototipofinale.PopupType
@@ -41,10 +44,14 @@ import com.example.classplayprototipofinale.models.Cosplay
 import com.example.classplayprototipofinale.navigation.Screen
 import com.example.classplayprototipofinale.ui.theme.home.SearchBar
 import com.example.classplayprototipofinale.R
+import com.example.classplayprototipofinale.WarningType
+import com.example.classplayprototipofinale.models.ToDo
 import com.example.classplayprototipofinale.models.Users
+import com.example.classplayprototipofinale.ui.theme.BlueGradientCol
 import com.example.classplayprototipofinale.ui.theme.BottomBarCol
 import com.example.classplayprototipofinale.ui.theme.GridCol
 import com.example.classplayprototipofinale.ui.theme.MyTypography
+import com.example.classplayprototipofinale.ui.theme.RedCol
 import com.example.classplayprototipofinale.ui.theme.TodoBackgroundCol
 
 enum class switcher(val bg: List<Color>, var tc: List<Color>, var w: List<Float>) {
@@ -55,14 +62,16 @@ enum class switcher(val bg: List<Color>, var tc: List<Color>, var w: List<Float>
 class TopBar {
 
     @Composable
-    fun SetTopBar(currentRoute: String, sb: SearchBar, cpvm: ClassPlayViewModel, ma: MainActivity) {
+    fun SetTopBar(currentRoute: String, sb: SearchBar, cpvm: ClassPlayViewModel, ma: MainActivity, navController: NavController) {
         var searchScreen by remember { mutableStateOf(cpvm.searchScreen.value) }
         var zoomCard by remember { mutableStateOf<Cosplay?>(null) }
+        var todoCard by remember { mutableStateOf<ToDo?>(null) }
         var profileCard by remember { mutableStateOf<Users?>(null) }
         var done by remember { mutableStateOf(false) }
 
         cpvm.searchScreen.observe(ma) { searchScreen = it }
         cpvm.zoomCard.observe(ma) { zoomCard = it }
+        cpvm.todoCard.observe(ma) { todoCard = it }
         cpvm.otherProfile.observe(ma) { profileCard = it }
         cpvm.done.observe(ma) { done = it }
 
@@ -116,31 +125,82 @@ class TopBar {
         }
 
         else if (currentRoute == Screen.Checklist.route) {
-            Row (modifier = Modifier
-                .fillMaxWidth()
-                .height(80.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center){
+
+            if (todoCard != null) {
                 Row (modifier = Modifier
-                    .width(160.dp)
-                    .height(30.dp)
-                    .background(TodoBackgroundCol, CircleShape)
-                    .border(3.dp, BottomBarCol, CircleShape)){
-                    Column(modifier = Modifier
-                        .fillMaxHeight()
-                        .weight(col.w[0])
-                        .clickable {
-                            cpvm.setDone(true)
+                    .fillMaxWidth()
+                    .height(80.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween){
+                    Row (modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 15.dp)
+                        .padding(top = 20.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically){
+
+                        Button(onClick = {
+                            cpvm.setDestination(null)
+                            cpvm.setCardPopup(
+                                PopupType.WARNING,
+                                "Vuoi eliminare questa ToDo list?\n\nUna volta eliminata non sarà pù recuperabile!",
+                                WarningType.ELIMINATODO
+                            )
+                            cpvm.setTodoEdit(cpvm.todoCard.value)
+                        }, modifier = Modifier
+                            .size(120.dp, 40.dp)
+                            .border(2.dp, RedCol, RoundedCornerShape(50)), shape = RoundedCornerShape(50), colors = ButtonDefaults.buttonColors(
+                            backgroundColor = Color.Transparent,
+                            contentColor = RedCol
+                        )
+                        ) {
+                            Text(text = "Elimina", fontSize = 18.sp, style = MyTypography.typography.body2, color = RedCol)
                         }
-                        .background(col.bg[0], CircleShape), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-                        Text(text = "done", fontSize = 14.sp, color = col.tc[0], style = MyTypography.typography.body1)
+
+                        Button(onClick = {
+                            cpvm.setTodoEdit(cpvm.todoCard.value)
+                            navController.navigate(Screen.NewTodo.route) {
+                                navController.graph.startDestinationRoute?.let { route ->
+                                    popUpTo(route) {
+                                        saveState = true
+                                    }
+                                }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        }, modifier = Modifier.size(120.dp, 40.dp), shape = RoundedCornerShape(50), colors = ButtonDefaults.buttonColors(
+                            backgroundColor = BlueGradientCol,
+                            contentColor = Color.White
+                        )
+                        ) {
+                            Text(text = "Modifica", fontSize = 17.sp, style = MyTypography.typography.body2)
+                        }
                     }
-                    Column(modifier = Modifier
-                        .fillMaxHeight()
-                        .weight(col.w[1])
-                        .clickable {
-                            cpvm.setDone(false)
+                }
+            }
+            else {
+                Row (modifier = Modifier
+                    .fillMaxWidth()
+                    .height(80.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center){
+                    Row (modifier = Modifier
+                        .width(160.dp)
+                        .height(30.dp)
+                        .background(TodoBackgroundCol, CircleShape)
+                        .border(3.dp, BottomBarCol, CircleShape)){
+                        Column(modifier = Modifier
+                            .fillMaxHeight()
+                            .weight(col.w[0])
+                            .clickable {
+                                cpvm.setDone(true)
+                            }
+                            .background(col.bg[0], CircleShape), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
+                            Text(text = "done", fontSize = 14.sp, color = col.tc[0], style = MyTypography.typography.body1)
                         }
-                        .background(col.bg[1], CircleShape), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-                        Text(text = "todo", fontSize = 14.sp, color = col.tc[1], style = MyTypography.typography.body1)
+                        Column(modifier = Modifier
+                            .fillMaxHeight()
+                            .weight(col.w[1])
+                            .clickable {
+                                cpvm.setDone(false)
+                            }
+                            .background(col.bg[1], CircleShape), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
+                            Text(text = "todo", fontSize = 14.sp, color = col.tc[1], style = MyTypography.typography.body1)
+                        }
                     }
                 }
             }

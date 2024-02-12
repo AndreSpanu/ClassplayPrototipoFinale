@@ -113,6 +113,8 @@ fun BottomNavigationBar(
                     cpvm.setZoomCard(null)
                     cpvm.setOtherProfile(null)
                     cpvm.setStepVideo(null)
+                    cpvm.setTodoStepVideo(null)
+                    cpvm.setTodoCard(null)
 
                     if (currentRoute == BottomNavItem.CosplayForm.route || currentRoute == Screen.NewTodo.route || currentRoute == Screen.ProfileEdit.route) {
                         cpvm.setCardPopup(PopupType.WARNING, "Vuoi abbandonare la pagina?\n\nLe modifiche andranno perse!", WarningType.ANNULLA)

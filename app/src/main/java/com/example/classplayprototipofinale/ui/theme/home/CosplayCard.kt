@@ -67,6 +67,7 @@ import coil.compose.rememberImagePainter
 import com.example.classplayprototipofinale.ClassPlayViewModel
 import com.example.classplayprototipofinale.PopupType
 import com.example.classplayprototipofinale.R
+import com.example.classplayprototipofinale.TimeType
 import com.example.classplayprototipofinale.WarningType
 import com.example.classplayprototipofinale.models.Cosplay
 import com.example.classplayprototipofinale.navigation.Screen
@@ -283,33 +284,38 @@ class CosplayCard {
 
     @Composable
     fun TimeShow(cosplay: Cosplay) {
-        val timeFiltered = cosplay.time?.filter { it.value > 0 }
+        val timeFiltered = mutableMapOf<String, Int>()
 
-        if (timeFiltered != null) {
-            if (timeFiltered.isNotEmpty()) {
-                val lastKey: String = timeFiltered.keys.last()
-
-                Row (modifier = Modifier.padding(start = 15.dp)){
-                    Text(text = "Tempo", style = MyTypography.typography.body2, fontSize = 25.sp)
-                }
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                Row (modifier = Modifier.padding(horizontal = 15.dp)){
-                    val time = timeFiltered.filter { it.key != lastKey }.entries.fold("") { accumulator, entry ->
-                        val (key, value) = entry
-                        "$accumulator $value $key "
-                    }
-
-                    if (time != "")
-                        Text(text = "$time e ${timeFiltered[lastKey]} $lastKey", style = MyTypography.typography.body1, fontSize = 15.sp)
-                    else
-                        Text(text = "${timeFiltered[lastKey]} $lastKey", style = MyTypography.typography.body1, fontSize = 15.sp)
-                }
-
-                Spacer(modifier = Modifier.height(15.dp))
-
+        if (cosplay.time?.filter { it.value > 0 }?.isNotEmpty() == true) {
+            for (elem in TimeType.values()) {
+                if (cosplay.time!![elem.name] != null)
+                    timeFiltered[elem.name] = cosplay.time!![elem.name]!!
             }
+        }
+
+        if (timeFiltered.isNotEmpty()) {
+            val lastKey: String = timeFiltered.keys.last()
+
+            Row (modifier = Modifier.padding(start = 15.dp)){
+                Text(text = "Tempo", style = MyTypography.typography.body2, fontSize = 25.sp)
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Row (modifier = Modifier.padding(horizontal = 15.dp)){
+                val time = timeFiltered.filter { it.key != lastKey }.entries.fold("") { accumulator, entry ->
+                    val (key, value) = entry
+                    "$accumulator $value $key "
+                }
+
+                if (time != "")
+                    Text(text = "$time e ${timeFiltered[lastKey]} $lastKey", style = MyTypography.typography.body1, fontSize = 15.sp)
+                else
+                    Text(text = "${timeFiltered[lastKey]} $lastKey", style = MyTypography.typography.body1, fontSize = 15.sp)
+            }
+
+            Spacer(modifier = Modifier.height(15.dp))
+
         }
     }
 
@@ -414,7 +420,7 @@ class CosplayCard {
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                for (step in cosplay.tutorial!!) {
+                for (step in cosplay.tutorial!!.toSortedMap()) {
 
                     val painter = rememberImagePainter(data = step.value.icon)
 
@@ -486,7 +492,9 @@ class CosplayCard {
 
                 if (cosplay.username == cpvm.username.value) {
                     for (i in (1..5)) {
-                        sr.AvgReviews(avgReview = avgReview!!.toDouble(), i = i, size = 30 - imageReduce * 10)
+                        if (avgReview != null) {
+                            sr.AvgReviews(avg = avgReview, i = i, size = 30 - imageReduce * 10)
+                        }
                         Spacer(modifier = Modifier.width(2.dp))
                     }
                     Text(text = avgReview.toString(), fontSize = (25 - imageReduce * 10).sp, modifier = Modifier.padding(start = 5.dp), style = MyTypography.typography.body1)
@@ -513,7 +521,9 @@ class CosplayCard {
 
                     else {
                         for (i in (1..5)) {
-                            sr.AvgReviews(avgReview = avgReview!!.toDouble(), i = i, size = 30 - imageReduce * 10)
+                            if (avgReview != null) {
+                                sr.AvgReviews(avg = avgReview, i = i, size = 30 - imageReduce * 10)
+                            }
                             Spacer(modifier = Modifier.width(2.dp))
                         }
                         Text(text = avgReview.toString(), fontSize = (20 - imageReduce * 5).sp, modifier = Modifier.padding(start = 5.dp), style = MyTypography.typography.body1)

@@ -267,7 +267,7 @@ class TodoTextField {
                             .padding(horizontal = 8.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically){
                             Text(text = LinkType.LINK.txt, style = MyTypography.typography.body1.copy(fontSize = 16.sp, color = Color.Black))
 
-                            Icon(painter = painterResource(id = R.drawable.lente_viola), contentDescription = null, tint = DetailsCol, modifier = Modifier.size(25.dp))
+                            Icon(painter = painterResource(id = R.drawable.link), contentDescription = null, tint = DetailsCol, modifier = Modifier.size(25.dp))
                         } }, onClick = {
                             currentTypeSelection = LinkType.LINK.txt
                             cpvm.setTodoLinkType(i, LinkType.LINK.txt)
@@ -285,7 +285,7 @@ class TodoTextField {
                             .padding(horizontal = 8.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically){
                             Text(text = LinkType.APP.txt, style = MyTypography.typography.body1.copy(fontSize = 16.sp, color = Color.Black))
 
-                            Icon(painter = painterResource(id = R.drawable.link), contentDescription = null, tint = DetailsCol, modifier = Modifier.size(25.dp))
+                            Icon(painter = painterResource(id = R.drawable.lente_viola), contentDescription = null, tint = DetailsCol, modifier = Modifier.size(25.dp))
                         } }, onClick = {
                             currentTypeSelection = LinkType.APP.txt
                             cpvm.setTodoLinkType(i, LinkType.APP.txt)
